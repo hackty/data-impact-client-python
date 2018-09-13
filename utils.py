@@ -75,12 +75,12 @@ def decode(var1):
 
 # 获取目录下所有文件夹名称
 def get_dirs(path):
-    dirList = []
+    dir_list = []
     files = os.listdir(path)
     for f in files:
         if os.path.isdir(path + '/' + f) and f[0] != '.':
-            dirList.append(f + '\n')
-    return dirList
+            dir_list.append(f)
+    return dir_list
 
 
 # post 方法

@@ -23,7 +23,7 @@ salt: 'abcdefgh'
 #数据包及meta目录
 file: ''
 #数据库查询语句
-sql: 'select * from test limit 1234567'
+sql: 'select * from test limit 123'
 #选择需要存储的列名
 colName: 'col'
 #declare/impact目标服务器

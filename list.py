@@ -8,7 +8,6 @@ def run(args):
     real_path = args.path + "/list.txt"
     f = open(real_path, 'w')
     dirs = utils.get_dirs(args.path)
-    f.writelines(dirs)
+    f.write('\n'.join(dirs))
     f.close()
-    for x in dirs:
-        print(x, end='')
+    print(','.join(dirs), end='')

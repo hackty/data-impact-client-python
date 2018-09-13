@@ -10,7 +10,8 @@ def run(args):
         flag = utils.rmdir(args.path + "/" + file)
         if flag:
             # 通知服务器
+            utils.info('remove ' + file)
             pass
         else:
             utils.info('remove ' + file + ' failed')
-        utils.info('clear executed')
+    utils.info('clear executed')
