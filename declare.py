@@ -26,7 +26,7 @@ def declare(address, user, password, meta):
 
 def run(args):
     # 读取meta文件
-    real_file = args.path+"/"+args.file+'/'+args.tagOwner+'.'+args.file+'.meta'
+    real_file = args.path + "/" + args.file + '/' + args.tagOwner + '.' + args.file + '.meta'
     meta = get_meta(real_file)
 
     # 上传meta

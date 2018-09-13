@@ -5,7 +5,7 @@ import utils
 
 
 def run(args):
-    real_path = args.path+"/list.txt"
+    real_path = args.path + "/list.txt"
     f = open(real_path, 'w')
     dirs = utils.get_dirs(args.path)
     f.writelines(dirs)

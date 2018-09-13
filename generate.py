@@ -18,13 +18,15 @@ def get_data(conn, sql, cols):
 def generate_packet(name, cursor):
     meta = {}
     size = 0
-    with open(name, 'w') as f:
-        row = cursor.fetchone()
-        while row:
-            v = '|||'.join('%s' % i for i in list(row))
+    row = cursor.fetchone()
+    while row:
+        v = '|||'.join('%s' % i for i in list(row))
+        with open(name, 'a') as f:
             f.write(v.replace('\n', '') + '\n')
-            size = size + 1
-            row = cursor.fetchone()
+        size = size + 1
+        if size % 1000000 == 0:
+            print('generate ' + str(size / 1000000) + ' million data')
+        row = cursor.fetchone()
     with open(name, 'r') as f:
         content = f.read()
     index = cursor.description

@@ -29,10 +29,10 @@ def rmdir(path):
         print("File not found")
         return False
     for file in files:
-        if os.path.isdir(path+"/"+file):
-            rmdir(path+"/"+file)
+        if os.path.isdir(path + "/" + file):
+            rmdir(path + "/" + file)
         else:
-            os.remove(path+"/"+file)
+            os.remove(path + "/" + file)
     os.rmdir(path)
     return True
 
@@ -74,7 +74,7 @@ def get_dirs(path):
     files = os.listdir(path)
     for f in files:
         if os.path.isdir(path + '/' + f) and f[0] != '.':
-            dirList.append(f+'\n')
+            dirList.append(f + '\n')
     return dirList
 
 

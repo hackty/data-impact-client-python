@@ -7,11 +7,10 @@ import utils
 def run(args):
     files = args.file.split(',')
     for file in files:
-        flag = utils.rmdir(args.path+"/"+file)
+        flag = utils.rmdir(args.path + "/" + file)
         if flag:
             # 通知服务器
             pass
         else:
-            print('remove '+file+' failed')
+            print('remove ' + file + ' failed')
     print('clear executed')
-

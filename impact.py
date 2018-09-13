@@ -23,7 +23,7 @@ def tmp(file, salt, col):
                     file_count = file_count + 1
                     line_count = 0
                 with open(file + '.tmp' + str(file_count), 'a') as f_tmp:
-                    f_tmp.write(v+'\n')
+                    f_tmp.write(v + '\n')
                 line_count = line_count + 1
         return True
     except:
@@ -40,14 +40,14 @@ def run(args):
         num = int((meta['size'] - 1) / 30000000) + 1
         cols = list(meta['colName'].split(','))
         if tmp(meta['dataName'], args.salt, cols.index(args.colName)):
-            url = 'http://'+args.serverAddress+'/upload'
+            url = 'http://' + args.serverAddress + '/upload'
             try:
                 for i in range(num):
-                    utils.upload(meta['dataName']+'.tmp' + str(i), url)
+                    utils.upload(meta['dataName'] + '.tmp' + str(i), url)
             except:
                 print('upload data failed')
             for i in range(num):
-                utils.rmfile(meta['dataName']+'.tmp' + str(i))
+                utils.rmfile(meta['dataName'] + '.tmp' + str(i))
             print('impact executed')
         else:
             print('Failed generate encrypt data file')
