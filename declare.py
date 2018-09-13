@@ -10,12 +10,12 @@ def get_meta(file):
     return content
 
 
-def declare(address, user, passwd, meta):
+def declare(address, user, password, meta):
     headers = {'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'}
     url = 'http://' + address + '/tag/declare'
     data = {
         'username': user,
-        'password': passwd,
+        'password': password,
         'meta': meta
     }
     try:

@@ -9,9 +9,9 @@ tagPassword: '123456'
 #标签来源mysql host
 host: '115.28.216.244'
 #标签来源mysql 用户名
-user: 'evan'
+sqlUser: 'evan'
 #数据来源mysql 密码
-password: '123456'
+sqlPassword: '123456'
 #数据来源表名/视图名
 database: 'impact'
 #数据包/元数据存储位置
@@ -25,6 +25,6 @@ file: ''
 #数据库查询语句
 sql: 'select * from test where col != 13540968437'
 #选择需要存储的列名
-colName: 'id,col'
+colName: 'col'
 #declare/impact目标服务器
 serverAddress: '127.0.0.1:8080'

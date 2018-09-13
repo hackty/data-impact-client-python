@@ -10,12 +10,8 @@ import urllib3
 
 
 # 获取数据库连接
-def get_conn(host, user, passwd, database):
-    return mysql.connector.connect(
-        host=host,
-        user=user,
-        passwd=passwd,
-        database=database)
+def get_conn(host, user, password, database):
+    return mysql.connector.connect(host=host, user=user, password=password, database=database)
 
 
 # 创建目录
@@ -33,9 +29,8 @@ def rmdir(path):
         print("File not found")
         return False
     for file in files:
-        if os.path.isdir(file):
-            rmdir(file)
-            os.rmdir(file)
+        if os.path.isdir(path+"/"+file):
+            rmdir(path+"/"+file)
         else:
             os.remove(path+"/"+file)
     os.rmdir(path)

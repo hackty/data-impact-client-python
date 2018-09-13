@@ -27,8 +27,13 @@ def generate_packet(name, cursor):
             row = cursor.fetchone()
     with open(name, 'r') as f:
         content = f.read()
+    index = cursor.description
+    cols = []
+    for i in range(len(index)):
+        cols.append(index[i][0])
     meta.__setitem__("size", size)
     meta.__setitem__("md5", utils.get_md5(content))
+    meta.__setitem__("colName", ','.join(cols))
     return meta
 
 
@@ -41,7 +46,7 @@ def run(args):
     now = int(round(time.time() * 1000))
 
     # 获取数据
-    conn = utils.get_conn(args.host, args.user, args.password, args.database)
+    conn = utils.get_conn(args.host, args.sqlUser, args.sqlPassword, args.database)
     cursor = get_data(conn, args.sql, args.colName)
 
     # 生成数据包文件
@@ -53,7 +58,6 @@ def run(args):
     meta.__setitem__("timestamp", now)
     meta.__setitem__("dataName", real_path)
     meta.__setitem__("tagName", args.tagName)
-    meta.__setitem__("colName", args.colName)
 
     meta_json = utils.to_json(meta)
     # 生成meta文件
