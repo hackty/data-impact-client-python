@@ -18,7 +18,10 @@ def declare(address, user, passwd, meta):
         'password': passwd,
         'meta': meta
     }
-    utils.get(url, data, headers)
+    try:
+        utils.get(url, data, headers)
+    except:
+        print('post meta failed')
 
 
 def run(args):

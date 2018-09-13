@@ -59,4 +59,4 @@ def run(args):
     # 生成meta文件
     real_path = path + "/" + name + ".meta"
     generate_meta(real_path, utils.encode(meta_json))
-    print('generate executed')
+    print('generate ' + str(now) + ' executed')
