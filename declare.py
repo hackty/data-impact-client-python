@@ -21,7 +21,7 @@ def declare(address, user, password, meta):
     try:
         utils.get(url, data, headers)
     except:
-        print('post meta failed')
+        utils.info('post meta failed')
 
 
 def run(args):
@@ -32,4 +32,4 @@ def run(args):
     # 上传meta
     declare(args.serverAddress, args.tagOwner, args.tagPassword, meta)
 
-    print('declare executed')
+    utils.info('declare executed')

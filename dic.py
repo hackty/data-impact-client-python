@@ -4,6 +4,7 @@
 import importlib
 import yaml
 import argparse
+import utils
 
 
 def get_settings():
@@ -33,4 +34,4 @@ if __name__ == '__main__':
         usage = importlib.import_module(args.usage)
         usage.run(args)
     except:
-        print('import or run module failed')
+        utils.info('import or run module failed')

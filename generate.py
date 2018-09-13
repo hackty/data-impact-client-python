@@ -15,25 +15,29 @@ def get_data(conn, sql, cols):
 
 
 # 生成数据包
-def generate_packet(name, cursor):
+def generate_packet(name, cursor, size):
     meta = {}
-    size = 0
-    row = cursor.fetchone()
-    while row:
-        v = '|||'.join('%s' % i for i in list(row))
-        with open(name, 'a') as f:
-            f.write(v.replace('\n', '') + '\n')
-        size = size + 1
-        if size % 1000000 == 0:
-            print('generate ' + str(size / 1000000) + ' million data')
-        row = cursor.fetchone()
+    count = 0
+    rows = cursor.fetchmany(int(size))
+    while rows:
+        for row in rows:
+            v = '|||'.join('%s' % i for i in list(row))
+            with open(name, 'a') as f:
+                f.write(v.replace('\n', '') + '\n')
+                count = count + 1
+            if count % 1000000 == 0:
+                utils.info('generate ' + str(count / 1000000) + ' million data')
+        if count % int(size) == 0:
+            rows = cursor.fetchmany(int(size))
+        else:
+            rows = False
     with open(name, 'r') as f:
         content = f.read()
     index = cursor.description
     cols = []
     for i in range(len(index)):
         cols.append(index[i][0])
-    meta.__setitem__("size", size)
+    meta.__setitem__("size", count)
     meta.__setitem__("md5", utils.get_md5(content))
     meta.__setitem__("colName", ','.join(cols))
     return meta
@@ -56,7 +60,7 @@ def run(args):
     utils.mkdir(path)
     name = args.tagOwner + "." + str(now)
     real_path = path + "/" + name + ".data"
-    meta = generate_packet(real_path, cursor)
+    meta = generate_packet(real_path, cursor, args.fetchSize)
     meta.__setitem__("timestamp", now)
     meta.__setitem__("dataName", real_path)
     meta.__setitem__("tagName", args.tagName)
@@ -65,4 +69,4 @@ def run(args):
     # 生成meta文件
     real_path = path + "/" + name + ".meta"
     generate_meta(real_path, utils.encode(meta_json))
-    print('generate ' + str(now) + ' executed')
+    utils.info('generate ' + str(now) + ' executed')

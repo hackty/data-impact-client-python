@@ -11,6 +11,13 @@ def verify(meta):
         return meta['md5'] == utils.get_md5(content)
 
 
+def get_meta(path, user, file):
+    real_file = path + '/' + file + '/' + user + '.' + file + '.meta'
+    with open(real_file, 'r') as f:
+        content = f.read()
+    return content
+
+
 def tmp(file, salt, col):
     try:
         with open(file, 'r') as f:
@@ -32,10 +39,12 @@ def tmp(file, salt, col):
 
 def run(args):
     try:
-        meta_json = utils.decode(args.meta)
+        meta = get_meta(args.path, args.tagOwner, args.file)
+        # meta_json = utils.decode(args.meta)
+        meta_json = utils.decode(meta)
         meta = utils.from_json(meta_json)
     except:
-        return print('parser meta failed')
+        return utils.info('parser meta failed')
     if verify(meta):
         num = int((meta['size'] - 1) / 30000000) + 1
         cols = list(meta['colName'].split(','))
@@ -45,11 +54,11 @@ def run(args):
                 for i in range(num):
                     utils.upload(meta['dataName'] + '.tmp' + str(i), url)
             except:
-                print('upload data failed')
+                utils.info('upload data failed')
             for i in range(num):
                 utils.rmfile(meta['dataName'] + '.tmp' + str(i))
-            print('impact executed')
+            utils.info('impact executed')
         else:
-            print('Failed generate encrypt data file')
+            utils.info('Failed generate encrypt data file')
     else:
-        print('verify data failed')
+        utils.info('verify data failed')

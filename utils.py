@@ -7,6 +7,11 @@ import hashlib
 import json
 import base64
 import urllib3
+import time
+
+
+def info(var):
+    return print(time.asctime(time.localtime(time.time())) + ': ' + var)
 
 
 # 获取数据库连接
@@ -26,7 +31,7 @@ def rmdir(path):
     try:
         files = os.listdir(path)
     except FileNotFoundError:
-        print("File not found")
+        info("File not found")
         return False
     for file in files:
         if os.path.isdir(path + "/" + file):

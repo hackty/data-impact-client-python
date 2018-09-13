@@ -12,5 +12,5 @@ def run(args):
             # 通知服务器
             pass
         else:
-            print('remove ' + file + ' failed')
-    print('clear executed')
+            utils.info('remove ' + file + ' failed')
+        utils.info('clear executed')
