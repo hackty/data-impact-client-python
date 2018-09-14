@@ -50,15 +50,16 @@ def run(args):
         cols = list(meta['colName'].split(','))
         if tmp(meta['dataName'], args.salt, cols.index(args.colName)):
             url = 'http://' + args.serverAddress + '/upload'
-            try:
-                for i in range(num):
-                    utils.upload(meta['dataName'] + '.tmp' + str(i), url)
-            except:
-                utils.info('upload data failed')
             for i in range(num):
-                utils.rmfile(meta['dataName'] + '.tmp' + str(i))
-            utils.info('impact executed')
+                file = meta['dataName'] + '.tmp' + str(i)
+                try:
+                    utils.upload(file, url)
+                except:
+                    utils.info('upload data failed')
+                utils.rmfile(file)
         else:
             utils.info('Failed generate encrypt data file')
     else:
         utils.info('verify data failed')
+
+    utils.info('impact executed')

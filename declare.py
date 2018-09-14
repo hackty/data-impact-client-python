@@ -18,10 +18,7 @@ def declare(address, user, password, meta):
         'password': password,
         'meta': meta
     }
-    try:
-        utils.get(url, data, headers)
-    except:
-        utils.info('post meta failed')
+    return utils.get(url, data, headers)
 
 
 def run(args):
@@ -30,6 +27,11 @@ def run(args):
     meta = get_meta(real_file)
 
     # 上传meta
-    declare(args.serverAddress, args.tagOwner, args.tagPassword, meta)
+    try:
+        result = declare(args.serverAddress, args.tagOwner, args.tagPassword, meta)
+        if not utils.parser_result(result):
+            utils.info('post meta failed: server')
+    except:
+        utils.info('post meta failed: connect')
 
     utils.info('declare executed')

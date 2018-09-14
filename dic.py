@@ -33,5 +33,7 @@ if __name__ == '__main__':
     try:
         usage = importlib.import_module(args.usage)
         usage.run(args)
-    except:
+    except Exception as e:
         utils.info('import or run module failed')
+        utils.info('Uncaught error: ')
+        print(e)

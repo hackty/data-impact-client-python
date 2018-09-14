@@ -102,3 +102,9 @@ def upload(file, url):
     http = urllib3.PoolManager()
     r = http.request('POST', url, fields={'file': (os.path.basename(file), open(file).read(), 'text/plain')})
     return r.data.decode()
+
+
+# 解析服务器结果
+def parser_result(result):
+    re = from_json(result)
+    return re['success']
