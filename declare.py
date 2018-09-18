@@ -31,7 +31,8 @@ def run(args):
         result = declare(args.serverAddress, args.tagOwner, args.tagPassword, meta)
         if not utils.parser_result(result):
             utils.info('post meta failed: server')
+        else:
+            utils.edit_list(args.file, '已发布\n')
     except:
         utils.info('post meta failed: connect')
-
     utils.info('declare executed')

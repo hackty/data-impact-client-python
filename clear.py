@@ -19,6 +19,7 @@ def run(args):
     files = args.file.split(',')
     for file in files:
         flag = utils.rmdir(args.path + "/" + file)
+        utils.edit_list(file, None)
         if flag:
             # 通知服务器
             try:

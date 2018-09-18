@@ -20,10 +20,12 @@ def get_args():
     parser = argparse.ArgumentParser()
     keys = list(settings.keys())
     size = len(keys)
-    parser.add_argument("--usage", "-u", type=str, default=settings['usage'], nargs='?',
-                        choices=['declare', 'generate', 'impact', 'clear', 'list'])
-    for i in range(1, size):
-        parser.add_argument("--" + keys[i], type=str, nargs='?', default=settings[keys[i]])
+    for i in range(size):
+        if keys[i] == 'usage':
+            parser.add_argument("--usage", "-u", type=str, default=settings['usage'], nargs='?',
+                                choices=['declare', 'generate', 'impact', 'clear', 'list'])
+        else:
+            parser.add_argument("--" + keys[i], type=str, nargs='?', default=settings[keys[i]])
     args = parser.parse_args()
     return args
 

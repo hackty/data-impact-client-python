@@ -1,0 +1,27 @@
+html {
+    font-size: 14px;
+}
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+.container {
+    max-width: 100%;
+}
+
+td.data-declare {
+    background: url('../img/declare.png') no-repeat center center;
+    cursor: pointer;
+}
+
+td.data-impact {
+    background: url('../img/impact.png') no-repeat center center;
+    cursor: pointer;
+}
+
+td.data-delete {
+    background: url('../img/delete.png') no-repeat center center;
+    cursor: pointer;
+}

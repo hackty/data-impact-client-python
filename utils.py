@@ -11,6 +11,8 @@ import time
 
 
 def info(var):
+    with open('logs.txt', 'a') as f:
+        f.write(var + '\n')
     return print(time.asctime(time.localtime(time.time())) + ': ' + var)
 
 
@@ -108,3 +110,19 @@ def upload(file, url):
 def parser_result(result):
     re = from_json(result)
     return re['success']
+
+
+#
+def edit_list(key, status):
+    with open('list.txt', 'r')as f:
+        list = f.readlines()
+        for i in range(len(list)):
+            t = list[i].split('|')
+            if t[0] == key:
+                list.remove(list[i])
+                if status:
+                    t[2] = status
+                    list.insert(i, '|'.join(t))
+                break
+    with open('list.txt', 'w')as f:
+        f.writelines(list)

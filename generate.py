@@ -25,8 +25,10 @@ def generate_packet(name, cursor, size):
             with open(name, 'a') as f:
                 f.write(v.replace('\n', '') + '\n')
                 count = count + 1
-            if count % 1000000 == 0:
-                utils.info('generate ' + str(count / 1000000) + ' million data')
+            # if count % 1000000 == 0:
+            #     utils.info('generate ' + str(count / 1000000) + ' million data')
+            if count % 10000 == 0:
+                utils.info('generate ' + str(int(count / 10000)) + ' * 10000 data')
         if count % int(size) == 0:
             rows = cursor.fetchmany(int(size))
         else:
@@ -48,17 +50,23 @@ def generate_meta(name, data):
         f.write(data)
 
 
-def run(args):
-    now = int(round(time.time() * 1000))
+def write_to_list(content):
+    with open('list.txt', 'a') as f:
+        f.write(content)
 
+
+def run(args):
+    now = str(int(round(time.time() * 1000)))
+
+    write_to_list(now + '|' + args.tagName + '|' + '正在生成\n')
     # 获取数据
-    conn = utils.get_conn(args.host, args.sqlUser, args.sqlPassword, args.database)
+    conn = utils.get_conn(args.host, args.dbUser, args.dbPassword, args.database)
     cursor = get_data(conn, args.sql, args.colName)
 
     # 生成数据包文件
-    path = args.path + "/" + str(now)
+    path = args.path + "/" + now
     utils.mkdir(path)
-    name = args.tagOwner + "." + str(now)
+    name = args.tagOwner + "." + now
     real_path = path + "/" + name + ".data"
     meta = generate_packet(real_path, cursor, args.fetchSize)
     meta.__setitem__("timestamp", now)
@@ -69,4 +77,5 @@ def run(args):
     # 生成meta文件
     real_path = path + "/" + name + ".meta"
     generate_meta(real_path, utils.encode(meta_json))
-    utils.info('generate ' + str(now) + ' executed')
+    utils.edit_list(now, '生成完毕\n')
+    utils.info('generate ' + now + ' executed')
