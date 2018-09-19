@@ -28,7 +28,7 @@ def generate_packet(name, cursor, size):
             # if count % 1000000 == 0:
             #     utils.info('generate ' + str(count / 1000000) + ' million data')
             if count % 10000 == 0:
-                utils.info('generate ' + str(int(count / 10000)) + ' * 10000 data')
+                utils.log('generate ' + str(int(count / 10000)) + ' * 10000 data', 'info')
         if count % int(size) == 0:
             rows = cursor.fetchmany(int(size))
         else:
@@ -78,4 +78,4 @@ def run(args):
     real_path = path + "/" + name + ".meta"
     generate_meta(real_path, utils.encode(meta_json))
     utils.edit_list(now, '生成完毕\n')
-    utils.info('generate ' + now + ' executed')
+    utils.log('generate ' + now + ' executed', 'info')

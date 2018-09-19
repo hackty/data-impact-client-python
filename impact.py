@@ -18,7 +18,7 @@ def get_meta(path, user, file):
     return content
 
 
-def tmp(file, salt, col):
+def tmp(file, tmp_file, salt, col):
     try:
         with open(file, 'r') as f:
             line_count = 0
@@ -29,7 +29,7 @@ def tmp(file, salt, col):
                 if line_count == 30000000:
                     file_count = file_count + 1
                     line_count = 0
-                with open(file + '.tmp' + str(file_count), 'a') as f_tmp:
+                with open(tmp_file + str(file_count), 'a') as f_tmp:
                     f_tmp.write(v + '\n')
                 line_count = line_count + 1
         return True
@@ -44,22 +44,22 @@ def run(args):
         meta_json = utils.decode(meta)
         meta = utils.from_json(meta_json)
     except:
-        return utils.info('parser meta failed')
+        return utils.log('parser meta failed', 'error')
+    tmp_file = args.path + '/' + args.file + '/' + args.job + '.' + args.tagOwner + '.'
     if verify(meta):
         num = int((meta['size'] - 1) / 30000000) + 1
         cols = list(meta['colName'].split(','))
-        if tmp(meta['dataName'], args.salt, cols.index(args.colName)):
+        if tmp(meta['dataName'], tmp_file, args.salt, cols.index(args.colName)):
             url = 'http://' + args.serverAddress + '/upload'
             for i in range(num):
-                file = meta['dataName'] + '.tmp' + str(i)
+                file = tmp_file + str(i)
                 try:
                     utils.upload(file, url)
                 except:
-                    utils.info('upload data failed')
+                    utils.log('upload data failed', 'error')
                 utils.rmfile(file)
         else:
-            utils.info('Failed generate encrypt data file')
+            utils.log('Failed generate encrypt data file', 'error')
     else:
-        utils.info('verify data failed')
-
-    utils.info('impact executed')
+        utils.log('verify data failed', 'error')
+    utils.log('impact executed', 'info')

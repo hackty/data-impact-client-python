@@ -8,9 +8,9 @@ import utils
 
 
 def get_settings():
-    with open("./settings.yaml", "r") as yaml_file:
+    with open("./settings/settings.yaml", "r") as yaml_file:
         settings = yaml.load(yaml_file.read())
-    with open("./settings-" + settings['settings-active'] + ".yaml") as yaml_file:
+    with open("./settings/settings-" + settings['settings-active'] + ".yaml") as yaml_file:
         settings = yaml.load(yaml_file.read())
     return settings
 
@@ -36,6 +36,6 @@ if __name__ == '__main__':
         usage = importlib.import_module(args.usage)
         usage.run(args)
     except Exception as e:
-        utils.info('import or run module failed')
-        utils.info('Uncaught error: ')
+        utils.log('import or run module failed', 'error')
+        utils.log('Uncaught error: ', 'error')
         print(e)

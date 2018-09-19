@@ -10,10 +10,15 @@ import urllib3
 import time
 
 
-def info(var):
-    with open('logs.txt', 'a') as f:
-        f.write(var + '\n')
-    return print(time.asctime(time.localtime(time.time())) + ': ' + var)
+def log(var, tp):
+    date = time.localtime(time.time())
+    file = 'logs/' + str(date.tm_year) + '-' + str(date.tm_mon) + '-' + str(date.tm_mday)
+    if tp == 'error':
+        with open(file+'-err.log', 'a') as f:
+            f.write(time.asctime(time.localtime(time.time())) + ': ' + var + '\n')
+    with open(file+'-info.log', 'a') as f:
+        f.write(time.asctime(time.localtime(time.time())) + ': ' + var + '\n')
+    return print(var)
 
 
 # 获取数据库连接
@@ -33,7 +38,7 @@ def rmdir(path):
     try:
         files = os.listdir(path)
     except FileNotFoundError:
-        info("File not found")
+        log("File not found", 'error')
         return False
     for file in files:
         if os.path.isdir(path + "/" + file):

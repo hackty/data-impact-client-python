@@ -1,6 +1,6 @@
 {
   "name": "dic_view",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "private": true,
   "scripts": {
     "start": "node ./bin/www"
@@ -22,7 +22,6 @@
     "node-gyp": "^3.8.0",
     "node-pre-gyp": "^0.10.3",
     "serve-favicon": "~2.4.5",
-    "sqlite3": "^4.0.2",
     "yamljs": "^0.3.0"
   }
 }

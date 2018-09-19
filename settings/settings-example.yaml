@@ -24,12 +24,14 @@ serverAddress: '127.0.0.1:8080'
 #用途declare/impact
 usage: ''
 #标签名
-tagName: 'example'
-#混淆
-salt: ''
-#数据包及meta目录
-file: ''
+tagName: 'we'
 #数据库查询语句
 sql: 'select * from test limit 123'
 #选择需要存储的列名
 colName: ''
+#混淆
+salt: ''
+#JobID
+job: ''
+#数据包及meta目录
+file: ''

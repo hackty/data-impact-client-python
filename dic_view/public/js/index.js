@@ -1,76 +1,26 @@
 
-let apiAndParam = {};
-
 $(function () {
     show_settings();
     show_data_table();
 });
 
-// function changeSelectSetting(callback) {
-//     const s = document.getElementById("InputSettings").value;
-//     let setting_name = s.length >= 1 ? s : "";
-//     get_settings(setting_name, callback);
-// }
+$('body').on('change', '#select-setting', function () {
+    const s = document.getElementById("select-setting").value;
+    if (s.length >= 1) editSetting(setting_name);
+});
 
-/**checkAll----------------------------------------*/
-// 扫描所有checkbox
-function syncCheckBox() {
-    let all = 0;
-    let ischeck = 0;
-    for (let i = 0; i < apiAndParam.length; i++) {
-        if (apiAndParam[i] === undefined) continue;
-        all++;
-        if (document.getElementById("checkbox"+i).checked) ischeck++;
-    }
-    checkHidden(all !== 0);
-    if (all !== 0) showCheck(all === ischeck);
-}
-
-//是否显示checkAll
-function checkHidden(isShow) {
-    if (isShow) document.getElementById('bottom-line').style.display='block';
-    else document.getElementById('bottom-line').style.display='none'
-}
-
-// checkAll状态更改
-function checkAllOnChange() {
-    checkAll(document.getElementById("checkAll").checked);
-}
-
-// 更改checkAll的状态
-function showCheck(isCheck) {
-    document.getElementById("checkAll").checked = isCheck
-}
-
-// checkAll的操作
-function checkAll(isCheck) {
-    for (let i = 0; i < apiAndParam.length; i++) {
-        if (apiAndParam[i] === undefined) continue;
-        document.getElementById("checkbox"+i).checked = isCheck
-    }
-}
-/**----------------------------------------*/
-
-// /**
-//  * 对Json数据的可视化
-//  * @param data
-//  * @returns {*}
-//  * @private
-//  */
-// function _tmp(data) {
-//     try {
-//         return formatJson(JSON.parse(data))
-//     }catch (e) {
-//         return data
-//     }
-// }
+$('body').on('click', '#start-generate', function () {
+    generateData()
+});
+$('body').on('click', '#start-impact', function () {
+    impactData()
+});
 
 /**
  * 显示配置列表名
  */
 function show_settings() {
-    ajax_get_setting_list(undefined,
-        (status, data)=>{
+    listSetting((status, data)=>{
             if (status === 'success') {
                 data = JSON.parse(data);
                 if (data['success']) {
@@ -93,11 +43,9 @@ function show_settings() {
 
 /**
  * 获取配置名列表
- * @param start
  * @param finish
  */
-function ajax_get_setting_list(start, finish) {
-    if (start) start();
+function listSetting(finish) {
     $.ajax({
         type: 'get',
         url: '/setting/list',
@@ -111,11 +59,31 @@ function ajax_get_setting_list(start, finish) {
         }
     })
 }
+/**
+ * 修改总配置
+ * @param setting
+ * @param finish
+ */
+function editSetting(setting, finish) {
+    $.ajax({
+        type: 'get',
+        url: '/setting/edit',
+        data: {active: setting},
+        timeout: 20000,
+        success: function () {
+            if (finish) finish('success')
+        },
+        error: function () {
+            if (finish) finish('error')
+        }
+    })
+}
 
+let dtLocal, select_file;
 function show_data_table() {
-    const dtLocal = $('#listLocal').DataTable( {
+     dtLocal = $('#listLocal').DataTable( {
         "language": {
-            "searchPlaceholder": "编号"
+            "searchPlaceholder": "关键字"
         },
         "processing": true,
         "serverSide": true,
@@ -166,67 +134,90 @@ function show_data_table() {
     $('#listLocal tbody').on( 'click', 'tr td.data-declare', function () {
         var tr = $(this).closest('tr');
         var row = dtLocal.row(tr);
-        declareData(row.data().no, ()=>dtLocal.ajax.reload())
+        select_file = row.data().no;
+        declareData()
     });
     $('#listLocal tbody').on( 'click', 'tr td.data-impact', function () {
         var tr = $(this).closest('tr');
         var row = dtLocal.row(tr);
+        select_file = row.data().no;
         $('#impactModal').modal('show');
     });
     $('#listLocal tbody').on( 'click', 'tr td.data-delete', function () {
         var tr = $(this).closest('tr');
         var row = dtLocal.row(tr);
-        deleteData(row.data().no, ()=>dtLocal.ajax.reload())
+        select_file = row.data().no;
+        deleteData()
     });
 }
 
-function deleteData(file, finish) {
+function deleteData() {
     $.ajax({
         type: 'get',
         url: '/clear',
-        data: {file: file},
+        data: {file: select_file},
         timeout: 20000,
         success: function () {
             show_message('clear success');
-            finish()
+            dtLocal.ajax.reload(null, false);
         },
         error: function () {
             show_message('clear error');
-            finish()
-        }
-    })
-}
-function declareData(file, finish) {
-    $.ajax({
-        type: 'get',
-        url: '/declare',
-        data: {file: file},
-        timeout: 20000,
-        success: function () {
-            show_message('declare success');
-            finish()
-        },
-        error: function () {
-            show_message('declare error');
-            finish()
         }
     })
 }
 
-function formatDateTime(timeStamp) {
-    var date = new Date(timeStamp);
-    var y = date.getFullYear();
-    var m = date.getMonth() + 1;
-    m = m < 10 ? ('0' + m) : m;
-    var d = date.getDate();
-    d = d < 10 ? ('0' + d) : d;
-    var h = date.getHours();
-    h = h < 10 ? ('0' + h) : h;
-    var minute = date.getMinutes();
-    var second = date.getSeconds();
-    minute = minute < 10 ? ('0' + minute) : minute;
-    second = second < 10 ? ('0' + second) : second;
-    return y + '-' + m + '-' + d+' '+h+':'+minute+':'+second;
+function declareData() {
+    $.ajax({
+        type: 'get',
+        url: '/declare',
+        data: {file: select_file},
+        timeout: 20000,
+        success: function () {
+            show_message('declare success');
+            dtLocal.ajax.reload(null, false);
+        },
+        error: function () {
+            show_message('declare error');
+        }
+    })
+}
+
+function generateData() {
+    let tag = document.getElementById('tag-name').value;
+    let sql = document.getElementById('sql').value;
+    $.ajax({
+        type: 'get',
+        url: '/generate',
+        data: {tag: tag, sql: sql},
+        timeout: 20000,
+        success: function () {
+            show_message('generate success');
+            dtLocal.ajax.reload(null, false)
+        },
+        error: function () {
+            show_message('generate error');
+        }
+    })
+}
+
+function impactData() {
+    let salt = document.getElementById('salt').value;
+    let col = document.getElementById('col-name').value;
+    let job = document.getElementById('job-id').value;
+    $.ajax({
+        type: 'get',
+        url: '/impact',
+        data: {salt: salt, col: col, job: job, file: select_file},
+        timeout: 20000,
+        success: function () {
+            show_message('impact success');
+            dtLocal.ajax.reload(null, false)
+        },
+        error: function () {
+            show_message('impact error');
+        }
+    })
 }
 
 function show_message(content) {
