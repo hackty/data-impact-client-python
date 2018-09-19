@@ -44,7 +44,7 @@ def run(args):
         meta_json = utils.decode(meta)
         meta = utils.from_json(meta_json)
     except:
-        return utils.log('parser meta failed', 'error')
+        return utils.log('err_parser_meta', args.file, 'error')
     tmp_file = args.path + '/' + args.file + '/' + args.job + '.' + args.tagOwner + '.'
     if verify(meta):
         num = int((meta['size'] - 1) / 30000000) + 1
@@ -56,10 +56,10 @@ def run(args):
                 try:
                     utils.upload(file, url)
                 except:
-                    utils.log('upload data failed', 'error')
+                    utils.log('err_upload_data', args.file, 'error')
                 utils.rmfile(file)
         else:
-            utils.log('Failed generate encrypt data file', 'error')
+            utils.log('err_generate_encrypt', args.file, 'error')
     else:
-        utils.log('verify data failed', 'error')
-    utils.log('impact executed', 'info')
+        utils.log('err_verify_data', args.file, 'error')
+    utils.log('info_impact', args.file)

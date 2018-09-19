@@ -1,0 +1,58 @@
+default: zh
+zh:
+  err_notice_server: '通知服务器失败，服务器拒绝'
+  err_notice_connect: '通知服务器失败，连接失败'
+  err_clear: '清理失败'
+  info_clear: '清理完成'
+
+  err_no_such_file: '文件被手动删除或损坏'
+  err_post_meta_server: '上传meta失败，服务器拒绝'
+  err_post_meta_connect: '上传meta失败，连接失败'
+  info_declare: '发布完成'
+
+  generating: '正在生成'
+  generated: '生成完毕'
+
+  err_module: '导入或运行模块失败'
+  err_uncaught: '未被捕捉的异常'
+
+  err_parser_meta: '解析meta失败'
+  err_upload_data: '上传数据集失败'
+  err_generate_encrypt: '生成加密数据文件失败'
+  err_verify_data: '校验数据集失败'
+  info_impact: '关联完成'
+
+  compare: '统计文件损坏或人为删除数据集，请认真比对以下两份数据'
+  file_dirs: '目录下文件'
+  statistical: '统计文件内'
+
+  error_file: '未找到该目录'
+en:
+  err_notice_server: 'notice server failed, server'
+  err_notice_connect: 'notice server failed, connect'
+  err_clear: 'clear failed'
+  info_clear: 'clear executed'
+
+  err_no_such_file: 'This file was manually deleted or damaged'
+  err_post_meta_server: 'post meta failed, server'
+  err_post_meta_connect: 'post meta failed, connect'
+  info_declare: 'declare executed'
+
+  info_generate: 'generate executed'
+  generating: 'generating'
+  generated: 'generated'
+
+  err_module: 'import or run module failed'
+  err_uncaught: 'Uncaught error'
+
+  err_parser_meta: 'parser meta failed'
+  err_upload_data: 'upload data failed'
+  err_generate_encrypt: 'failed generate encrypt data file'
+  err_verify_data: 'verify data failed'
+  info_impact: 'impact executed'
+
+  compare: 'If the statistics file is damaged or the data set is deleted manually, please carefully compare the following two data.'
+  file_dirs: 'File under the directory'
+  statistical: 'Within the statistical file'
+
+  error_file: 'file not found'

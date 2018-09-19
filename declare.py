@@ -24,15 +24,19 @@ def declare(address, user, password, meta):
 def run(args):
     # 读取meta文件
     real_file = args.path + "/" + args.file + '/' + args.tagOwner + '.' + args.file + '.meta'
-    meta = get_meta(real_file)
+    try:
+        meta = get_meta(real_file)
+    except:
+        utils.log('err_no_such_file', args.file, 'error')
+        return
 
     # 上传meta
     try:
         result = declare(args.serverAddress, args.tagOwner, args.tagPassword, meta)
         if not utils.parser_result(result):
-            utils.log('post meta failed: server', 'error')
+            utils.log('err_post_meta_server', args.file, 'error')
         else:
             utils.edit_list(args.file, '已发布\n')
     except:
-        utils.log('post meta failed: connect', 'error')
-    utils.log('declare executed', 'info')
+        utils.log('err_post_meta_connect', args.file, 'error')
+    utils.log('info_declare', args.file)

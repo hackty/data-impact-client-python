@@ -25,10 +25,9 @@ def run(args):
             try:
                 result = notice_server(args.serverAddress, args.tagOwner, args.tagPassword, file)
                 if not utils.parser_result(result):
-                    utils.log('notice server failed: server', 'error')
+                    utils.log('err_notice_server', file, 'error')
             except:
-                utils.log('notice server failed: connect', 'error')
-            utils.log('remove ' + file, 'info')
+                utils.log('err_notice_connect', file, 'error')
+            utils.log('info_clear', file)
         else:
-            utils.log('remove ' + file + ' failed', 'error')
-    utils.log('clear executed', 'info')
+            utils.log('err_clear', file, 'error')

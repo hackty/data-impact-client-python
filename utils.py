@@ -8,10 +8,13 @@ import json
 import base64
 import urllib3
 import time
+import yaml
 
 
-def log(var, tp):
+# 打印日志
+def log(var1=None, var2=None, tp='info'):
     date = time.localtime(time.time())
+    var = lan(var1) + ': ' + var2
     file = 'logs/' + str(date.tm_year) + '-' + str(date.tm_mon) + '-' + str(date.tm_mday)
     if tp == 'error':
         with open(file+'-err.log', 'a') as f:
@@ -19,6 +22,17 @@ def log(var, tp):
     with open(file+'-info.log', 'a') as f:
         f.write(time.asctime(time.localtime(time.time())) + ': ' + var + '\n')
     return print(var)
+
+
+def lan(var, lan=None):
+    try:
+        with open("./lan.yaml", "r") as yaml_file:
+            la = yaml.load(yaml_file.read())
+            if lan is None:
+                lan = la['default']
+            return la[lan][var]
+    except:
+        return var
 
 
 # 获取数据库连接
@@ -38,7 +52,7 @@ def rmdir(path):
     try:
         files = os.listdir(path)
     except FileNotFoundError:
-        log("File not found", 'error')
+        log("error_file", path, 'error')
         return False
     for file in files:
         if os.path.isdir(path + "/" + file):
@@ -117,17 +131,17 @@ def parser_result(result):
     return re['success']
 
 
-#
+# 修改数据集
 def edit_list(key, status):
     with open('list.txt', 'r')as f:
-        list = f.readlines()
-        for i in range(len(list)):
-            t = list[i].split('|')
+        data = f.readlines()
+        for i in range(len(data)):
+            t = data[i].split('|')
             if t[0] == key:
-                list.remove(list[i])
+                data.remove(data[i])
                 if status:
                     t[2] = status
-                    list.insert(i, '|'.join(t))
+                    data.insert(i, '|'.join(t))
                 break
     with open('list.txt', 'w')as f:
-        f.writelines(list)
+        f.writelines(data)

@@ -27,8 +27,8 @@ def generate_packet(name, cursor, size):
                 count = count + 1
             # if count % 1000000 == 0:
             #     utils.info('generate ' + str(count / 1000000) + ' million data')
-            if count % 10000 == 0:
-                utils.log('generate ' + str(int(count / 10000)) + ' * 10000 data', 'info')
+            # if count % 10000 == 0:
+            #     utils.log('generate ' + str(int(count / 10000)) + ' * 10000 data: ' + name, 'info')
         if count % int(size) == 0:
             rows = cursor.fetchmany(int(size))
         else:
@@ -58,7 +58,7 @@ def write_to_list(content):
 def run(args):
     now = str(int(round(time.time() * 1000)))
 
-    write_to_list(now + '|' + args.tagName + '|' + '正在生成\n')
+    write_to_list(now + '|' + args.tagName + '|' + utils.lan('generating') + '\n')
     # 获取数据
     conn = utils.get_conn(args.host, args.dbUser, args.dbPassword, args.database)
     cursor = get_data(conn, args.sql, args.colName)
@@ -77,5 +77,5 @@ def run(args):
     # 生成meta文件
     real_path = path + "/" + name + ".meta"
     generate_meta(real_path, utils.encode(meta_json))
-    utils.edit_list(now, '生成完毕\n')
-    utils.log('generate ' + now + ' executed', 'info')
+    utils.edit_list(now, utils.lan('generated') + '\n')
+    utils.log('generated', now)
