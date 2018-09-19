@@ -17,9 +17,9 @@ def log(var1=None, var2=None, tp='info'):
     var = lan(var1) + ': ' + var2
     file = 'logs/' + str(date.tm_year) + '-' + str(date.tm_mon) + '-' + str(date.tm_mday)
     if tp == 'error':
-        with open(file+'-err.log', 'a') as f:
+        with open(file + '-err.log', 'a') as f:
             f.write(time.asctime(time.localtime(time.time())) + ': ' + var + '\n')
-    with open(file+'-info.log', 'a') as f:
+    with open(file + '-info.log', 'a') as f:
         f.write(time.asctime(time.localtime(time.time())) + ': ' + var + '\n')
     return print(var)
 

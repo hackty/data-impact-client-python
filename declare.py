@@ -22,21 +22,18 @@ def declare(address, user, password, meta):
 
 
 def run(args):
-    # 读取meta文件
-    real_file = args.path + "/" + args.file + '/' + args.tagOwner + '.' + args.file + '.meta'
     try:
+        # 读取meta文件
+        real_file = args.path + "/" + args.file + '/' + args.tagOwner + '.' + args.file + '.meta'
         meta = get_meta(real_file)
-    except:
-        utils.log('err_no_such_file', args.file, 'error')
-        return
-
-    # 上传meta
-    try:
+        # 上传meta
         result = declare(args.serverAddress, args.tagOwner, args.tagPassword, meta)
-        if not utils.parser_result(result):
-            utils.log('err_post_meta_server', args.file, 'error')
+        if utils.parser_result(result):
+            utils.edit_list(args.file, utils.lan('info_declare') + '\n')
+            utils.log('info_declare', args.file)
         else:
-            utils.edit_list(args.file, '已发布\n')
+            utils.log('err_post_meta_server', args.file, 'error')
+    except FileNotFoundError:
+        utils.log('err_no_such_file', args.file, 'error')
     except:
         utils.log('err_post_meta_connect', args.file, 'error')
-    utils.log('info_declare', args.file)
