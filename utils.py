@@ -17,16 +17,16 @@ def log(var1=None, var2=None, tp='info'):
     var = lan(var1) + ': ' + var2
     file = 'logs/' + str(date.tm_year) + '-' + str(date.tm_mon) + '-' + str(date.tm_mday)
     if tp == 'error':
-        with open(file + '-err.log', 'a') as f:
+        with open(file + '-err.log', 'a', encoding='utf-8') as f:
             f.write(time.asctime(time.localtime(time.time())) + ': ' + var + '\n')
-    with open(file + '-info.log', 'a') as f:
+    with open(file + '-info.log', 'a', encoding='utf-8') as f:
         f.write(time.asctime(time.localtime(time.time())) + ': ' + var + '\n')
     return print(var)
 
 
 def lan(var, lan=None):
     try:
-        with open("./lan.yaml", "r") as yaml_file:
+        with open('./lan.yaml', 'r', encoding='utf-8') as yaml_file:
             la = yaml.load(yaml_file.read())
             if lan is None:
                 lan = la['default']
@@ -133,7 +133,7 @@ def parser_result(result):
 
 # 修改数据集
 def edit_list(key, status):
-    with open('list.txt', 'r')as f:
+    with open('list.txt', 'r', encoding='utf-8')as f:
         data = f.readlines()
         for i in range(len(data)):
             t = data[i].split('|')
@@ -143,5 +143,5 @@ def edit_list(key, status):
                     t[2] = status
                     data.insert(i, '|'.join(t))
                 break
-    with open('list.txt', 'w')as f:
+    with open('list.txt', 'w', encoding='utf-8')as f:
         f.writelines(data)

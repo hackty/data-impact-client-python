@@ -22,7 +22,7 @@ def generate_packet(name, cursor, size):
     while rows:
         for row in rows:
             v = '|||'.join('%s' % i for i in list(row))
-            with open(name, 'a') as f:
+            with open(name, 'a', encoding='utf-8') as f:
                 f.write(v.replace('\n', '') + '\n')
                 count = count + 1
             # if count % 1000000 == 0:
@@ -33,7 +33,7 @@ def generate_packet(name, cursor, size):
             rows = cursor.fetchmany(int(size))
         else:
             rows = False
-    with open(name, 'r') as f:
+    with open(name, 'r', encoding='utf-8') as f:
         content = f.read()
     index = cursor.description
     cols = []
@@ -46,12 +46,12 @@ def generate_packet(name, cursor, size):
 
 
 def generate_meta(name, data):
-    with open(name, 'w') as f:
+    with open(name, 'w', encoding='utf-8') as f:
         f.write(data)
 
 
 def write_to_list(content):
-    with open('list.txt', 'a') as f:
+    with open('list.txt', 'a', encoding='utf-8') as f:
         f.write(content)
 
 

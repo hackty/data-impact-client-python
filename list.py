@@ -7,7 +7,7 @@ import utils
 def run(args):
     real_path = "list.txt"
     real_dirs = utils.get_dirs(args.path)
-    with open(real_path, 'r') as f:
+    with open(real_path, 'r', encoding='utf-8') as f:
         dirs = f.readlines()
         for i in range(len(dirs)):
             dirs[i] = dirs[i].split('|')[0]

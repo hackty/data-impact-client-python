@@ -5,7 +5,7 @@ import utils
 
 
 def get_meta(file):
-    with open(file, 'r') as f:
+    with open(file, 'r', encoding='utf-8') as f:
         content = f.read()
     return content
 

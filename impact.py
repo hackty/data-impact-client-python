@@ -5,7 +5,7 @@ import utils
 
 
 def verify(meta):
-    with open(meta['dataName'], 'r') as f:
+    with open(meta['dataName'], 'r', encoding='utf-8') as f:
         content = f.read()
         f.close()
         return meta['md5'] == utils.get_md5(content)
@@ -13,14 +13,14 @@ def verify(meta):
 
 def get_meta(path, user, file):
     real_file = path + '/' + file + '/' + user + '.' + file + '.meta'
-    with open(real_file, 'r') as f:
+    with open(real_file, 'r', encoding='utf-8') as f:
         content = f.read()
     return content
 
 
 def tmp(file, tmp_file, salt, col):
     try:
-        with open(file, 'r') as f:
+        with open(file, 'r', encoding='utf-8') as f:
             line_count = 0
             file_count = 0
             for line in f:
@@ -29,7 +29,7 @@ def tmp(file, tmp_file, salt, col):
                 if line_count == 30000000:
                     file_count = file_count + 1
                     line_count = 0
-                with open(tmp_file + str(file_count), 'a') as f_tmp:
+                with open(tmp_file + str(file_count), 'a', encoding='utf-8') as f_tmp:
                     f_tmp.write(v + '\n')
                 line_count = line_count + 1
         return True
