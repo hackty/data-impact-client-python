@@ -7,11 +7,27 @@ import argparse
 import utils
 
 
+def cover_settings(name, setting, names):
+    if name in names:
+        return setting
+    with open("./settings/settings-" + name + ".yaml", 'r') as yaml_file:
+        names.append(name)
+        tmp = yaml.load(yaml_file.read())
+        if tmp is None:
+            return setting
+        elif tmp.get('settingBase') is None:
+            setting.update(tmp)
+            return setting
+        else:
+            setting = cover_settings(tmp['settingBase'], setting, names)
+            setting.update(tmp)
+            return setting
+
+
 def get_settings():
     with open("./settings/settings.yaml", "r") as yaml_file:
         settings = yaml.load(yaml_file.read())
-    with open("./settings/settings-" + settings['settings-active'] + ".yaml") as yaml_file:
-        settings = yaml.load(yaml_file.read())
+    settings = cover_settings(settings['settings-active'], {}, [])
     return settings
 
 

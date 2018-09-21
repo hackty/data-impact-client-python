@@ -4,6 +4,13 @@ const YAML = require('yamljs');
 const fs = require("fs");
 const spawn=require('child_process').spawn;
 
+// Array Remove - By John Resig (MIT Licensed)
+Array.prototype.remove = function(from, to) {
+    var rest = this.slice((to || from) + 1 || this.length);
+    this.length = from < 0 ? this.length + from : from;
+    return this.push.apply(this, rest);
+};
+
 // 跳转首页
 router.get('/', function (req, res) {
     res.render('index');
@@ -108,6 +115,7 @@ router.get('/setting/list', function (req, res) {
                 let setting = filename.split('-');
                 settings.push(setting[1].split('.')[0])
             });
+            settings.remove(settings.indexOf('base'));
             let data = YAML.parse(fs.readFileSync(filePath+'/settings.yaml').toString());
             let re = JSON.stringify({success: true, default: data['settings-active'], settings: settings});
             return res.send(re).end()

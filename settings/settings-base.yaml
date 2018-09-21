@@ -1,0 +1,22 @@
+settingBase: 'example'
+#------运行中会传入的数值------
+#用途declare/impact
+usage: ''
+#标签名
+tagName: ''
+#数据库查询语句
+sql: ''
+#选择需要存储的列名
+colName: ''
+#混淆
+salt: ''
+#JobID
+job: ''
+#数据包及meta目录
+file: ''
+
+#------建议保持不变的数值------
+#数据包/元数据存储位置
+path: '/Users/yejiaquan/Code/Company/Impact/impact'
+#declare/impact目标服务器
+serverAddress: '127.0.0.1:8080'
