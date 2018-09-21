@@ -12,7 +12,7 @@ import yaml
 
 
 # 打印日志
-def log(var1=None, var2=None, tp='info'):
+def log(var1="", var2="", tp='info'):
     date = time.localtime(time.time())
     var = lan(var1) + ': ' + var2
     file = 'logs/' + str(date.tm_year) + '-' + str(date.tm_mon) + '-' + str(date.tm_mday)
