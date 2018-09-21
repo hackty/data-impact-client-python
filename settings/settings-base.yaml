@@ -19,3 +19,5 @@ file: ''
 path: '/Users/yejiaquan/Code/Company/Impact/impact'
 #declare/impact目标服务器
 serverAddress: '127.0.0.1:8080'
+#一次从数据取数的量（根据内存容量自行调节
+fetchSize: '100'

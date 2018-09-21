@@ -19,12 +19,15 @@ router.get('/', function (req, res) {
 // 获取数据集列表
 router.get('/list', function (req, res) {
     let draw = req.query.draw;
+    let setting = req.query.setting;
     let length = Number(req.query.length);
     let start = Number(req.query.start);
-    let keyword = req.query.search.value;
+    let keyword = setting + ' ' + req.query.search.value;
     let content = fs.readFileSync('list.txt').toString();
     let list = content.split('\n');
     let keywords = keyword.split(' ');
+    let index = keywords.indexOf('');
+    if (index > -1) keywords.splice(index, 1);
     list.pop();
     let l = [];
     for (let i = 0; i < list.length; i++) {
@@ -36,7 +39,7 @@ router.get('/list', function (req, res) {
     let data = [];
     for (let i = 0; i + start < l.length && i < Number(length); i++) {
         let tmp = l[i + start].split('|');
-        let d = {no: tmp[0], tag: tmp[1], status: tmp[2]};
+        let d = {no: tmp[0], tag: tmp[2], status: tmp[3]};
         data.push(d)
     }
     return res.send({draw: draw, data: data, recordsTotal:l.length, recordsFiltered: l.length}).end();
@@ -117,7 +120,7 @@ router.get('/setting/list', function (req, res) {
             });
             settings.remove(settings.indexOf('base'));
             let data = YAML.parse(fs.readFileSync(filePath+'/settings.yaml').toString());
-            let re = JSON.stringify({success: true, default: data['settings-active'], settings: settings});
+            let re = JSON.stringify({success: true, default: data['settingsActive'], settings: settings});
             return res.send(re).end()
         }
     })
@@ -126,12 +129,17 @@ router.get('/setting/list', function (req, res) {
 // 修改默认配置
 router.get('/setting/edit', function (req, res) {
     let active = req.query.active;
-    fs.writeFileSync('./settings/settings.yaml', 'settings-active: \'' + active + '\'');
+    fs.writeFileSync('./settings/settings.yaml', 'settingsActive: \'' + active + '\'');
     return res.end()
 });
 
 // 生成配置文件
 router.get('/setting/new', function (req, res) {
-
+    let setting = req.query.setting;
+    let file = req.query.file;
+    fs.writeFile('./settings/settings-'+file+'.yaml', YAML.dump(setting), function (err) {
+        if (err) return res.send(JSON.stringify({success: false})).end();
+        return res.send(JSON.stringify({success: true})).end();
+    });
 });
 module.exports = router;

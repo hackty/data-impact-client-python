@@ -140,7 +140,7 @@ def edit_list(key, status):
             if t[0] == key:
                 data.remove(data[i])
                 if status:
-                    t[2] = status
+                    t[3] = status
                     data.insert(i, '|'.join(t))
                 break
     with open('list.txt', 'w', encoding='utf-8')as f:

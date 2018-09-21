@@ -58,7 +58,7 @@ def write_to_list(content):
 def run(args):
     now = str(int(round(time.time() * 1000)))
 
-    write_to_list(now + '|' + args.tagName + '|' + utils.lan('generating') + '\n')
+    write_to_list(now + '|' + args.settingsActive + '|' + args.tagName + '|' + utils.lan('generating') + '\n')
     # 获取数据
     conn = utils.get_conn(args.host, args.dbUser, args.dbPassword, args.database)
     cursor = get_data(conn, args.sql, args.colName)

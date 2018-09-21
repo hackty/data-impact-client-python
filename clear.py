@@ -6,7 +6,7 @@ import utils
 
 def notice_server(address, user, password, file):
     headers = {'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'}
-    url = 'http://' + address + '/'
+    url = 'http://' + address + '/tag/remove'
     data = {
         'username': user,
         'password': password,

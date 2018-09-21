@@ -73,6 +73,55 @@
     </div>
 </div>
 
+<div class="modal fade" id="settingModal" tabindex="-1" role="dialog" aria-labelledby="settingModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="settingModalLabel">请输入配置内容(数据只存于本地)</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="tag-owner" class="col-form-label">服务端用户名</label>
+                        <input type="text" class="form-control" id="tag-owner">
+                    </div>
+                    <div class="form-group">
+                        <label for="tag-password" class="col-form-label">服务端密码</label>
+                        <input type="password" class="form-control" id="tag-password">
+                    </div>
+                    <div class="form-group">
+                        <label for="host" class="col-form-label">数据库地址</label>
+                        <input type="text" class="form-control" id="host">
+                    </div>
+                    <div class="form-group">
+                        <label for="db-user" class="col-form-label">mysql 用户名</label>
+                        <input type="text" class="form-control" id="db-user">
+                    </div>
+                    <div class="form-group">
+                        <label for="db-password" class="col-form-label">mysql 密码</label>
+                        <input type="password" class="form-control" id="db-password">
+                    </div>
+                    <div class="form-group">
+                        <label for="database" class="col-form-label">数据库名</label>
+                        <input type="text" class="form-control" id="database">
+                    </div>
+                    <div class="form-group">
+                        <label for="file" class="col-form-label">配置名</label>
+                        <input type="text" class="form-control" id="file">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" id="start-setting">提交</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
     <h5 class="my-0 mr-md-auto font-weight-normal">数据关联客户端</h5>
     <nav class="navbar my-2 my-md-0 mr-md-3">
@@ -82,7 +131,7 @@
             </a>
             <div class="dropdown-menu" aria-labelledby="generateLabel">
                 <a class="dropdown-item" href="javascript:$('#generateModal').modal('show')">数据集</a>
-                <a class="dropdown-item" href="#">配置文件</a>
+                <a class="dropdown-item" href="javascript:$('#settingModal').modal('show')">配置文件</a>
             </div>
         </div>
         <a class="p-2 text-dark">选取配置文件</a>

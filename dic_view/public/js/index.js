@@ -1,25 +1,31 @@
 
 $(function () {
     show_settings();
-    show_data_table();
 });
 
 $('body').on('change', '#select-setting', function () {
-    const s = document.getElementById("select-setting").value;
-    if (s.length >= 1) editSetting(setting_name);
+    const s = $('#select-setting').val();
+    if (s.length >= 1) editSetting(s);
+    dtLocal.settings()[0].ajax.data = {"setting": s};
+    dtLocal.ajax.reload();
 });
 
 $('body').on('click', '#start-generate', function () {
     generateData()
 });
+
 $('body').on('click', '#start-impact', function () {
     impactData()
+});
+
+$('body').on('click', '#start-setting', function () {
+    createSetting()
 });
 
 /**
  * 显示配置列表名
  */
-function show_settings() {
+function show_settings(refresh=true) {
     listSetting((status, data)=>{
             if (status === 'success') {
                 data = JSON.parse(data);
@@ -37,6 +43,7 @@ function show_settings() {
                     }
                     t === '' ? '' : $('#select-setting').html(t);
                 }
+                if (refresh)show_data_table();
             }
         });
 }
@@ -59,6 +66,7 @@ function listSetting(finish) {
         }
     })
 }
+
 /**
  * 修改总配置
  * @param setting
@@ -81,7 +89,7 @@ function editSetting(setting, finish) {
 
 let dtLocal, select_file;
 function show_data_table() {
-     dtLocal = $('#listLocal').DataTable( {
+    dtLocal = $('#listLocal').DataTable( {
         "language": {
             "searchPlaceholder": "关键字"
         },
@@ -89,7 +97,12 @@ function show_data_table() {
         "serverSide": true,
         "searching": true,
         "ordering": false,
-        "ajax": "/list",
+        "ajax": {
+            "url": "/list",
+            "data": {
+                "setting": $('#select-setting').val()
+            }
+        },
         "columns": [
             {
                 "data": function(obj) {
@@ -184,8 +197,8 @@ function declareData() {
 }
 
 function generateData() {
-    let tag = document.getElementById('tag-name').value;
-    let sql = document.getElementById('sql').value;
+    let tag = $('#tag-name').val();
+    let sql = $('#sql').val();
     $.ajax({
         type: 'get',
         url: '/generate',
@@ -202,9 +215,9 @@ function generateData() {
 }
 
 function impactData() {
-    let salt = document.getElementById('salt').value;
-    let col = document.getElementById('col-name').value;
-    let job = document.getElementById('job-id').value;
+    let salt = $('#salt').val();
+    let col = $('#col-name').val();
+    let job = $('#job-id').val();
     $.ajax({
         type: 'get',
         url: '/impact',
@@ -216,6 +229,34 @@ function impactData() {
         },
         error: function () {
             show_message('impact error');
+        }
+    })
+}
+
+function createSetting() {
+    let tag_owner   = $('#tag-owner').val();
+    let tag_password= $('#tag-password').val();
+    let host        = $('#host').val();
+    let db_user     = $('#db-user').val();
+    let db_password = $('#db-password').val();
+    let database    = $('#database').val();
+    let file        = $('#file').val();
+    let setting = {settingBase: 'base', tagOwner: tag_owner, tagPassword: tag_password, host: host, dbUser: db_user,
+        dbPassword: db_password, database: database};
+    $.ajax({
+        type: 'get',
+        url: '/setting/new',
+        data: {setting: setting, file: file},
+        timeout: 20000,
+        success: function (data) {
+            if (data['success']) {
+                show_message('create setting success');
+                show_settings(false)
+            }
+            else show_message('create setting error');
+        },
+        error: function () {
+            show_message('create setting error');
         }
     })
 }
