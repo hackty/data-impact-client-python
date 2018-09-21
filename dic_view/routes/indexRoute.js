@@ -123,10 +123,15 @@ router.get('/setting/list', function (req, res) {
     })
 });
 
+// 修改默认配置
 router.get('/setting/edit', function (req, res) {
     let active = req.query.active;
     fs.writeFileSync('./settings/settings.yaml', 'settings-active: \'' + active + '\'');
     return res.end()
 });
 
+// 生成配置文件
+router.get('/setting/new', function (req, res) {
+
+});
 module.exports = router;
