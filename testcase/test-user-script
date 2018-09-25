@@ -15,7 +15,7 @@ python dic.py --usage clear --file 1537846547255
 
 ...
 
-python dic.py --usage impact --file 1537858312116 --salt LQeIFu --colName id --job 20d3667351924223b1fb4948869d5d02
+python dic.py --usage impact --file 1537858312116 --salt PrKGel --colName id --job 40817d7ad94a4b69a97cee58cf3165e9
 
 
 [user2:user2]
@@ -35,7 +35,7 @@ python dic.py --usage clear --file 1537846547255
 
 ...
 
-python dic.py --usage impact --file 1537858474542 --salt LQeIFu --colName id --job 20d3667351924223b1fb4948869d5d02
+python dic.py --usage impact --file 1537858472601 --salt PrKGel --colName id --job 40817d7ad94a4b69a97cee58cf3165e9
 
 
 
