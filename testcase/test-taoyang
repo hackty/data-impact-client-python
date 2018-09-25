@@ -1,0 +1,29 @@
+[user1:user1]
+
+python dic.py --usage generate --tagName data01 --sql "select * from raw_kuaidi100 where id like '%01%' limit 600"
+python dic.py --usage generate --tagName data02 --sql "select * from raw_kuaidi100 where id like '%02%' limit 200"
+python dic.py --usage generate --tagName data03 --sql "select * from raw_kuaidi100 where id like '%03%' limit 300"
+python dic.py --usage generate --tagName data04 --sql "select * from raw_kuaidi100 where id like '%04%' limit 500"
+python dic.py --usage generate --tagName data05 --sql "select * from raw_kuaidi100 where id like '%05%' limit 400"
+python dic.py --usage list
+python dic.py --usage declare --file 1537857801952
+python dic.py --usage declare --file 1537857828450
+python dic.py --usage declare --file 1537857833522
+python dic.py --usage declare --file 1537857839166
+python dic.py --usage declare --file 1537857843361
+python dic.py --usage clear --file 1537846547255
+
+
+[user2:user2]
+
+python dic.py --usage generate --tagName kuaidi --sql "select * from raw_kuaidi100 where id like '%09%' limit 700"
+python dic.py --usage list
+python dic.py --usage declare --file 1537514991006
+python dic.py --usage declare --file 1537515237912
+python dic.py --usage clear --file 1537514991006
+
+
+python dic.py --usage impact --file 1537514141029 --salt dLIO0j --colName id
+
+
+

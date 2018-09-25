@@ -8,7 +8,7 @@ zh:
   err_no_such_file: '文件被手动删除或损坏'
   err_post_meta_server: '上传meta失败，服务器拒绝'
   err_post_meta_connect: '上传meta失败，连接失败'
-  info_declare: '发布完成'
+  info_declare: '申报完成'
 
   generating: '正在生成'
   generated: '生成完毕'
