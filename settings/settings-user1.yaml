@@ -1,8 +1,8 @@
 #------建议在该配置文件中修改------
 #标签归属用户名
-tagOwner: 'yejiaquan'
+tagOwner: 'user1'
 #标签归属用户密码
-tagPassword: '123456'
+tagPassword: 'user1'
 #标签来源mysql host
 host: '127.0.0.1'
 #标签来源mysql 用户名
