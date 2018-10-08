@@ -216,12 +216,13 @@ function generateData() {
 
 function impactData() {
     let salt = $('#salt').val();
-    let col = $('#col-name').val();
+    let encrypt_col = $('#encrypted-column').val();
+    let unencrypt_col = $('#unencrypted-column').val();
     let job = $('#job-id').val();
     $.ajax({
         type: 'get',
         url: '/impact',
-        data: {salt: salt, col: col, job: job, file: select_file},
+        data: {salt: salt, encrypt_col: encrypt_col, unencrypt_col: unencrypt_col, job: job, file: select_file},
         timeout: 20000,
         success: function () {
             show_message('impact success');

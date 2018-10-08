@@ -17,7 +17,7 @@ python dic.py --usage[-u] declare --file file
 ### impact
 
 ```
-python dic.py --usage[-u] impact --file file --salt h3i4m5 --colName col --job 123123123
+python dic.py --usage[-u] impact --file file --salt h3i4m5 --encryptedColumn col1 --unencryptedColumn col2[,col3...] --job 123123123
 ```
 
 

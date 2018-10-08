@@ -1,0 +1,7 @@
+settingBase: base
+tagOwner: nimda
+tagPassword: nimda
+host: 115.28.216.244
+dbUser: evan
+dbPassword: '123456'
+database: impact
