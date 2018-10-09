@@ -92,10 +92,11 @@ router.get('/declare', function (req, res) {
 router.get('/impact', function (req, res) {
     let file = req.query.file;
     let salt = req.query.salt;
-    let col = req.query.col;
+    let encryptCol = req.query.encrypt_col;
+    let unencryptCol = req.query.unencrypt_col;
     let job = req.query.job;
     try {
-        let shell = spawn('python3', ['dic.py', '-u', 'impact', "--file", file, "--salt", salt, "--colName", col, "--job", job]);
+        let shell = spawn('python3', ['dic.py', '-u', 'impact', "--file", file, "--salt", salt, "--encryptedColumn", encryptCol, "--unencryptedColumn", unencryptCol, "--job", job]);
         //todo 结果处理
         shell.stdout.on('end', () => {
             return res.send(JSON.stringify({success: true, message: '成功'})).end();

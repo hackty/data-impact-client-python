@@ -6,10 +6,8 @@ import utils
 
 
 # 获取数据
-def get_data(conn, sql, cols):
+def get_data(conn, sql):
     cursor = conn.cursor()
-    if cols != '' and cols is not None:
-        str(sql).replace('*', cols)
     cursor.execute(sql)
     return cursor
 
@@ -26,9 +24,7 @@ def generate_packet(name, cursor, size):
                 f.write(v.replace('\n', '') + '\n')
                 count = count + 1
             # if count % 1000000 == 0:
-            #     utils.info('generate ' + str(count / 1000000) + ' million data')
-            # if count % 10000 == 0:
-            #     utils.log('generate ' + str(int(count / 10000)) + ' * 10000 data: ' + name, 'info')
+            #     utils.info('generate ' + str(count / 1000000) + ' million data: ' + name)
         if count % int(size) == 0:
             rows = cursor.fetchmany(int(size))
         else:
@@ -61,7 +57,7 @@ def run(args):
     write_to_list(now + '|' + args.settingsActive + '|' + args.tagName + '|' + utils.lan('generating') + '\n')
     # 获取数据
     conn = utils.get_conn(args.host, args.dbUser, args.dbPassword, args.database)
-    cursor = get_data(conn, args.sql, args.colName)
+    cursor = get_data(conn, args.sql)
 
     # 生成数据包文件
     path = args.path + "/" + now

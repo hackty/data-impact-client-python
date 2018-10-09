@@ -18,14 +18,20 @@ def get_meta(path, user, file):
     return content
 
 
-def tmp(file, tmp_file, salt, col):
+def tmp(file, tmp_file, salt, col_names, encrypt_col, unencrypt_cols):
+    encrypt_col = col_names.index(encrypt_col)
+    unencrypt_cols = unencrypt_cols.split(',')
+    for i in range(len(unencrypt_cols)):
+        unencrypt_cols[i] = col_names.index(unencrypt_cols[i])
     try:
         with open(file, 'r', encoding='utf-8') as f:
             line_count = 0
             file_count = 0
             for line in f:
-                cols = line.split('|||')
-                v = utils.get_md5(cols[col] + salt)
+                cols = line.strip().split('|||')
+                v = utils.get_md5(cols[encrypt_col] + salt)
+                for col in unencrypt_cols:
+                    v = v + '|||' + cols[col]
                 if line_count == 30000000:
                     file_count = file_count + 1
                     line_count = 0
@@ -48,8 +54,8 @@ def run(args):
     tmp_file = args.path + '/' + args.file + '/' + args.job + '.' + args.tagOwner + '.'
     if verify(meta):
         num = int((meta['size'] - 1) / 30000000) + 1
-        cols = list(meta['colName'].split(','))
-        if tmp(meta['dataName'], tmp_file, args.salt, cols.index(args.colName)):
+        col_names = list(meta['colName'].split(','))
+        if tmp(meta['dataName'], tmp_file, args.salt, col_names, args.encryptedColumn, args.unencryptedColumn):
             url = 'http://' + args.serverAddress + '/upload'
             for i in range(num):
                 file = tmp_file + str(i)

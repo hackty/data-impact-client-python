@@ -5,8 +5,10 @@ usage: ''
 tagName: ''
 #数据库查询语句
 sql: ''
-#选择需要存储的列名
-colName: ''
+#选择需要加密存储的列名
+encryptedColumn: ''
+#选择不需要加密存储的列名
+unencryptedColumn: ''
 #混淆
 salt: ''
 #JobID
