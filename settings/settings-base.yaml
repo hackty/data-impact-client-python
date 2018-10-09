@@ -1,5 +1,5 @@
-#------运行中会传入的数值------
-#用途declare/impact
+#------运行时传入的参数------
+#用途declare/impact/...
 usage: ''
 #标签名
 tagName: ''
@@ -16,7 +16,7 @@ job: ''
 #数据包及meta目录
 file: ''
 
-#------建议保持不变的数值------
+#------配置文件中覆盖的值------
 #数据包/元数据存储位置
 path: '/Users/yejiaquan/Code/Company/Impact/impact'
 #declare/impact目标服务器
