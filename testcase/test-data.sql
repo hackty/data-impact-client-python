@@ -7,7 +7,7 @@ CREATE TABLE `user_list` (
 );
 
 -- func : generatePhone
-CREATE DEFINER=`demo`@`localhost` FUNCTION `generatePhone`() RETURNS char(11) CHARSET utf8
+CREATE FUNCTION `generatePhone`() RETURNS char(11) CHARSET utf8
     DETERMINISTIC
 BEGIN
     DECLARE head VARCHAR(100) DEFAULT '000,156,136,176';
@@ -27,7 +27,7 @@ BEGIN
 END;
 
 -- func : generateUserName
-CREATE DEFINER=`demo`@`localhost` FUNCTION `generateUserName`() RETURNS varchar(255) CHARSET utf8
+CREATE FUNCTION `generateUserName`() RETURNS varchar(255) CHARSET utf8
     DETERMINISTIC
 BEGIN
     DECLARE xing varchar(2056) DEFAULT '赵钱孙李周郑王冯陈楮卫蒋沈韩杨朱秦尤许何吕施张孔曹严华金魏陶姜戚谢喻柏水窦章云苏潘葛奚范彭郎鲁韦昌马苗凤花方俞任袁柳酆鲍史唐费廉岑薛雷贺倪汤滕殷罗毕郝邬安常乐于时傅皮齐康伍余元卜顾孟平黄和穆萧尹姚邵湛汪祁毛禹狄米贝明臧计伏成戴谈宋茅庞熊纪舒屈项祝董梁杜阮蓝闽席季麻强贾路娄危江童颜郭梅盛林刁锺徐丘骆高夏蔡田樊胡凌霍虞万支柯昝管卢莫经裘缪干解应宗丁宣贲邓郁单杭洪包诸左石崔吉钮龚程嵇邢滑裴陆荣翁';
@@ -53,8 +53,8 @@ CREATE  PROCEDURE `add_user`(IN n int)
 BEGIN
   DECLARE i INT DEFAULT 1;
     WHILE (i <= n ) DO
-      INSERT into user_list (username,phone ) VALUEs (generatePhone(),generateUserName());
-			set i=i+1;
+      INSERT INTO user_list (username, phone) VALUES (generateUserName(), generatePhone());
+			SET i=i+1;
     END WHILE;
 END;
 
