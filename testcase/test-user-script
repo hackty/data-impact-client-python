@@ -2,20 +2,21 @@
 
 [user1:user1]
 python dic.py --usage generate --tagName user_list_1 --sql "select * from user_list_1 limit 1500"
-python dic.py --usage declare --file 1539072607468
+python dic.py --usage declare --file 1539078874687
 python dic.py --usage generate --tagName user_list_2 --sql "select * from user_list_2 limit 1200"
-python dic.py --usage declare --file 1539072686826
+python dic.py --usage declare --file 1539078371960
 ...
-python dic.py --usage impact --file 1539072607468 --salt YuGrGa --encryptedColumn phone --unencryptedColumn username --job 4796eb839d344adcbeeab4d4274debdb
-
+python dic.py --usage impact --file 1539078874687 --salt qUQZHH --encryptedColumn phone --unencryptedColumn username,sex,age --job 48f50d65639d46a8a13f440e999f6efe
 
 [user2:user2]
 python dic.py --usage generate --tagName user_list_3 --sql "select * from user_list_1 limit 1300"
-python dic.py --usage declare --file 1539072778559
+python dic.py --usage declare --file 1539078909959
 python dic.py --usage generate --tagName user_list_4 --sql "select * from user_list_2 limit 1400"
-python dic.py --usage declare --file 1539072847056
+python dic.py --usage declare --file 1539078434258
 ...
-python dic.py --usage impact --file 1539072847056 --salt YuGrGa --encryptedColumn phone --unencryptedColumn id,username,phone --job 4796eb839d344adcbeeab4d4274debdb
+python dic.py --usage impact --file 1539078909959 --salt qUQZHH --encryptedColumn phone --unencryptedColumn sex,age --job 48f50d65639d46a8a13f440e999f6efe
+
+
 
 
 
