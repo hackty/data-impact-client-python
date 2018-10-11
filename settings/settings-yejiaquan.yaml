@@ -1,4 +1,6 @@
 #------需要手动调节的数值------
+#配置依赖
+settingBase: 'base,user1'
 #标签归属用户名
 tagOwner: 'yejiaquan'
 #标签归属用户密码

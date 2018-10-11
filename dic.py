@@ -8,6 +8,7 @@ import utils
 
 
 def cover_settings(name, settings, names):
+    global setting
     if name in names:
         return settings
     with open("./settings/settings-" + name + ".yaml", 'r', encoding='utf-8') as yaml_file:
@@ -19,7 +20,9 @@ def cover_settings(name, settings, names):
             settings.update(tmp)
             return settings
         else:
-            setting = cover_settings(tmp['settingBase'], settings, names)
+            setting_list = tmp['settingBase'].split(',')
+            for setting_item in setting_list:
+                setting = cover_settings(setting_item, settings, names)
             setting.update(tmp)
             return setting
 
