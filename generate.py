@@ -99,7 +99,7 @@ def run(args):
     if meta != {}:
         real_path = path + "/" + name + ".meta"
         meta.__setitem__("timestamp", now)
-        meta.__setitem__("dataName", real_path)
+        # meta.__setitem__("dataName", real_path)
         meta.__setitem__("tagName", args.tagName)
         meta_json = utils.to_json(meta)
         generate_meta(real_path, utils.encode(meta_json))

@@ -4,8 +4,8 @@
 import utils
 
 
-def verify(meta):
-    with open(meta['dataName'], 'r', encoding='utf-8') as f:
+def verify(meta, real_path):
+    with open(real_path, 'r', encoding='utf-8') as f:
         content = f.read()
         f.close()
         return meta['md5'] == utils.get_md5(content)
@@ -56,10 +56,11 @@ def run(args):
     except:
         return utils.log('err_parser_meta', args.file, 'error')
     tmp_file = args.path + '/' + args.file + '/' + args.job + '.' + args.tagOwner + '.'
-    if verify(meta):
+    real_path = args.path + "/" + args.file + "/" + args.tagOwner + "." + args.file + ".data"
+    if verify(meta, real_path):
         num = int((meta['size'] - 1) / 30000000) + 1
         col_names = list(meta['colName'].split(','))
-        if tmp(meta['dataName'], tmp_file, args.salt, col_names, args.encryptedColumn, args.unencryptedColumn):
+        if tmp(real_path, tmp_file, args.salt, col_names, args.encryptedColumn, args.unencryptedColumn):
             url = 'http://' + args.serverAddress + '/upload'
             for i in range(num):
                 file = tmp_file + str(i)

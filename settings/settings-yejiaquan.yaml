@@ -4,7 +4,7 @@ tagOwner: 'yejiaquan'
 #标签归属用户密码
 tagPassword: '123456'
 #数据来源类型，目前支持[mysql, file]
-sourceType: 'file'
+sourceType: 'mysql'
 #标签来源mysql host
 host: '115.28.216.244'
 #标签来源mysql 用户名
@@ -18,7 +18,7 @@ fetchSize: '1000'
 
 #------建议保持不变的数值------
 #数据包/元数据存储位置
-path: '/Users/yejiaquan/Code/Company/Impact/impact'
+path: './data'
 #declare/impact目标服务器
 serverAddress: '127.0.0.1:8080'
 
