@@ -1,21 +1,21 @@
+# from mysql
 
-
-[user1:user1]
+# user1:user1
 python dic.py --usage generate --tagName user_list_1 --sql "select * from user_list_1 limit 1680"
-python dic.py --usage declare --file 1539235236060
-python dic.py --usage generate --tagName user_list_2 --sql "select * from user_list_2 limit 1250"
-python dic.py --usage declare --file 1539235286298
+python dic.py --usage declare --file 1539236393744
 ...
 python dic.py --usage impact --file 1539151163742 --salt KWzHnO --encryptedColumn phone --unencryptedColumn sex,age --job 9bc446a6524e4e4caa6e874aae42d242
 
-[user2:user2]
-python dic.py --usage generate --tagName user_list_3 --sql "select * from user_list_3 limit 1370"
-python dic.py --usage declare --file 1539235520877
-python dic.py --usage generate --tagName user_list_4 --sql "select * from user_list_4 limit 1420"
-python dic.py --usage declare --file 1539235556281
+# user2:user2
+python dic.py --usage generate --tagName user_list_2 --sql "select * from user_list_2 limit 1250"
+python dic.py --usage declare --file 1539235286298
 ...
 python dic.py --usage impact --file 1539151236073 --salt KWzHnO --encryptedColumn phone --unencryptedColumn username,sex,age --job 9bc446a6524e4e4caa6e874aae42d242
 
+
+# from file
+# user3:user3
+python dic.py --usage generate --tagName user_list_3 --separator , --columnName u3id,u3name,u3phone,u3sex,u3age --sourceFile ./testcase/user_list_3.txt
 
 
 
