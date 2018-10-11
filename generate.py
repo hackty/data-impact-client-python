@@ -64,7 +64,7 @@ def handle_file(args, name, now):
                     logger().error(['err_source_info', now+'/'+str(count)])
                     return {}
                 wf.write('|||'.join(rows).replace('\n', '') + '\n')
-    with open(name, 'r', encoding='utf-8') as f:
+    with open(name, 'r') as f:
         content = f.read()
     meta.__setitem__("size", count)
     meta.__setitem__("md5", utils.get_md5(content))
