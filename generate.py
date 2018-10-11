@@ -3,7 +3,7 @@
 
 import time
 import utils
-from utils import log
+from utils import logger
 
 
 # 数据类型分发
@@ -21,7 +21,7 @@ def handle_db(args, name, now):
         cursor = conn.cursor()
         cursor.execute(args.sql)
     except:
-        log('err_data_source', now+'/'+args.host, 'error')
+        logger().error(['err_data_source', now+'/'+args.host])
         return {}
     meta = {}
     count = 0
@@ -61,7 +61,7 @@ def handle_file(args, name, now):
                 count = count + 1
                 rows = line.strip().split(args.separator)
                 if len(rows) != col_size:
-                    log('err_source_info', now+'/'+str(count), 'error')
+                    logger().error(['err_source_info', now+'/'+str(count)])
                     return {}
                 wf.write('|||'.join(rows).replace('\n', '') + '\n')
     with open(name, 'r', encoding='utf-8') as f:
@@ -104,6 +104,6 @@ def run(args):
         meta_json = utils.to_json(meta)
         generate_meta(real_path, utils.encode(meta_json))
         utils.edit_list(now, utils.lan('generated') + '\n')
-        log('generated', now)
+        logger().info(['generated', now])
     else:
-        log('err_generate', now, 'error')
+        logger().error(['err_generate', now])

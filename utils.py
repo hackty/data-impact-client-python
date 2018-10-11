@@ -11,6 +11,27 @@ import time
 import yaml
 
 
+class logger:
+    def __init__(self):
+        date = time.localtime(time.time())
+        self.file = 'logs/' + str(date.tm_year) + '-' + str(date.tm_mon) + '-' + str(date.tm_mday)
+        self.now = time.asctime(date)
+        self.var = ''
+
+    def info(self, args):
+        for i in range(len(args)):
+            args[i] = lan(args[i])
+        self.var = ', '.join(args)
+        with open(self.file + '-info.log', 'a', encoding='utf-8') as f:
+            f.write(self.now + ': ' + self.var + '\n')
+        return print(self.var)
+
+    def error(self, args):
+        self.info(args)
+        with open(self.file + '-err.log', 'a', encoding='utf-8') as f:
+            f.write(self.now + ': ' + self.var + '\n')
+
+
 # 打印日志
 def log(var1="", var2="", tp='info'):
     date = time.localtime(time.time())
