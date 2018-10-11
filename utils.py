@@ -36,7 +36,7 @@ def lan(var, lan=None):
 
 
 # 获取数据库连接
-def get_conn(host, user, password, database):
+def get_mysql_conn(host, user, password, database):
     return mysql.connector.connect(host=host, user=user, password=password, database=database)
 
 

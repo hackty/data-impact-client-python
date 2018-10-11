@@ -5,7 +5,10 @@
 ### generate
 
 ```
-python dic.py --usage[-u] generate --tagName example --sql "select * from test"
+数据源 db
+python dic.py --usage[-u] generate --tagName example --sql 'select * from test'
+数据源 file
+python dic.py --usage[-u] generate --tagName example --separator ',' --columnName id,phone,name --sourceFile /Users/yejiaquan/Code/Company/Impact/impact/test.data
 ```
 
 ### declare

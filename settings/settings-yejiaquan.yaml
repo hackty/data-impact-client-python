@@ -3,6 +3,8 @@
 tagOwner: 'yejiaquan'
 #标签归属用户密码
 tagPassword: '123456'
+#数据来源类型，目前支持[mysql, file]
+sourceType: 'file'
 #标签来源mysql host
 host: '115.28.216.244'
 #标签来源mysql 用户名
@@ -20,16 +22,26 @@ path: '/Users/yejiaquan/Code/Company/Impact/impact'
 #declare/impact目标服务器
 serverAddress: '127.0.0.1:8080'
 
-#------运行中会传入的数值------
-#用途declare/impact
+#------建议运行时作为参数传入------
+#用途declare/impact/...
 usage: ''
 #标签名
-tagName: 'we'
+tagName: ''
 #数据库查询语句
-sql: 'select * from test limit 123'
+sql: ''
+#选择需要加密存储的列名
+encryptedColumn: ''
+#选择不需要加密存储的列名
+unencryptedColumn: ''
 #混淆
 salt: ''
 #JobID
 job: ''
 #数据包及meta目录
 file: ''
+#以文件作为数据源时需要传入的分隔符
+separator: ''
+#以文件作为数据源时需要自定义的列名，逗号分隔
+columnName: ''
+#数据来源文件
+sourceFile: ''

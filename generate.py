@@ -5,18 +5,28 @@ import time
 import utils
 
 
-# 获取数据
+# 数据类型分发
+def sourceFilter():
+    return {
+        'mysql': handle_db,
+        'file': handle_file
+    }
+
+
+# 从db获取数据
 def get_data(conn, sql):
     cursor = conn.cursor()
     cursor.execute(sql)
     return cursor
 
 
-# 生成数据包
-def generate_packet(name, cursor, size):
+# 生成来自db的数据包
+def handle_db(args, name):
+    conn = utils.get_mysql_conn(args.host, args.dbUser, args.dbPassword, args.database)
+    cursor = get_data(conn, args.sql)
     meta = {}
     count = 0
-    rows = cursor.fetchmany(int(size))
+    rows = cursor.fetchmany(int(args.fetchSize))
     while rows:
         for row in rows:
             v = '|||'.join('%s' % i for i in list(row))
@@ -25,8 +35,8 @@ def generate_packet(name, cursor, size):
                 count = count + 1
             # if count % 1000000 == 0:
             #     utils.info('generate ' + str(count / 1000000) + ' million data: ' + name)
-        if count % int(size) == 0:
-            rows = cursor.fetchmany(int(size))
+        if count % int(args.fetchSize) == 0:
+            rows = cursor.fetchmany(int(args.fetchSize))
         else:
             rows = False
     with open(name, 'r', encoding='utf-8') as f:
@@ -41,6 +51,24 @@ def generate_packet(name, cursor, size):
     return meta
 
 
+# 生成来自文件的数据包
+def handle_file(args, name):
+    meta = {}
+    count = 0
+    with open(args.sourceFile, 'r', encoding='utf-8') as rf:
+        for line in rf:
+            with open(name, 'a') as wf:
+                wf.write('|||'.join(line.strip().split(args.separator)).replace('\n', '') + '\n')
+                count = count + 1
+    with open(name, 'r', encoding='utf-8') as f:
+        content = f.read()
+    meta.__setitem__("size", count)
+    meta.__setitem__("md5", utils.get_md5(content))
+    meta.__setitem__("colName", ','.join(args.columnName))
+    return meta
+
+
+# 生成meta文件
 def generate_meta(name, data):
     with open(name, 'w', encoding='utf-8') as f:
         f.write(data)
@@ -52,26 +80,24 @@ def write_to_list(content):
 
 
 def run(args):
+    # 准备阶段
     now = str(int(round(time.time() * 1000)))
-
     write_to_list(now + '|' + args.settingsActive + '|' + args.tagName + '|' + utils.lan('generating') + '\n')
-    # 获取数据
-    conn = utils.get_conn(args.host, args.dbUser, args.dbPassword, args.database)
-    cursor = get_data(conn, args.sql)
-
-    # 生成数据包文件
     path = args.path + "/" + now
     utils.mkdir(path)
     name = args.tagOwner + "." + now
     real_path = path + "/" + name + ".data"
-    meta = generate_packet(real_path, cursor, args.fetchSize)
+
+    # 生成数据包文件
+    meta = sourceFilter()[args.sourceType](args, real_path)
+
+    # 生成meta文件
+    real_path = path + "/" + name + ".meta"
     meta.__setitem__("timestamp", now)
     meta.__setitem__("dataName", real_path)
     meta.__setitem__("tagName", args.tagName)
-
     meta_json = utils.to_json(meta)
-    # 生成meta文件
-    real_path = path + "/" + name + ".meta"
     generate_meta(real_path, utils.encode(meta_json))
+
     utils.edit_list(now, utils.lan('generated') + '\n')
     utils.log('generated', now)
