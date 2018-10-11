@@ -26,18 +26,18 @@ def handle_db(args, name, now):
     meta = {}
     count = 0
     rows = cursor.fetchmany(int(args.fetchSize))
-    while rows:
-        for row in rows:
-            v = '|||'.join('%s' % i for i in list(row))
-            with open(name, 'a', encoding='utf-8') as f:
+    with open(name, 'a', encoding='utf-8') as f:
+        while rows:
+            for row in rows:
+                v = '|||'.join('%s' % i for i in list(row))
                 f.write(v.replace('\n', '') + '\n')
                 count = count + 1
-            # if count % 1000000 == 0:
-            #     utils.info('generate ' + str(count / 1000000) + ' million data: ' + name)
-        if count % int(args.fetchSize) == 0:
-            rows = cursor.fetchmany(int(args.fetchSize))
-        else:
-            rows = False
+                # if count % 1000000 == 0:
+                #     utils.info('generate ' + str(count / 1000000) + ' million data: ' + name)
+            if count % int(args.fetchSize) == 0:
+                rows = cursor.fetchmany(int(args.fetchSize))
+            else:
+                rows = False
     with open(name, 'r', encoding='utf-8') as f:
         content = f.read()
     index = cursor.description
