@@ -16,6 +16,9 @@ python dic.py --usage impact --file 1539151236073 --salt KWzHnO --encryptedColum
 # from file
 # user3:user3
 python dic.py --usage generate --tagName user_list_3 --sourceType file --separator , --columnName u3id,u3name,u3phone,u3sex,u3age --sourceFile ./testcase/user_list_3.txt
+python dic.py --usage declare --file 1539240574678
 
-
+# user4:user4
+python dic.py --usage generate --tagName user_list_4 --sourceType file --separator , --columnName u4id,u4name,u4phone,u4sex,u4age --sourceFile ./testcase/user_list_4.txt
+python dic.py --usage declare --file 1539240665959
 
