@@ -13,7 +13,8 @@ zh:
   generating: '正在生成'
   generated: '生成完毕'
   err_generate: '生成过程出错'
-  err_source: '列名与文件信息不符/出错行'
+  err_source_info: '列名与文件信息不符/出错行'
+  err_data_source: '错误的数据源'
 
   err_module: '导入或运行模块失败'
   err_uncaught: '未被捕捉的异常'
@@ -43,7 +44,8 @@ en:
   generating: 'generating'
   generated: 'generated'
   err_generate: 'error in generate'
-  err_source: 'columnName does not match file information/error line'
+  err_source_info: 'columnName does not match file information/error line'
+  err_data_source: 'Wrong data source'
 
   err_module: 'import or run module failed'
   err_uncaught: 'Uncaught error'

@@ -3,27 +3,26 @@
 
 import time
 import utils
+from utils import log
 
 
 # 数据类型分发
-def sourceFilter():
+def source_filter():
     return {
         'mysql': handle_db,
         'file': handle_file
     }
 
 
-# 从db获取数据
-def get_data(conn, sql):
-    cursor = conn.cursor()
-    cursor.execute(sql)
-    return cursor
-
-
 # 生成来自db的数据包
 def handle_db(args, name, now):
-    conn = utils.get_mysql_conn(args.host, args.dbUser, args.dbPassword, args.database)
-    cursor = get_data(conn, args.sql)
+    try:
+        conn = utils.get_mysql_conn(args.host, args.dbUser, args.dbPassword, args.database)
+        cursor = conn.cursor()
+        cursor.execute(args.sql)
+    except:
+        log('err_data_source', now+'/'+args.host, 'error')
+        return {}
     meta = {}
     count = 0
     rows = cursor.fetchmany(int(args.fetchSize))
@@ -62,7 +61,7 @@ def handle_file(args, name, now):
                 count = count + 1
                 rows = line.strip().split(args.separator)
                 if len(rows) != col_size:
-                    utils.log('err_source', now+'/'+str(count), 'error')
+                    log('err_source_info', now+'/'+str(count), 'error')
                     return {}
                 wf.write('|||'.join(rows).replace('\n', '') + '\n')
     with open(name, 'r', encoding='utf-8') as f:
@@ -94,10 +93,10 @@ def run(args):
     real_path = path + "/" + name + ".data"
 
     # 生成数据包文件
-    meta = sourceFilter()[args.sourceType](args, real_path, now)
+    meta = source_filter()[args.sourceType](args, real_path, now)
 
     # 生成meta文件
-    if meta != {} :
+    if meta != {}:
         real_path = path + "/" + name + ".meta"
         meta.__setitem__("timestamp", now)
         meta.__setitem__("dataName", real_path)
@@ -105,6 +104,6 @@ def run(args):
         meta_json = utils.to_json(meta)
         generate_meta(real_path, utils.encode(meta_json))
         utils.edit_list(now, utils.lan('generated') + '\n')
-        utils.log('generated', now)
-    else :
-        utils.log('err_generate', now)
+        log('generated', now)
+    else:
+        log('err_generate', now, 'error')
