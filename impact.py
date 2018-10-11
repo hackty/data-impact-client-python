@@ -21,9 +21,12 @@ def get_meta(path, user, file):
 def tmp(file, tmp_file, salt, col_names, encrypt_col, unencrypt_cols):
     encrypt_col = col_names.index(encrypt_col)
     unencrypt_cols = unencrypt_cols.split(',')
-    unencrypt_cols.remove(encrypt_col)
     for i in range(len(unencrypt_cols)):
         unencrypt_cols[i] = col_names.index(unencrypt_cols[i])
+    try:
+        unencrypt_cols.remove(encrypt_col)
+    except:
+        pass
     try:
         with open(file, 'r', encoding='utf-8') as f:
             line_count = 0
