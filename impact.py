@@ -32,11 +32,11 @@ def tmp(file, tmp_file, salt, col_names, encrypt_col, unencrypt_cols):
                 cols = line.strip().split('|||')
                 v = utils.get_md5(cols[encrypt_col] + salt)
                 for col in unencrypt_cols:
-                    v = v + '|||' + cols[col]
+                    v = v + "|||" + cols[col]
                 if line_count == 30000000:
                     file_count = file_count + 1
                     line_count = 0
-                with open(tmp_file + str(file_count), 'a', encoding='utf-8') as f_tmp:
+                with open(tmp_file + str(file_count), 'a') as f_tmp:
                     f_tmp.write(v + '\n')
                 line_count = line_count + 1
         return True

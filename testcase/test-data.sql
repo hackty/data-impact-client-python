@@ -3,6 +3,8 @@ CREATE TABLE `user_list` (
 	`id` INT (11) NOT NULL AUTO_INCREMENT,
 	`username` VARCHAR (20) NOT NULL,
 	`phone` VARCHAR (11) NOT NULL,
+	`sex` VARCHAR (8) NOT NULL,
+	`age` INTEGER NOT NULL,
 	PRIMARY KEY (`id`)
 );
 
@@ -48,12 +50,32 @@ BEGIN
     RETURN return_str;
 END;
 
+-- func : generateAge
+CREATE FUNCTION `generateAge`() RETURNS int(11)
+BEGIN
+    DECLARE return_str INTEGER DEFAULT 18;
+    SET return_str = floor(1 + RAND() * 100);
+    RETURN return_str;
+END;
+
+-- func : generateSex
+CREATE FUNCTION `generateSex`( ) RETURNS varchar(8) CHARSET utf8
+BEGIN
+	DECLARE
+		return_str VARCHAR ( 8 ) DEFAULT '男';
+	IF
+		RAND( ) > 0.500 THEN
+			SET return_str = '女';
+	END IF;
+RETURN return_str;
+END;
+
 -- procedure : add_user
 CREATE  PROCEDURE `add_user`(IN n int)
 BEGIN
   DECLARE i INT DEFAULT 1;
     WHILE (i <= n ) DO
-      INSERT INTO user_list (username, phone) VALUES (generateUserName(), generatePhone());
+      INSERT INTO user_list (username, phone, sex, age) VALUES (generateUserName(), generatePhone(), generateSex(), generateAge());
 			SET i=i+1;
     END WHILE;
 END;
