@@ -9,6 +9,9 @@ import base64
 import urllib3
 import time
 import yaml
+import io
+import sys
+sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 
 
 class logger:
