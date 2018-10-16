@@ -15,6 +15,13 @@ pip install urllib3
 pip install argparse
 ```
 
+## 初始配置
+```
+1.根据平台注册账号，新建配置文件：settings/settings-yourname.yaml（模板请参考settings\settings-user1.yaml）
+2.修改settings/settings.yaml设置启用配置文件
+```
+
+
 ## 命令行方式启动
 
 ### generate
