@@ -44,9 +44,9 @@ def log(var1="", var2="", tp='info'):
     file = 'logs/' + str(date.tm_year) + '-' + str(date.tm_mon) + '-' + str(date.tm_mday)
     if tp == 'error':
         with open(file + '-err.log', 'a', encoding='utf-8') as f:
-            f.write(time.asctime(time.localtime(time.time())) + ': ' + var + '\n')
+            f.write(time.asctime(date) + ': ' + var + '\n')
     with open(file + '-info.log', 'a', encoding='utf-8') as f:
-        f.write(time.asctime(time.localtime(time.time())) + ': ' + var + '\n')
+        f.write(time.asctime(date) + ': ' + var + '\n')
     return print(var)
 
 

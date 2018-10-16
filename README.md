@@ -54,4 +54,12 @@ python dic.py --usage clear --file file1[,file2[,file3...]]
 ## 界面方式启动
 
  - 本机安装好Docker
- - 导入镜像
+ - 导入镜像 
+ ```
+ $ docker pull evanyjq/dic
+ ```
+ - 第一次运行
+ ```
+ $ docker run -p 3000:3000 -v [项目所在位置]:/home/dic --name dic 1d2d264bbc4a
+ ```
+ - 访问页面 localhost:3000
