@@ -1,0 +1,46 @@
+#------建议在该配置文件中修改------
+#标签归属用户名
+tagOwner: 'ty'
+#标签归属用户密码
+tagPassword: 'ty'
+#数据来源类型，目前支持[mysql, file]
+sourceType: 'file'
+#数据来源mysql host
+host: '127.0.0.1'
+#数据来源mysql 用户名
+dbUser: 'root'
+#数据来源mysql 密码
+dbPassword: 'root'
+#数据库名
+database: 'demo'
+#一次从数据取数的量（根据内存容量自行调节
+fetchSize: '1000'
+
+#------建议保持不变的数值------
+#数据包/元数据存储位置
+path: './data/ty'
+#declare/impact目标服务器
+serverAddress: '20.26.25.211:8082'
+#------建议运行时作为参数传入------
+#用途declare/impact/...
+usage: ''
+#标签名
+tagName: ''
+#数据库查询语句
+sql: ''
+#选择需要加密存储的列名
+encryptedColumn: ''
+#选择不需要加密存储的列名
+unencryptedColumn: ''
+#混淆
+salt: ''
+#JobID
+job: ''
+#数据包及meta目录
+file: ''
+#以文件作为数据源时需要传入的分隔符
+separator: ''
+#以文件作为数据源时需要自定义的列名，逗号分隔
+columnName: ''
+#数据来源文件
+sourceFile: ''
