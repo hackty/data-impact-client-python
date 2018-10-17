@@ -5,7 +5,7 @@ zh:
   err_clear: '清理失败'
   info_clear: '清理完成'
 
-  err_no_such_file: '文件被手动删除或损坏'
+  err_no_such_file: '文件已被删除或损坏'
   err_post_meta_server: '上传meta失败，服务器拒绝'
   err_post_meta_connect: '上传meta失败，连接失败'
   info_declare: '申报完成'
@@ -25,7 +25,7 @@ zh:
   err_verify_data: '校验数据集失败'
   info_impact: '关联完成'
 
-  compare: '统计文件损坏或人为删除数据集，请认真比对以下两份数据'
+  compare: '请认真比对以下两份数据，原因：统计文件损坏或人为删除数据集或不同配置文件指向同一个元数据存储位置'
   file_dirs: '目录下文件'
   statistical: '统计文件内'
 
@@ -36,7 +36,7 @@ en:
   err_clear: 'clear failed'
   info_clear: 'clear executed'
 
-  err_no_such_file: 'This file was manually deleted or damaged'
+  err_no_such_file: 'File has been deleted or corrupted'
   err_post_meta_server: 'post meta failed, server'
   err_post_meta_connect: 'post meta failed, connect'
   info_declare: 'declare executed'
@@ -56,7 +56,7 @@ en:
   err_verify_data: 'verify data failed'
   info_impact: 'impact executed'
 
-  compare: 'If the statistics file is damaged or the data set is deleted manually, please carefully compare the following two data.'
+  compare: 'Please carefully compare the following two data, Reason:Statistical file corruption, artificial deletion of data sets, different configuration files pointing to the same metadata storage location'
   file_dirs: 'File under the directory'
   statistical: 'Within the statistical file'
 
