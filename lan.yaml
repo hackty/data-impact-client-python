@@ -21,6 +21,7 @@ zh:
 
   err_parser_meta: '解析meta失败'
   err_upload_data: '上传数据集失败'
+  again_upload_data: '使用以下语句上传或联系管理员'
   err_generate_encrypt: '生成加密数据文件失败'
   err_verify_data: '校验数据集失败'
   info_impact: '关联完成'
@@ -52,6 +53,7 @@ en:
 
   err_parser_meta: 'parser meta failed'
   err_upload_data: 'upload data failed'
+  again_upload_data: 'Use the following statement to upload or contact the administrator'
   err_generate_encrypt: 'failed generate encrypt data file'
   err_verify_data: 'verify data failed'
   info_impact: 'impact executed'

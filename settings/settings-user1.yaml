@@ -19,6 +19,8 @@ fetchSize: '1000'
 path: './data/user1'
 
 #------建议保持不变的数值------
+#配置依赖
+settingBase: 'base'
 #declare/impact目标服务器
 serverAddress: '20.26.25.211:8082'
 #------建议运行时作为参数传入------

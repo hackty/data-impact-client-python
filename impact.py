@@ -36,7 +36,7 @@ def tmp(file, tmp_file, salt, col_names, encrypt_col, unencrypt_cols):
                 v = utils.get_md5(cols[encrypt_col] + salt)
                 for col in unencrypt_cols:
                     v = v + "|||" + cols[col]
-                if line_count == 30000000:
+                if line_count == 3000000:
                     file_count = file_count + 1
                     line_count = 0
                 with open(tmp_file + str(file_count), 'a') as f_tmp:
@@ -47,7 +47,26 @@ def tmp(file, tmp_file, salt, col_names, encrypt_col, unencrypt_cols):
         return False
 
 
+def up(num, tmp_file, args):
+    url = 'http://' + args.serverAddress + '/upload'
+    try:
+        for i in range(num, -1, -1):
+            file = tmp_file + str(i)
+            utils.upload(file, url)
+            utils.rmfile(file)
+            num -= 1
+    except:
+        utils.log('err_upload_data', args.file, 'error')
+        return utils.log('again_upload_data', 'python dic.py -u impact --file '+args.file+' --n '+num+' --job '+args.job, 'error')
+
+
 def run(args):
+    tmp_file = args.path + '/' + args.file + '/' + args.job + '.' + args.tagOwner + '.'
+    real_path = args.path + "/" + args.file + "/" + args.tagOwner + "." + args.file + ".data"
+
+    if args.n != '':
+        return up(int(args.n), tmp_file, args)
+
     try:
         meta = get_meta(args.path, args.tagOwner, args.file)
         # meta_json = utils.decode(args.meta)
@@ -55,22 +74,15 @@ def run(args):
         meta = utils.from_json(meta_json)
     except:
         return utils.log('err_parser_meta', args.file, 'error')
-    tmp_file = args.path + '/' + args.file + '/' + args.job + '.' + args.tagOwner + '.'
-    real_path = args.path + "/" + args.file + "/" + args.tagOwner + "." + args.file + ".data"
-    if verify(meta, real_path):
-        num = int((meta['size'] - 1) / 30000000) + 1
-        col_names = list(meta['colName'].split(','))
-        if tmp(real_path, tmp_file, args.salt, col_names, args.encryptedColumn, args.unencryptedColumn):
-            url = 'http://' + args.serverAddress + '/upload'
-            for i in range(num):
-                file = tmp_file + str(i)
-                try:
-                    utils.upload(file, url)
-                except:
-                    utils.log('err_upload_data', args.file, 'error')
-                utils.rmfile(file)
-        else:
-            utils.log('err_generate_encrypt', args.file, 'error')
-    else:
-        utils.log('err_verify_data', args.file, 'error')
+
+    if not verify(meta, real_path):
+        return utils.log('err_verify_data', args.file, 'error')
+
+    num = int((meta['size'] - 1) / 3000000)
+    col_names = list(meta['colName'].split(','))
+    if not tmp(real_path, tmp_file, args.salt, col_names, args.encryptedColumn, args.unencryptedColumn):
+        return utils.log('err_generate_encrypt', args.file, 'error')
+
+    up(num, tmp_file, args)
+
     utils.log('info_impact', args.file)

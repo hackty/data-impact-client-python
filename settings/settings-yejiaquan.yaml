@@ -1,6 +1,4 @@
 #------需要手动调节的数值------
-#配置依赖
-settingBase: 'base,user1'
 #标签归属用户名
 tagOwner: 'yejiaquan'
 #标签归属用户密码
@@ -21,6 +19,8 @@ fetchSize: '1000'
 path: './data/yejiaquan'
 
 #------建议保持不变的数值------
+#配置依赖
+settingBase: 'base'
 #declare/impact目标服务器
 serverAddress: '20.26.25.211:8082'
 
