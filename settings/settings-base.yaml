@@ -18,8 +18,8 @@ file: ''
 
 #------配置文件中覆盖的值------
 #数据包/元数据存储位置
-path: '/Users/yejiaquan/Code/Company/Impact/impact'
+path: ''
 #declare/impact目标服务器
-serverAddress: '127.0.0.1:8080'
+serverAddress: ''
 #一次从数据取数的量（根据内存容量自行调节
 fetchSize: '100'

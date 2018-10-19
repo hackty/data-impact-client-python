@@ -9,13 +9,16 @@ def run(args):
     real_dirs = utils.get_dirs(args.path)
     with open(real_path, 'r', encoding='utf-8') as f:
         dirs = f.readlines()
+        user_dirs = []
         for i in range(len(dirs)):
-            dirs[i] = dirs[i].split('|')[0]
-        if len(dirs) == len(real_dirs):
-            print(','.join(dirs), end='')
+            tmp = dirs[i].split('|')
+            if tmp[1] == args.settingsActive:
+                user_dirs.append(tmp[0])
+        if len(user_dirs) == len(real_dirs):
+            print(','.join(user_dirs))
         else:
-            utils.log('compare', 'error')
+            utils.log('compare', tp='error')
             utils.log('file_dirs', ','.join(sorted(real_dirs)), 'error')
-            utils.log('statistical', ','.join(sorted(dirs)), 'error')
+            utils.log('statistical', ','.join(sorted(user_dirs)), 'error')
 
     # print(','.join(dirs), end='')
