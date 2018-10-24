@@ -50,6 +50,29 @@ def log(var1="", var2="", tp='info'):
     return print(var)
 
 
+class timer:
+    def __init__(self):
+        self.start = int(round(time.time() * 1000))
+        self.stop = self.start
+
+    def log(self):
+        self.stop = int(round(time.time() * 1000))
+        log('time_consum', time_consum(self.start, self.stop))
+
+
+# 计算耗时
+# @start    开始时间戳   (默认为0
+# @stop     结束时间戳   (默认为0
+# @space    时间间隔     (默认为0
+def time_consum(start=0, stop=0, space=0):
+    if space == 0 and start != 0 and stop != 0:
+        space = stop - start
+    ms = int(space % 1000)
+    ss = int((space / 1000) % 60)
+    mi = int((space / 1000) / 60)
+    return "%s min %s s %s ms" % (mi, ss, ms)
+
+
 def lan(var, lan=None):
     try:
         with open('./lan.yaml', 'r', encoding='utf-8') as yaml_file:

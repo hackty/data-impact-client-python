@@ -1,5 +1,7 @@
 default: zh
 zh:
+  time_consum: '耗时'
+
   err_notice_server: '通知服务器失败，服务器拒绝'
   err_notice_connect: '通知服务器失败，连接失败'
   err_clear: '清理失败'
@@ -32,6 +34,8 @@ zh:
 
   error_file: '未找到该目录'
 en:
+  time_consum: 'time consuming'
+
   err_notice_server: 'notice server failed, server'
   err_notice_connect: 'notice server failed, connect'
   err_clear: 'clear failed'
