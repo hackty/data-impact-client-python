@@ -52,13 +52,13 @@ def get_args():
 
 if __name__ == '__main__':
     args = get_args()
-    # try:
-    utils.mkdir('./logs')
-    usage = importlib.import_module(args.usage)
-    timer = Timer()
-    usage.run(args)
-    timer.log()
-    # except Exception as e:
-    #     utils.log('err_module', tp='error')
-    #     utils.log('err_uncaught', tp='error')
-    #     utils.log(str(e), tp='error')
+    try:
+        utils.mkdir('./logs')
+        usage = importlib.import_module(args.usage)
+        timer = Timer()
+        usage.run(args)
+        timer.log()
+    except Exception as e:
+        utils.log('err_module', tp='error')
+        utils.log('err_uncaught', tp='error')
+        utils.log(str(e), tp='error')

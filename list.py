@@ -6,7 +6,7 @@ import utils
 
 def run(args):
     real_path = "list.txt"
-    real_dirs = utils.get_dirs(args.path)
+    real_dirs = sorted(utils.get_dirs(args.path))
     with open(real_path, 'r', encoding='utf-8') as f:
         dirs = f.readlines()
         user_dirs = []
@@ -14,11 +14,14 @@ def run(args):
             tmp = dirs[i].split('|')
             if tmp[1] == args.settingsActive:
                 user_dirs.append(tmp[0])
+        user_dirs = sorted(user_dirs)
         if len(user_dirs) == len(real_dirs):
             print(','.join(user_dirs))
         else:
             utils.log('compare', tp='error')
-            utils.log('file_dirs', ','.join(sorted(real_dirs)), 'error')
-            utils.log('statistical', ','.join(sorted(user_dirs)), 'error')
+            real_dirs.reverse()
+            user_dirs.reverse()
+            utils.log('file_dirs', ','.join(real_dirs), 'error')
+            utils.log('statistical', ','.join(user_dirs), 'error')
 
     # print(','.join(dirs), end='')

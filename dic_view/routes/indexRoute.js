@@ -79,9 +79,13 @@ router.get('/declare', function (req, res) {
     let file = req.query.file;
     try {
         let shell = spawn('python3', ['dic.py', '-u', 'declare', "--file", file]);
-        //todo 结果处理
+        // 结果处理
+        let d;
+        shell.stdout.on('data',(data) => {
+            d = data.toString();
+        });
         shell.stdout.on('end', () => {
-            return res.send(JSON.stringify({success: true, message: '成功'})).end();
+            return res.send(JSON.stringify({success: true, message: d})).end();
         });
     }catch (e) {
         return res.send(e).end();
