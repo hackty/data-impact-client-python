@@ -1,8 +1,8 @@
 #------需要手动调节的数值------
 #标签归属用户名
-tagOwner: 'yejiaquan'
+tagOwner: 'user1'
 #标签归属用户密码
-tagPassword: '123456'
+tagPassword: 'user1'
 #数据来源类型，目前支持[mysql, file]
 sourceType: 'mysql'
 #标签来源mysql host

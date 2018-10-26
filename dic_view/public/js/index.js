@@ -16,6 +16,7 @@ $('body').on('change', '#switch-lan', function () {
     const s = $('#switch-lan').val();
     switch_lan(s);
     edit_lan(s);
+    dtLocal.ajax.reload(null, false);
 });
 
 $('body').on('click', '#start-generate', function () {
