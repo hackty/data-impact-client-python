@@ -86,7 +86,7 @@ def write_to_list(content):
 def run(args):
     # 准备阶段
     now = str(int(round(time.time() * 1000)))
-    write_to_list(now + '|' + args.settingsActive + '|' + args.tagName + '|' + utils.lan('generating') + '\n')
+    write_to_list(now + '|' + args.settingsActive + '|' + args.tagName + '|' + 'generating' + '\n')
     path = args.path + "/" + now
     utils.mkdir(path)
     name = args.tagOwner + "." + now
@@ -103,7 +103,7 @@ def run(args):
         meta.__setitem__("tagName", args.tagName)
         meta_json = utils.to_json(meta)
         generate_meta(real_path, utils.encode(meta_json))
-        utils.edit_list(now, utils.lan('generated') + '\n')
+        utils.edit_list(now, 'generated' + '\n')
         logger().info(['generated', now])
     else:
         logger().error(['err_generate', now])

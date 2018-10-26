@@ -29,7 +29,7 @@ def run(args):
         # 上传meta
         result = declare(args.serverAddress, args.tagOwner, args.tagPassword, meta)
         if utils.parser_result(result):
-            utils.edit_list(args.file, utils.lan('info_declare') + '\n')
+            utils.edit_list(args.file, 'info_declare' + '\n')
             utils.log('info_declare', args.file)
         else:
             utils.log('err_post_meta_server', args.file, 'error')

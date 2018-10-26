@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="/assets/font-awesome/5.0.13/css/fontawesome-all.min.css">
 
     <link rel="stylesheet" href="/css/index.css">
-    <title>数据关联客户端</title>
+    <title id="tab_title"></title>
 </head>
 <body>
 
@@ -15,7 +15,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="impactModalLabel">请输入服务端给您的数据</h5>
+                <h5 class="modal-title" id="impactModalLabel"></h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -23,26 +23,26 @@
             <div class="modal-body">
                 <form>
                     <div class="form-group">
-                        <label for="job-id" class="col-form-label">Job</label>
+                        <label id="job_label" for="job-id" class="col-form-label"></label>
                         <input type="text" class="form-control" id="job-id">
                     </div>
                     <div class="form-group">
-                        <label for="encrypted-column" class="col-form-label">加密列名</label>
+                        <label id="en_col_label" for="encrypted-column" class="col-form-label"></label>
                         <input type="text" class="form-control" id="encrypted-column">
                     </div>
                     <div class="form-group">
-                        <label for="unencrypted-column" class="col-form-label">非加密列名</label>
+                        <label id="uen_col_label" for="unencrypted-column" class="col-form-label"></label>
                         <input type="text" class="form-control" id="unencrypted-column">
                     </div>
                     <div class="form-group">
-                        <label for="salt" class="col-form-label">混淆参数</label>
+                        <label id="salt_label" for="salt" class="col-form-label"></label>
                         <input type="text" class="form-control" id="salt">
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
-                <button type="button" class="btn btn-primary" data-dismiss="modal" id="start-impact">提交</button>
+                <button id="impact_cancel_btn" type="button" class="btn btn-secondary" data-dismiss="modal"></button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" id="start-impact"></button>
             </div>
         </div>
     </div>
@@ -52,7 +52,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="generateModalLabel">请输入数据生成条件</h5>
+                <h5 class="modal-title" id="generateModalLabel"></h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -60,18 +60,18 @@
             <div class="modal-body">
                 <form>
                     <div class="form-group">
-                        <label for="tag-name" class="col-form-label">标签名</label>
+                        <label id="tag_name_label" for="tag-name" class="col-form-label"></label>
                         <input type="text" class="form-control" id="tag-name">
                     </div>
                     <div class="form-group">
-                        <label for="sql" class="col-form-label">数据库语句</label>
+                        <label id="sql_label" for="sql" class="col-form-label"></label>
                         <input type="text" class="form-control" id="sql">
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
-                <button type="button" class="btn btn-primary" data-dismiss="modal" id="start-generate">提交</button>
+                <button id="generate_cancel_btn" type="button" class="btn btn-secondary" data-dismiss="modal"></button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" id="start-generate"></button>
             </div>
         </div>
     </div>
@@ -81,7 +81,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="settingModalLabel">请输入配置内容(数据只存于本地)</h5>
+                <h5 class="modal-title" id="settingModalLabel"></h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -89,61 +89,60 @@
             <div class="modal-body">
                 <form>
                     <div class="form-group">
-                        <label for="tag-owner" class="col-form-label">服务端用户名</label>
+                        <label id="tag_owner_label" for="tag-owner" class="col-form-label"></label>
                         <input type="text" class="form-control" id="tag-owner">
                     </div>
                     <div class="form-group">
-                        <label for="tag-password" class="col-form-label">服务端密码</label>
+                        <label id="tag_pwd_label" for="tag-password" class="col-form-label"></label>
                         <input type="password" class="form-control" id="tag-password">
                     </div>
                     <div class="form-group">
-                        <label for="host" class="col-form-label">数据库地址</label>
+                        <label id="host_label" for="host" class="col-form-label"></label>
                         <input type="text" class="form-control" id="host">
                     </div>
                     <div class="form-group">
-                        <label for="db-user" class="col-form-label">mysql 用户名</label>
+                        <label id="db_user_label" for="db-user" class="col-form-label"></label>
                         <input type="text" class="form-control" id="db-user">
                     </div>
                     <div class="form-group">
-                        <label for="db-password" class="col-form-label">mysql 密码</label>
+                        <label id="db_pwd_label" for="db-password" class="col-form-label"></label>
                         <input type="password" class="form-control" id="db-password">
                     </div>
                     <div class="form-group">
-                        <label for="database" class="col-form-label">数据库名</label>
+                        <label id="db_label" for="database" class="col-form-label"></label>
                         <input type="text" class="form-control" id="database">
                     </div>
                     <div class="form-group">
-                        <label for="file" class="col-form-label">配置名</label>
+                        <label id="file_label" for="file" class="col-form-label"></label>
                         <input type="text" class="form-control" id="file">
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
-                <button type="button" class="btn btn-primary" data-dismiss="modal" id="start-setting">提交</button>
+                <button id="cfg_cancle_btn" type="button" class="btn btn-secondary" data-dismiss="modal"></button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" id="start-setting"></button>
             </div>
         </div>
     </div>
 </div>
 
 <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
-    <h5 class="my-0 mr-md-auto font-weight-normal">数据关联客户端</h5>
+    <h5 id="title" class="my-0 mr-md-auto font-weight-normal"></h5>
+    <div>
+        <select class="custom-select d-block w-100" id="switch-lan"></select>
+    </div>
     <nav class="navbar my-2 my-md-0 mr-md-3">
         <div class="nav-item dropdown">
-            <a class="btn btn-outline-primary" href="javascript:void(0)" id="generateLabel" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              生成
-            </a>
-            <div class="dropdown-menu" aria-labelledby="generateLabel">
-                <a class="dropdown-item" href="javascript:$('#generateModal').modal('show')">数据集</a>
-                <a class="dropdown-item" href="javascript:$('#settingModal').modal('show')">配置文件</a>
+            <a id="gen_label" class="btn btn-outline-primary" href="javascript:void(0)" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
+            <div class="dropdown-menu" aria-labelledby="gen_label">
+                <a id="gen_data_btn" class="dropdown-item" href="javascript:$('#generateModal').modal('show')"></a>
+                <a id="gen_cfg_btn" class="dropdown-item" href="javascript:$('#settingModal').modal('show')"></a>
             </div>
         </div>
-        <a class="p-2 text-dark">选取配置文件</a>
     </nav>
+    <a id="select_cfg_tx" class="p-2 text-dark"></a>
     <div>
-        <select class="custom-select d-block w-100" id="select-setting">
-            <option>请先生成配置文件</option>
-        </select>
+        <select class="custom-select d-block w-100" id="select-setting"></select>
     </div>
 
 </div>
@@ -151,19 +150,19 @@
 <div class="container">
     <div class="card mb-5 shadow-sm text-center">
         <div class="card-header">
-            <h4 class="my-0 font-weight-normal">本地数据</h4>
+            <h4 id="table_title" class="my-0 font-weight-normal"></h4>
         </div>
         <div class="card-body">
             <table id="listLocal" class="table table-hover table-bordered">
                 <thead>
                     <tr>
-                        <th>编号</th>
-                        <th>标签</th>
-                        <th>生成日期</th>
-                        <th>状态</th>
-                        <th>申报</th>
-                        <th>关联</th>
-                        <th>删除</th>
+                        <th id="no"></th>
+                        <th id="tag"></th>
+                        <th id="crt_time"></th>
+                        <th id="status"></th>
+                        <th id="declare_tx"></th>
+                        <th id="impact_tx"></th>
+                        <th id="delete_tx"></th>
                     </tr>
                 </thead>
             </table>

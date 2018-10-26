@@ -29,57 +29,43 @@ router.get('/list', function (req, res) {
     let index = keywords.indexOf('');
     if (index > -1) keywords.splice(index, 1);
     list.pop();
+    let lan = YAML.parse(fs.readFileSync('lan.yaml').toString());
     let l = [];
     for (let i = 0; i < list.length; i++) {
         let k = 0;
+        let tmp = list[i].split('|');
         for (let j = 0; j < keywords.length; j++)
-            if (list[i].indexOf(keywords[j])!==-1) k++;
-        if (k === keywords.length) l.push(list[i]);
+            if (list[i].indexOf(keywords[j])!==-1 ||
+                formatDateTime(Number(tmp[0])).indexOf(keywords[j])!==-1 ||
+                (lan[lan['default']][tmp[3]]).indexOf(keywords[j])!==-1) k++;
+        if (k === keywords.length) {
+            let d = {no: tmp[0], tag: tmp[2], status: tmp[3]};
+            l.push(d);
+        }
     }
     let data = [];
-    for (let i = 0; i + start < l.length && i < Number(length); i++) {
-        let tmp = l[i + start].split('|');
-        let d = {no: tmp[0], tag: tmp[2], status: tmp[3]};
-        data.push(d)
-    }
+    for (let i = 0; i + start < l.length && i < length; i++) data.push(l[i+start])
     return res.send({draw: draw, data: data, recordsTotal:l.length, recordsFiltered: l.length}).end();
 });
 
-// 清除数据集
-router.get('/clear', function (req, res) {
-    let file = req.query.file;
-    try {
-        let shell = spawn('python3', ['dic.py', '-u', 'clear', "--file", file]);
-        //todo 结果处理
-        shell.stdout.on('end', () => {
-            return res.send(JSON.stringify({success: true, message: '成功'})).end();
-        });
-    }catch (e) {
-        return res.send(e).end();
-    }
-});
+function formatDateTime(timeStamp) {
+    var date = new Date(timeStamp);
+    var y = date.getFullYear();
+    var m = date.getMonth() + 1;
+    m = m < 10 ? ('0' + m) : m;
+    var d = date.getDate();
+    d = d < 10 ? ('0' + d) : d;
+    var h = date.getHours();
+    h = h < 10 ? ('0' + h) : h;
+    var minute = date.getMinutes();
+    var second = date.getSeconds();
+    minute = minute < 10 ? ('0' + minute) : minute;
+    second = second < 10 ? ('0' + second) : second;
+    return y + '-' + m + '-' + d+' '+h+':'+minute+':'+second;
+}
 
-// 生成数据集
-router.get('/generate', function (req, res) {
-    let tag = req.query.tag;
-    let sql = req.query.sql;
+function runShell(shell, res){
     try {
-        let shell = spawn('python3', ['dic.py', '-u', 'generate', '--tagName', tag, '--sql', sql]);
-        //todo 生成数据集时的数据采集
-        shell.stdout.on('end', () => {
-            return res.send(JSON.stringify({success: true, message: '成功'})).end();
-        });
-    }catch (e) {
-        return res.send(e).end();
-    }
-});
-
-// 申报数据集
-router.get('/declare', function (req, res) {
-    let file = req.query.file;
-    try {
-        let shell = spawn('python3', ['dic.py', '-u', 'declare', "--file", file]);
-        // 结果处理
         let d;
         shell.stdout.on('data',(data) => {
             d = data.toString();
@@ -90,6 +76,28 @@ router.get('/declare', function (req, res) {
     }catch (e) {
         return res.send(e).end();
     }
+}
+
+// 清除数据集
+router.get('/clear', function (req, res) {
+    let file = req.query.file;
+    let shell = spawn('python3', ['dic.py', '-u', 'clear', "--file", file]);
+    return runShell(shell, res)
+});
+
+// 生成数据集
+router.get('/generate', function (req, res) {
+    let tag = req.query.tag;
+    let sql = req.query.sql;
+    let shell = spawn('python3', ['dic.py', '-u', 'generate', '--tagName', tag, '--sql', sql]);
+    runShell(shell, res)
+});
+
+// 申报数据集
+router.get('/declare', function (req, res) {
+    let file = req.query.file;
+    let shell = spawn('python3', ['dic.py', '-u', 'declare', "--file", file]);
+    runShell(shell, res)
 });
 
 // 提交数据集
@@ -99,15 +107,8 @@ router.get('/impact', function (req, res) {
     let encryptCol = req.query.encrypt_col;
     let unencryptCol = req.query.unencrypt_col;
     let job = req.query.job;
-    try {
-        let shell = spawn('python3', ['dic.py', '-u', 'impact', "--file", file, "--salt", salt, "--encryptedColumn", encryptCol, "--unencryptedColumn", unencryptCol, "--job", job]);
-        //todo 结果处理
-        shell.stdout.on('end', () => {
-            return res.send(JSON.stringify({success: true, message: '成功'})).end();
-        });
-    }catch (e) {
-        return res.send(e).end();
-    }
+    let shell = spawn('python3', ['dic.py', '-u', 'impact', "--file", file, "--salt", salt, "--encryptedColumn", encryptCol, "--unencryptedColumn", unencryptCol, "--job", job]);
+    runShell(shell, res)
 });
 
 // 返回默认配置及所有配置
@@ -146,5 +147,20 @@ router.get('/setting/new', function (req, res) {
         if (err) return res.send(JSON.stringify({success: false})).end();
         return res.send(JSON.stringify({success: true})).end();
     });
+});
+
+// 返回语言配置
+router.get('/get_lan', function (req, res) {
+    let lan = YAML.parse(fs.readFileSync('lan.yaml').toString());
+    let re = JSON.stringify(lan);
+    return res.send(re).end();
+});
+
+router.get('/lan/edit', function (req, res) {
+    let lan = req.query.lan;
+    let lans = YAML.parse(fs.readFileSync('lan.yaml').toString());
+    lans['default'] = lan;
+    fs.writeFileSync('lan.yaml', YAML.stringify(lans))
+    return res.end();
 });
 module.exports = router;

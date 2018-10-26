@@ -1,69 +1,189 @@
-default: zh
+default: 'zh'
 zh:
+#  time
   time_consum: '耗时'
 
+#  clear
+  deleting: '正在删除'
   err_notice_server: '通知服务器失败，服务器拒绝'
   err_notice_connect: '通知服务器失败，连接失败'
   err_clear: '清理失败'
   info_clear: '清理完成'
 
-  err_no_such_file: '文件已被删除或损坏'
+#  declare
+  reporting: '正在申报...'
+  err_no_such_file: '文件损坏或已删除'
   err_post_meta_server: '上传meta失败，服务器拒绝'
   err_post_meta_connect: '上传meta失败，连接失败'
   info_declare: '申报完成'
+  err_declare: '申报出错'
 
-  generating: '正在生成'
+#  generate
+  generating: '正在生成...'
   generated: '生成完毕'
   err_generate: '生成过程出错'
   err_source_info: '列名与文件信息不符/出错行'
   err_data_source: '错误的数据源'
 
+#  import
   err_module: '导入或运行模块失败'
   err_uncaught: '未被捕捉的异常'
 
+#  impact
+  linking: '正在关联...'
+  err_no_declare: '该数据未申报'
   err_parser_meta: '解析meta失败'
   err_upload_data: '上传数据集失败'
   again_upload_data: '使用以下语句上传或联系管理员'
   err_generate_encrypt: '生成加密数据文件失败'
   err_verify_data: '校验数据集失败'
   info_impact: '关联完成'
+  err_impact: '关联失败'
 
+#  list
   compare: '请认真比对以下两份数据，原因：统计文件损坏或人为删除数据集或不同配置文件指向同一个元数据存储位置'
   file_dirs: '目录下文件'
   statistical: '统计文件内'
 
+#  setting
+  err_create_config: '生成配置出错'
+  creating_config: '正在生成配置'
+  info_create_config: '生成配置完成'
+  switch_config: '切换配置'
+
+#  file
   error_file: '未找到该目录'
+
+#  html
+  tab_title: '数据关联客户端'
+  title: '数据关联客户端'
+  gen_data_btn: '数据集'
+  gen_cfg_btn: '配置文件'
+  select_cfg_tx: '选取配置文件'
+  dft_opt_btn: '请先生成配置文件'
+  gen_label: '生成'
+  table_title: '本地数据'
+  keyword: '关键字'
+  no: '编号'
+  tag: '标签'
+  crt_time: '生成日期'
+  status: '状态'
+  declare_tx: '申报'
+  impact_tx: '关联'
+  delete_tx: '删除'
+  impactModalLabel: '请输入服务端给您的数据'
+  job_label: '任务ID'
+  en_col_label: '加密列名'
+  uen_col_label: '非加密列名'
+  salt_label: '混淆参数'
+  impact_cancel_btn: '取消'
+  start-impact: '提交'
+  generateModalLabel: '请输入数据生成条件'
+  tag_name_label: '标签名'
+  sql_label: '数据库语句'
+  generate_cancel_btn: '取消'
+  start-generate: '提交'
+  settingModalLabel: '请输入配置内容(数据只存于本地)'
+  tag_owner_label: '服务端用户名'
+  tag_pwd_label: '服务端密码'
+  host_label: '数据库地址'
+  db_user_label: 'Mysql 用户名'
+  db_pwd_label: 'Mysql 密码'
+  db_label: '数据库名'
+  file_label: '配置名'
+  cfg_cancle_btn: '取消'
+  start-setting: '提交'
 en:
+#  time
   time_consum: 'time consuming'
 
+#  clear
+  deleting: 'deleting'
   err_notice_server: 'notice server failed, server'
   err_notice_connect: 'notice server failed, connect'
   err_clear: 'clear failed'
   info_clear: 'clear executed'
 
+#  declare
+  reporting: 'reporting...'
   err_no_such_file: 'File has been deleted or corrupted'
   err_post_meta_server: 'post meta failed, server'
   err_post_meta_connect: 'post meta failed, connect'
   info_declare: 'declare executed'
+  err_declare: 'declare error'
 
-  generating: 'generating'
+#  generate
+  generating: 'generating...'
   generated: 'generated'
   err_generate: 'error in generate'
   err_source_info: 'columnName does not match file information/error line'
   err_data_source: 'Wrong data source'
 
+#  import
   err_module: 'import or run module failed'
   err_uncaught: 'Uncaught error'
 
+#  impact
+  linking: 'linking...'
+  err_no_declare: 'The data is not declared'
   err_parser_meta: 'parser meta failed'
   err_upload_data: 'upload data failed'
   again_upload_data: 'Use the following statement to upload or contact the administrator'
   err_generate_encrypt: 'failed generate encrypt data file'
   err_verify_data: 'verify data failed'
   info_impact: 'impact executed'
+  err_impact: 'impact failure'
 
+#  list
   compare: 'Please carefully compare the following two data, Reason:Statistical file corruption, artificial deletion of data sets, different configuration files pointing to the same metadata storage location'
   file_dirs: 'File under the directory'
   statistical: 'Within the statistical file'
 
+#  config
+  err_create_config: 'Generate configuration error'
+  creating_config: 'Generating configuration'
+  info_create_config: 'Generate configuration complete'
+  switch_config: 'Switch configuration'
+
+#  file
   error_file: 'file not found'
+
+#  html
+  tab_title: 'Data Impact Client'
+  title: 'Data Impact Client'
+  gen_data_btn: 'data'
+  gen_cfg_btn: 'config'
+  select_cfg_tx: 'select config'
+  dft_opt_btn: 'please generate config'
+  gen_label: 'generate'
+  table_title: 'Local Data'
+  keyword: 'keyword'
+  no: 'Number'
+  tag: 'Tag'
+  crt_time: 'Build Date'
+  status: 'Status'
+  declare_tx: 'Declare'
+  impact_tx: 'Impact'
+  delete_tx: 'Delete'
+  impactModalLabel: 'Please enter the data given to you by the server'
+  job_label: 'Job ID'
+  en_col_label: 'encrypted column'
+  uen_col_label: 'unencrypted column'
+  salt_label: 'salt'
+  impact_cancel_btn: 'Cancel'
+  start-impact: 'Submit'
+  generateModalLabel: 'Please enter data generation conditions'
+  tag_name_label: 'Tag name'
+  sql_label: 'Database statement'
+  generate_cancel_btn: 'Cancel'
+  start-generate: 'Submit'
+  settingModalLabel: 'Please enter the configuration content(Data is only stored locally)'
+  tag_owner_label: 'Server username'
+  tag_pwd_label: 'Server password'
+  host_label: 'Database address'
+  db_user_label: 'Mysql Username'
+  db_pwd_label: 'Mysql Password'
+  db_label: 'Database name'
+  file_label: 'Configuration name'
+  cfg_cancle_btn: 'Cancel'
+  start-setting: 'Submit'

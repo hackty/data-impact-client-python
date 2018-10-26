@@ -24,7 +24,7 @@ class logger:
     def info(self, args):
         for i in range(len(args)):
             args[i] = lan(args[i])
-        self.var = ', '.join(args)
+        self.var = ':'.join(args)
         with open(self.file + '-info.log', 'a', encoding='utf-8') as f:
             f.write(self.now + ': ' + self.var + '\n')
         return print(self.var)
@@ -40,7 +40,7 @@ def log(var1="", var2="", tp='info'):
     date = time.localtime(time.time())
     var = lan(var1)
     if var2 != "":
-        var += ': ' + var2
+        var += ':' + var2
     file = 'logs/' + str(date.tm_year) + '-' + str(date.tm_mon) + '-' + str(date.tm_mday)
     if tp == 'error':
         with open(file + '-err.log', 'a', encoding='utf-8') as f:
