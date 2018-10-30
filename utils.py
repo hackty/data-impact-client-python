@@ -11,6 +11,7 @@ import time
 import yaml
 import io
 import sys
+from urllib.parse import unquote
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 
 
@@ -143,6 +144,11 @@ def decode(var1):
     return str(var2, 'utf-8')
 
 
+def decodeURL(var1):
+    var2 = unquote(var1, 'utf-8')
+    return var2
+
+
 # 获取目录下所有文件夹名称
 def get_dirs(path):
     dir_list = []
@@ -178,6 +184,12 @@ def upload(file, url):
 def parser_result(result):
     re = from_json(result)
     return re['success']
+
+
+# 写入数据集
+def write_to_list(content):
+    with open('list.txt', 'a', encoding='utf-8') as f:
+        f.write(content)
 
 
 # 修改数据集

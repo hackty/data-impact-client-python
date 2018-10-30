@@ -89,7 +89,7 @@ router.get('/clear', function (req, res) {
 router.get('/generate', function (req, res) {
     let tag = req.query.tag;
     let sql = req.query.sql;
-    let shell = spawn('python3', ['dic.py', '-u', 'generate', '--tagName', tag, '--sql', sql]);
+    let shell = spawn('python3', ['dic.py', '-u', 'generate', '--tagName', encodeURI(tag), '--sql', sql]);
     runShell(shell, res)
 });
 
@@ -164,7 +164,7 @@ router.get('/lan/edit', function (req, res) {
     let lan = req.query.lan;
     let lans = YAML.parse(fs.readFileSync('lan.yaml').toString());
     lans['default'] = lan;
-    fs.writeFileSync('lan.yaml', YAML.stringify(lans))
+    fs.writeFileSync('lan.yaml', YAML.stringify(lans));
     return res.end();
 });
 module.exports = router;

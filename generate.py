@@ -78,15 +78,11 @@ def generate_meta(name, data):
         f.write(data)
 
 
-def write_to_list(content):
-    with open('list.txt', 'a', encoding='utf-8') as f:
-        f.write(content)
-
-
 def run(args):
     # 准备阶段
     now = str(int(round(time.time() * 1000)))
-    write_to_list(now + '|' + args.settingsActive + '|' + args.tagName + '|' + 'generating' + '\n')
+    args.tagName = utils.decodeURL(args.tagName)
+    utils.write_to_list(now + '|' + args.settingsActive + '|' + args.tagName + '|' + 'generating' + '\n')
     path = args.path + "/" + now
     utils.mkdir(path)
     name = args.tagOwner + "." + now
