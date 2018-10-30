@@ -146,6 +146,9 @@ router.get('/setting/new', function (req, res) {
     let file = req.query.file;
     fs.writeFile('./settings/settings-'+file+'.yaml', YAML.dump(setting), function (err) {
         if (err) return res.send(JSON.stringify({success: false})).end();
+        let active = YAML.parse(fs.readFileSync('./settings/settings.yaml').toString());
+        if (active.settingsActive === '')
+            fs.writeFileSync('./settings/settings.yaml', 'settingsActive: \'' + file + '\'');
         return res.send(JSON.stringify({success: true})).end();
     });
 });
