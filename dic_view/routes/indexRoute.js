@@ -122,7 +122,8 @@ router.get('/setting/list', function (req, res) {
             files.pop('settings.yaml');
             files.forEach(function(filename){
                 let setting = filename.split('-');
-                settings.push(setting[1].split('.')[0])
+                if (setting[0]==='settings'&&setting[1]!==undefined)
+                    settings.push(setting[1].split('.')[0])
             });
             settings.remove(settings.indexOf('base'));
             let data = YAML.parse(fs.readFileSync(filePath+'/settings.yaml').toString());

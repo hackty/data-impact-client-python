@@ -1,6 +1,5 @@
 
 $(function () {
-    show_settings();
     getValueMap();
 });
 
@@ -53,7 +52,8 @@ function show_settings(refresh=true) {
                             t = t + '<option class="setting-option">' + file + '</option>'
                         }
                     }
-                    t === '' ? '<option>'+getTrueValue('dft_opt_btn')+'</option>' : $('#select-setting').html(t);
+                    t === '' ? t='<option>'+getTrueValue('dft_opt_btn')+'</option>' : '';
+                    $('#select-setting').html(t);
                 }
                 if (refresh)show_data_table();
             }
@@ -321,7 +321,7 @@ function createSetting() {
     let database    = $('#database').val();
     let file        = $('#file').val();
     let setting = {sourceType: 'mysql', settingBase: 'base', tagOwner: tag_owner, tagPassword: tag_password, host: host,
-        dbUser: db_user, dbPassword: db_password, database: database};
+        dbUser: db_user, dbPassword: db_password, database: database, path: './data/'+file};
     $.ajax({
         type: 'get',
         url: '/setting/new',
@@ -419,6 +419,7 @@ function getValueMap() {
         timeout: 20000,
         success: function (data) {
             valueMap = JSON.parse(data);
+            show_settings();
             show_lan();
             switch_lan()
         }
