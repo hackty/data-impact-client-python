@@ -51,8 +51,8 @@ def get_args():
 
 
 if __name__ == '__main__':
-    args = get_args()
     try:
+        args = get_args()
         utils.mkdir('./logs')
         usage = importlib.import_module(args.usage)
         timer = Timer()

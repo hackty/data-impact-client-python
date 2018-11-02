@@ -38,11 +38,10 @@ zh:
     error_file: 未找到该目录
     tab_title: 数据关联客户端
     title: 数据关联客户端
-    gen_data_btn: 数据集
-    gen_cfg_btn: 配置文件
+    gen_data_btn: 生成数据集
+    gen_cfg_btn: 生成配置文件
     select_cfg_tx: 选取配置文件
     dft_opt_btn: 请先生成配置文件
-    gen_label: 生成
     table_title: 本地数据
     keyword: 关键字
     no: 编号
@@ -72,8 +71,24 @@ zh:
     db_pwd_label: 'Mysql 密码'
     db_label: 数据库名
     file_label: 配置名
-    cfg_cancle_btn: 取消
+    cfg_cancel_btn: 取消
     start-setting: 提交
+    gen_cfg_by_db: 从数据库
+    gen_cfg_by_file: 从本地文件
+    configFileModalLabel: 请输入配置内容
+    tag_owner_file_label: 服务端用户名
+    tag_pwd_file_label: 服务端密码
+    file_file_label: 配置名
+    cfg_file_cancel_btn: 取消
+    start_file_config: 提交
+    generateFileModalLabel: 请输入数据生成条件
+    tag_name_file_label: 标签名
+    column_name_label: 列名
+    separator_label: 分隔符
+    source_file_label: 文件路径
+    generate_file_cancel_btn: 取消
+    start_file_generate: 提交
+    warning_information: 请填写完整信息
 en:
     time_consum: 'time consuming'
     deleting: deleting
@@ -113,11 +128,10 @@ en:
     error_file: 'file not found'
     tab_title: 'Data Impact Client'
     title: 'Data Impact Client'
-    gen_data_btn: data
-    gen_cfg_btn: config
+    gen_data_btn: 'generate data'
+    gen_cfg_btn: 'generate config'
     select_cfg_tx: 'select config'
     dft_opt_btn: 'please generate config'
-    gen_label: generate
     table_title: 'Local Data'
     keyword: keyword
     no: Number
@@ -147,5 +161,21 @@ en:
     db_pwd_label: 'Mysql Password'
     db_label: 'Database name'
     file_label: 'Configuration name'
-    cfg_cancle_btn: Cancel
+    cfg_cancel_btn: Cancel
     start-setting: Submit
+    gen_cfg_by_db: 'From the database'
+    gen_cfg_by_file: 'From local files'
+    configFileModalLabel: 'Please enter the configuration content'
+    tag_owner_file_label: 'Server username'
+    tag_pwd_file_label: 'Server password'
+    file_file_label: 'Configuration name'
+    cfg_file_cancel_btn: Cancel
+    start_file_config: Submit
+    generateFileModalLabel: 'Please enter data generation conditions'
+    tag_name_file_label: 'Tag name'
+    column_name_label: 'Column name'
+    separator_label: Separator
+    source_file_label: 'File path'
+    generate_file_cancel_btn: Cancel
+    start_file_generate: Submit
+    warning_information: Please complete the information

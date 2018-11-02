@@ -21,6 +21,7 @@ def handle_db(args, name, now):
         cursor = conn.cursor()
         cursor.execute(args.sql)
     except:
+        utils.edit_list(now, 'err_generate\n')
         logger().error(['err_data_source', now+'/'+args.host])
         return {}
     meta = {}
@@ -55,15 +56,23 @@ def handle_file(args, name, now):
     meta = {}
     count = 0
     col_size = len(args.columnName.split(','))
-    with open(args.sourceFile, 'r', encoding='utf-8') as rf:
-        with open(name, 'a', encoding='utf-8') as wf:
-            for line in rf:
-                count = count + 1
-                rows = line.strip().split(args.separator)
-                if len(rows) != col_size:
-                    logger().error(['err_source_info', now+'/'+str(count)])
-                    return {}
-                wf.write('|||'.join(rows).replace('\n', '') + '\n')
+    try:
+        rf = open(args.sourceFile, 'r', encoding='utf-8')
+    except:
+        utils.edit_list(now, 'err_generate\n')
+        logger().error(['err_data_source', args.sourceFile])
+        return {}
+
+    with open(name, 'a', encoding='utf-8') as wf:
+        for line in rf:
+            count = count + 1
+            rows = line.strip().split(args.separator)
+            if len(rows) != col_size:
+                utils.edit_list(now, 'err_generate\n')
+                logger().error(['err_source_info', now+'/'+str(count)])
+                return {}
+            wf.write('|||'.join(rows).replace('\n', '') + '\n')
+
     with open(name, 'r', encoding='utf-8') as f:
         content = f.read()
     meta.__setitem__("size", count)

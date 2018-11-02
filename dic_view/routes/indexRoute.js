@@ -22,7 +22,7 @@ router.get('/list', function (req, res) {
     let setting = req.query.setting;
     let length = Number(req.query.length);
     let start = Number(req.query.start);
-    let keyword = setting + ' ' + req.query.search.value;
+    let keyword = req.query.search.value;
     let content = fs.readFileSync('list.txt').toString();
     let list = content.split('\n');
     let keywords = keyword.split(' ');
@@ -34,13 +34,19 @@ router.get('/list', function (req, res) {
     for (let i = 0; i < list.length; i++) {
         let k = 0;
         let tmp = list[i].split('|');
-        for (let j = 0; j < keywords.length; j++)
-            if (list[i].indexOf(keywords[j])!==-1 ||
-                formatDateTime(Number(tmp[0])).indexOf(keywords[j])!==-1 ||
-                (lan[lan['default']][tmp[3]]).indexOf(keywords[j])!==-1) k++;
-        if (k === keywords.length) {
-            let d = {no: tmp[0], tag: tmp[2], status: tmp[3]};
-            l.push(d);
+        if (keywords.length===0) {
+            if (tmp[1] === setting) {
+                let d = {no: tmp[0], tag: tmp[2], status: tmp[3]};
+                l.push(d);
+            }
+        }else{
+            for (let j = 0; j < keywords.length; j++)
+                if (list[i].indexOf(keywords[j])!==-1 || formatDateTime(Number(tmp[0])).indexOf(keywords[j])!==-1 ||
+                    (lan[lan['default']][tmp[3]]).indexOf(keywords[j])!==-1) k++;
+            if (k === keywords.length+1) {
+                let d = {no: tmp[0], tag: tmp[2], status: tmp[3]};
+                l.push(d);
+            }
         }
     }
     let data = [];
@@ -69,6 +75,7 @@ function runShell(shell, res){
         let d;
         shell.stdout.on('data',(data) => {
             d = data.toString();
+            console.log(d);
         });
         shell.stdout.on('end', () => {
             return res.send(JSON.stringify({success: true, message: d})).end();
@@ -85,11 +92,20 @@ router.get('/clear', function (req, res) {
     return runShell(shell, res)
 });
 
-// 生成数据集
+// 从数据库生成数据集
 router.get('/generate', function (req, res) {
     let tag = req.query.tag;
-    let sql = req.query.sql;
-    let shell = spawn('python3', ['dic.py', '-u', 'generate', '--tagName', encodeURI(tag), '--sql', sql]);
+    let shell;
+    if (req.query.f === 'mysql') {
+        let sql = req.query.da.sql;
+        shell = spawn('python3', ['dic.py', '-u', 'generate', '--tagName', encodeURI(tag), '--sql', sql]);
+    }else{
+        let column_name = req.query.da.column_name;
+        let separator = req.query.da.separator;
+        let source_file = req.query.da.source_file;
+        shell = spawn('python3', ['dic.py', '-u', 'generate', '--tagName', encodeURI(tag), '--columnName', column_name,
+            '--separator', separator, '--sourceFile', source_file]);
+    }
     runShell(shell, res)
 });
 
@@ -126,8 +142,9 @@ router.get('/setting/list', function (req, res) {
                     settings.push(setting[1].split('.')[0])
             });
             settings.remove(settings.indexOf('base'));
-            let data = YAML.parse(fs.readFileSync(filePath+'/settings.yaml').toString());
-            let re = JSON.stringify({success: true, default: data['settingsActive'], settings: settings});
+            let de = YAML.parse(fs.readFileSync(filePath+'/settings.yaml').toString())['settingsActive'];
+            let from = YAML.parse(fs.readFileSync(filePath+'/settings-'+de+'.yaml').toString())['sourceType'];
+            let re = JSON.stringify({success: true, default: de, from: from, settings: settings});
             return res.send(re).end()
         }
     })
@@ -137,7 +154,9 @@ router.get('/setting/list', function (req, res) {
 router.get('/setting/edit', function (req, res) {
     let active = req.query.active;
     fs.writeFileSync('./settings/settings.yaml', 'settingsActive: \'' + active + '\'');
-    return res.end()
+    let data = YAML.parse(fs.readFileSync('./settings/settings-'+active+'.yaml').toString());
+    let re = JSON.stringify({success: true, from: data['sourceType']});
+    return res.send(re).end()
 });
 
 // 生成配置文件
@@ -160,6 +179,7 @@ router.get('/get_lan', function (req, res) {
     return res.send(re).end();
 });
 
+// 修改语言配置
 router.get('/lan/edit', function (req, res) {
     let lan = req.query.lan;
     let lans = YAML.parse(fs.readFileSync('lan.yaml').toString());

@@ -15,6 +15,12 @@ salt: ''
 job: ''
 #数据包及meta目录
 file: ''
+#以文件作为数据源时需要传入的分隔符
+separator: ''
+#以文件作为数据源时需要自定义的列名，逗号分隔
+columnName: ''
+#数据来源文件
+sourceFile: ''
 #保留，若上传失败则为文件数量
 n: ''
 
@@ -22,6 +28,6 @@ n: ''
 #数据包/元数据存储位置
 path: ''
 #declare/impact目标服务器
-serverAddress: ''
+serverAddress: '20.26.25.211:8082'
 #一次从数据取数的量（根据内存容量自行调节
 fetchSize: '100'

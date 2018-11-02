@@ -19,20 +19,31 @@ $('body').on('change', '#switch-lan', function () {
 });
 
 $('body').on('click', '#start-generate', function () {
-    show_message('generating', type.loading);
-    generateData()
+    generateData('mysql')
+});
+
+$('body').on('click', '#start_file_generate', function () {
+    generateData('file')
 });
 
 $('body').on('click', '#start-impact', function () {
-    show_message('linking', type.loading, select_file);
     impactData()
 });
 
 $('body').on('click', '#start-setting', function () {
-    show_message('creating_config', type.loading);
-    createSetting()
+    createSetting('mysql')
 });
 
+$('body').on('click', '#start_file_config', function () {
+    createSetting('file')
+});
+
+function switch_gen_data(){
+    if (from === 'mysql') $('#generateModal').modal('show');
+    else if (from === 'file') $('#generateFileModal').modal('show')
+}
+
+let from;
 /**
  * 显示配置列表名
  */
@@ -44,6 +55,7 @@ function show_settings(refresh=true) {
                     let t = '';
                     let settings = data['settings'];
                     let select = data['default'];
+                    from = data['from'];
                     for (let i = 0; i < settings.length; i++) {
                         let file = settings[i];
                         if (file === select) {
@@ -90,8 +102,12 @@ function editSetting(setting, finish) {
         url: '/setting/edit',
         data: {active: setting},
         timeout: 20000,
-        success: function () {
-            if (finish) finish('success')
+        success: function (data) {
+            data = JSON.parse(data);
+            if (data['success']) {
+                from = data['from'];
+                if (finish) finish('success')
+            } else finish('error')
         },
         error: function () {
             if (finish) finish('error')
@@ -99,6 +115,9 @@ function editSetting(setting, finish) {
     })
 }
 
+/**
+ * 显示语言
+ */
 function show_lan() {
     let lans = Object.keys(valueMap);
     let t = '';
@@ -113,6 +132,11 @@ function show_lan() {
     }
 }
 
+/**
+ * 修改语言
+ * @param lan
+ * @param finish
+ */
 function edit_lan(lan, finish) {
     $.ajax({
         type: 'get',
@@ -129,6 +153,10 @@ function edit_lan(lan, finish) {
 }
 
 let dtLocal, select_file;
+
+/**
+ * 显示数据表格
+ */
 function show_data_table() {
     dtLocal = $('#listLocal').DataTable( {
         "language": {
@@ -215,6 +243,9 @@ function show_data_table() {
     });
 }
 
+/**
+ * 删除数据集
+ */
 function deleteData() {
     var tmp = select_file;
     $.ajax({
@@ -238,6 +269,9 @@ function deleteData() {
     })
 }
 
+/**
+ * 申报数据集
+ */
 function declareData() {
     var tmp = select_file;
     $.ajax({
@@ -261,13 +295,29 @@ function declareData() {
     })
 }
 
-function generateData() {
-    let tag = $('#tag-name').val();
-    let sql = $('#sql').val();
+/**
+ * 生成数据集
+ */
+function generateData(f) {
+    let tag, da;
+    if (f === 'mysql') {
+        tag = $('#tag-name').val();
+        let sql = $('#sql').val();
+        if (sql === '' || tag === '') return show_message('warning_information', type.warning);
+        da = {sql: sql};
+    }else{
+        tag = $('#tag_name_file').val();
+        let column_name = $('#column_name').val();
+        let separator = $('#separator').val();
+        let source_file = $('#source_file').val();
+        if (column_name === '' || tag === '' || separator === '' || source_file === '') return show_message('warning_information', type.warning);
+        da = {column_name: column_name, separator: separator, source_file: source_file}
+    }
+    show_message('generating', type.loading);
     $.ajax({
         type: 'get',
         url: '/generate',
-        data: {tag: tag, sql: sql},
+        data: {tag: tag, f: f, da: da},
         timeout: 20000,
         success: function (data) {
             var d = JSON.parse(data);
@@ -285,12 +335,17 @@ function generateData() {
     })
 }
 
+/**
+ * 关联数据集
+ */
 function impactData() {
     let salt = $('#salt').val();
     let encrypt_col = $('#encrypted-column').val();
     let unencrypt_col = $('#unencrypted-column').val();
     let job = $('#job-id').val();
-    var tmp = select_file;
+    let tmp = select_file;
+    if (salt === '' || encrypt_col === '' || unencrypt_col === '' || job === '') return show_message('warning_information', type.warning);
+    show_message('linking', type.loading, select_file);
     $.ajax({
         type: 'get',
         url: '/impact',
@@ -312,16 +367,31 @@ function impactData() {
     })
 }
 
-function createSetting() {
-    let tag_owner   = $('#tag-owner').val();
-    let tag_password= $('#tag-password').val();
-    let host        = $('#host').val();
-    let db_user     = $('#db-user').val();
-    let db_password = $('#db-password').val();
-    let database    = $('#database').val();
-    let file        = $('#file').val();
-    let setting = {sourceType: 'mysql', settingBase: 'base', tagOwner: tag_owner, tagPassword: tag_password, host: host,
-        dbUser: db_user, dbPassword: db_password, database: database, path: './data/'+file};
+/**
+ * 生成配置
+ */
+function createSetting(f) {
+    let setting, file;
+    if (f === 'mysql') {
+        let tag_owner   = $('#tag-owner').val();
+        let tag_password= $('#tag-password').val();
+        let host        = $('#host').val();
+        let db_user     = $('#db-user').val();
+        let db_password = $('#db-password').val();
+        let database    = $('#database').val();
+        file            = $('#file').val();
+        if (tag_owner === '' || tag_password === '' || host === '' || db_user === '' || db_password === '' || database === '' || file === '')
+            return show_message('warning_information', type.warning);
+        setting = {sourceType: 'mysql', settingBase: 'base', tagOwner: tag_owner, tagPassword: tag_password, host: host,
+            dbUser: db_user, dbPassword: db_password, database: database, path: './data/'+file};
+    }else{
+        let tag_owner   = $('#tag_owner_file').val();
+        let tag_password= $('#tag_password_file').val();
+        file            = $('#file_file').val();
+        if (tag_owner === '' || tag_password === '' || file === '') return show_message('warning_information', type.warning);
+        setting = {sourceType: 'file', settingBase: 'base', tagOwner: tag_owner, tagPassword: tag_password, path: './data/'+file};
+    }
+    show_message('creating_config', type.loading);
     $.ajax({
         type: 'get',
         url: '/setting/new',
@@ -346,6 +416,13 @@ function createSetting() {
 
 let count = 0;
 let message = [];
+
+/**
+ * 显示消息
+ * @param var1
+ * @param type
+ * @param var2
+ */
 function show_message(var1, type, var2){
     let tmp = count;
     let content;
@@ -374,6 +451,9 @@ let type = {
     error : '#EE3B3B',
 };
 
+/**
+ * 重载消息
+ */
 function reload(){
     //窗口的宽度
     var windowWidth  = $(window).width();
@@ -399,6 +479,12 @@ function reload(){
 }
 
 let valueMap;
+
+/**
+ * 从语言文件获取
+ * @param name
+ * @returns {*}
+ */
 function getTrueValue(name) {
     if (valueMap === undefined){
         getValueMap();
@@ -411,6 +497,9 @@ function getTrueValue(name) {
     }
 }
 
+/**
+ * 获取语言配置
+ */
 function getValueMap() {
     $.ajax({
         type: 'get',
@@ -427,12 +516,19 @@ function getValueMap() {
 }
 
 let lan;
-let id_list = ['tab_title', 'title', 'gen_data_btn', 'gen_cfg_btn', 'select_cfg_tx', 'table_title',
-    'no', 'tag', 'crt_time', 'status', 'declare_tx', 'impact_tx','impactModalLabel', 'delete_tx',
-    'gen_label', 'en_col_label', 'uen_col_label', 'salt_label', 'impact_cancel_btn', 'start-impact',
-    'job_label', 'generateModalLabel', 'tag_name_label', 'sql_label', 'generate_cancel_btn',
-    'start-generate', 'settingModalLabel', 'tag_owner_label', 'tag_pwd_label', 'host_label',
-    'db_user_label', 'db_pwd_label', 'db_label', 'file_label', 'cfg_cancle_btn', 'start-setting'];
+let id_list = ['tab_title', 'title', 'gen_data_btn', 'gen_cfg_btn', 'select_cfg_tx', 'table_title', 'no', 'tag',
+    'crt_time', 'status', 'declare_tx', 'impact_tx','impactModalLabel', 'delete_tx', 'en_col_label', 'uen_col_label',
+    'salt_label', 'impact_cancel_btn', 'start-impact', 'job_label', 'generateModalLabel', 'tag_name_label', 'sql_label',
+    'generate_cancel_btn', 'start-generate', 'settingModalLabel', 'tag_owner_label', 'tag_pwd_label', 'host_label',
+    'db_user_label', 'db_pwd_label', 'db_label', 'file_label', 'cfg_cancel_btn', 'start-setting', 'gen_cfg_by_db',
+    'gen_cfg_by_file', 'configFileModalLabel', 'tag_owner_file_label', 'tag_pwd_file_label', 'file_file_label',
+    'cfg_file_cancel_btn', 'start_file_config', 'generateFileModalLabel', 'tag_name_file_label', 'column_name_label',
+    'separator_label', 'source_file_label', 'generate_file_cancel_btn', 'start_file_generate'];
+
+/**
+ * 切换语言
+ * @param l
+ */
 function switch_lan(l) {
     lan = l;
     for (let i = 0; i < id_list.length; i++) {
