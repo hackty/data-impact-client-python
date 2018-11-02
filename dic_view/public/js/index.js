@@ -40,7 +40,7 @@ $('body').on('click', '#start_file_config', function () {
 
 function switch_gen_data(){
     if (from === 'mysql') $('#generateModal').modal('show');
-    else if (from === 'file') $('#generateFileModal').modal('show')
+    else if (from === 'file') $('#generateFileModal').modal('show');
 }
 
 let from;
@@ -66,6 +66,8 @@ function show_settings(refresh=true) {
                     }
                     t === '' ? t='<option>'+getTrueValue('dft_opt_btn')+'</option>' : '';
                     $('#select-setting').html(t);
+                    const s = $('#select-setting').val();
+                    if (s.length >= 1) editSetting(s);
                 }
                 if (refresh)show_data_table();
             }

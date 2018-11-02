@@ -143,7 +143,12 @@ router.get('/setting/list', function (req, res) {
             });
             settings.remove(settings.indexOf('base'));
             let de = YAML.parse(fs.readFileSync(filePath+'/settings.yaml').toString())['settingsActive'];
-            let from = YAML.parse(fs.readFileSync(filePath+'/settings-'+de+'.yaml').toString())['sourceType'];
+            let from;
+            try {
+                from = YAML.parse(fs.readFileSync(filePath+'/settings-'+de+'.yaml').toString())['sourceType']
+            } catch (e) {
+                from = 'disable'
+            }
             let re = JSON.stringify({success: true, default: de, from: from, settings: settings});
             return res.send(re).end()
         }
@@ -154,8 +159,13 @@ router.get('/setting/list', function (req, res) {
 router.get('/setting/edit', function (req, res) {
     let active = req.query.active;
     fs.writeFileSync('./settings/settings.yaml', 'settingsActive: \'' + active + '\'');
-    let data = YAML.parse(fs.readFileSync('./settings/settings-'+active+'.yaml').toString());
-    let re = JSON.stringify({success: true, from: data['sourceType']});
+    let from;
+    try{
+        from = YAML.parse(fs.readFileSync('./settings/settings-'+active+'.yaml').toString())['sourceType']
+    }catch (e) {
+        from = 'disable'
+    }
+    let re = JSON.stringify({success: true, from: from});
     return res.send(re).end()
 });
 
