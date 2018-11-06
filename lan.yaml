@@ -38,14 +38,14 @@ zh:
     error_file: 未找到该目录
     tab_title: 数据关联客户端
     title: 数据关联客户端
-    gen_data_btn: 生成数据集
-    gen_cfg_btn: 生成配置文件
+    gen_data_btn: 生成数据摘要
+    gen_cfg_btn: 数据来源配置
     select_cfg_tx: 选取配置文件
-    dft_opt_btn: 请先生成配置文件
+    dft_opt_btn: 请先配置数据来源
     table_title: 本地数据
     keyword: 关键字
-    no: 编号
-    tag: 标签
+    no: 数据编号
+    tag: 数据说明
     crt_time: 生成日期
     status: 状态
     declare_tx: 申报
@@ -59,7 +59,7 @@ zh:
     impact_cancel_btn: 取消
     start-impact: 提交
     generateModalLabel: 请输入数据生成条件
-    tag_name_label: 标签名
+    tag_name_label: 数据说明
     sql_label: 数据库语句
     generate_cancel_btn: 取消
     start-generate: 提交
@@ -82,7 +82,7 @@ zh:
     cfg_file_cancel_btn: 取消
     start_file_config: 提交
     generateFileModalLabel: 请输入数据生成条件
-    tag_name_file_label: 标签名
+    tag_name_file_label: 数据说明
     column_name_label: 列名
     separator_label: 分隔符
     source_file_label: 文件路径
@@ -178,4 +178,4 @@ en:
     source_file_label: 'File path'
     generate_file_cancel_btn: Cancel
     start_file_generate: Submit
-    warning_information: Please complete the information
+    warning_information: 'Please complete the information'
