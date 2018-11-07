@@ -33,7 +33,7 @@ router.get('/list', function (req, res) {
     let l = [];
     for (let i = 0; i < list.length; i++) {
         let k = 0;
-        let tmp = list[i].split('|');
+        let tmp = list[i].trim().split('|');
         if (keywords.length===0) {
             if (tmp[1] === setting) {
                 let d = {no: tmp[0], tag: tmp[2], status: tmp[3]};
