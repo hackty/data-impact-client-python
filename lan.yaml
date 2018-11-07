@@ -89,6 +89,7 @@ zh:
     generate_file_cancel_btn: 取消
     start_file_generate: 提交
     warning_information: 请填写完整信息
+    go_result: 浏览结果
 en:
     time_consum: 'time consuming'
     deleting: deleting
@@ -179,3 +180,4 @@ en:
     generate_file_cancel_btn: Cancel
     start_file_generate: Submit
     warning_information: 'Please complete the information'
+    go_result: 'browse results'

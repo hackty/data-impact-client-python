@@ -525,7 +525,7 @@ let id_list = ['tab_title', 'title', 'gen_data_btn', 'gen_cfg_btn', 'select_cfg_
     'db_user_label', 'db_pwd_label', 'db_label', 'file_label', 'cfg_cancel_btn', 'start-setting', 'gen_cfg_by_db',
     'gen_cfg_by_file', 'configFileModalLabel', 'tag_owner_file_label', 'tag_pwd_file_label', 'file_file_label',
     'cfg_file_cancel_btn', 'start_file_config', 'generateFileModalLabel', 'tag_name_file_label', 'column_name_label',
-    'separator_label', 'source_file_label', 'generate_file_cancel_btn', 'start_file_generate'];
+    'separator_label', 'source_file_label', 'generate_file_cancel_btn', 'start_file_generate', 'go_result'];
 
 /**
  * 切换语言

@@ -67,6 +67,7 @@ python dic.py --usage clear --file file1[,file2[,file3...]]
  ```
  - 第一次运行
  ```
- $ docker run -p 3000:3000 -v [项目所在位置]:/home/dic --name dic 1d2d264bbc4a
+ $ docker run -p [本地端口]:3000 -v [项目所在位置]:/home/dic --name dic 1d2d264bbc4a
  ```
- - 访问页面 localhost:3000
+ 首次启动需要下载支持文件，需等待几分钟
+ - 访问页面 localhost:[本地端口]

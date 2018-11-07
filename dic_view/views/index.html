@@ -199,10 +199,9 @@
 <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
     <h5 id="title" class="my-0 mr-md-auto font-weight-normal"></h5>
     <div><select class="custom-select d-block w-100" id="switch-lan"></select></div>
-    <a id="gen_data_btn" class="p-2 text-dark" href="javascript:switch_gen_data()"></a>
     <nav class="navbar my-2 my-md-0 mr-md-3">
         <div class="nav-item dropdown">
-            <a id="gen_cfg_btn" class="dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
+            <a id="gen_cfg_btn" class="dropdown-toggle text-dark" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
             <div class="dropdown-menu" aria-labelledby="gen_label">
                 <a id="gen_cfg_by_db" class="dropdown-item" href="javascript:$('#settingModal').modal('show')"></a>
                 <a id="gen_cfg_by_file" class="dropdown-item" href="javascript:$('#configFileModal').modal('show')"></a>
@@ -215,8 +214,13 @@
 
 <div class="container">
     <div class="card mb-5 shadow-sm text-center">
-        <div class="card-header">
-            <h4 id="table_title" class="my-0 font-weight-normal"></h4>
+        <div class="card-header row">
+            <p class="col-md-3">
+            <h4 id="table_title" class="col-md-6 font-weight-normal"></h4>
+            <div class="col-md-1">
+                <a id="go_result" class="btn btn-outline-secondary" href="http://20.26.25.211:8082/job" target="_blank"></a>
+            </div>
+            <div class="col-md-2"><button id="gen_data_btn"  class="btn btn-outline-secondary" onclick="switch_gen_data()"></button></div>
         </div>
         <div class="card-body">
             <table id="listLocal" class="table table-hover table-bordered">
