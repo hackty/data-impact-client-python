@@ -89,7 +89,7 @@ function runShell(shell, res){
 // 清除数据集
 router.get('/clear', function (req, res) {
     let file = req.query.file;
-    let shell = spawn('python3', ['dic.py', '-u', 'clear', "--file", file]);
+    let shell = spawn('python', ['dic.py', '-u', 'clear', "--file", file]);
     return runShell(shell, res)
 });
 
@@ -99,12 +99,12 @@ router.get('/generate', function (req, res) {
     let shell;
     if (req.query.f === 'mysql') {
         let sql = req.query.da.sql;
-        shell = spawn('python3', ['dic.py', '-u', 'generate', '--tagName', encodeURI(tag), '--sql', sql]);
+        shell = spawn('python', ['dic.py', '-u', 'generate', '--tagName', encodeURI(tag), '--sql', sql]);
     }else{
         let column_name = req.query.da.column_name;
         let separator = req.query.da.separator;
         let source_file = req.query.da.source_file;
-        shell = spawn('python3', ['dic.py', '-u', 'generate', '--tagName', encodeURI(tag), '--columnName', column_name,
+        shell = spawn('python', ['dic.py', '-u', 'generate', '--tagName', encodeURI(tag), '--columnName', column_name,
             '--separator', separator, '--sourceFile', source_file]);
     }
     runShell(shell, res)
@@ -113,7 +113,7 @@ router.get('/generate', function (req, res) {
 // 申报数据集
 router.get('/declare', function (req, res) {
     let file = req.query.file;
-    let shell = spawn('python3', ['dic.py', '-u', 'declare', "--file", file]);
+    let shell = spawn('python', ['dic.py', '-u', 'declare', "--file", file]);
     runShell(shell, res)
 });
 
@@ -124,7 +124,7 @@ router.get('/impact', function (req, res) {
     let encryptCol = req.query.encrypt_col;
     let unencryptCol = req.query.unencrypt_col;
     let job = req.query.job;
-    let shell = spawn('python3', ['dic.py', '-u', 'impact', "--file", file, "--salt", salt, "--encryptedColumn", encryptCol, "--unencryptedColumn", unencryptCol, "--job", job]);
+    let shell = spawn('python', ['dic.py', '-u', 'impact', "--file", file, "--salt", salt, "--encryptedColumn", encryptCol, "--unencryptedColumn", unencryptCol, "--job", job]);
     runShell(shell, res)
 });
 
