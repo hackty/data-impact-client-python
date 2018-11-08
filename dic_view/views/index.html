@@ -22,18 +22,18 @@
             </div>
             <div class="modal-body">
                 <form>
-                    <div class="form-group">
-                        <label id="job_label" for="job-id" class="col-form-label"></label>
-                        <input type="text" class="form-control" id="job-id">
-                    </div>
-                    <div class="form-group">
-                        <label id="en_col_label" for="encrypted-column" class="col-form-label"></label>
-                        <input type="text" class="form-control" id="encrypted-column">
-                    </div>
-                    <div class="form-group">
-                        <label id="uen_col_label" for="unencrypted-column" class="col-form-label"></label>
-                        <input type="text" class="form-control" id="unencrypted-column">
-                    </div>
+                    <!--<div class="form-group">-->
+                        <!--<label id="job_label" for="job-id" class="col-form-label"></label>-->
+                        <!--<input type="text" class="form-control" id="job-id">-->
+                    <!--</div>-->
+                    <!--<div class="form-group">-->
+                        <!--<label id="en_col_label" for="encrypted-column" class="col-form-label"></label>-->
+                        <!--<input type="text" class="form-control" id="encrypted-column">-->
+                    <!--</div>-->
+                    <!--<div class="form-group">-->
+                        <!--<label id="uen_col_label" for="unencrypted-column" class="col-form-label"></label>-->
+                        <!--<input type="text" class="form-control" id="unencrypted-column">-->
+                    <!--</div>-->
                     <div class="form-group">
                         <label id="salt_label" for="salt" class="col-form-label"></label>
                         <input type="text" class="form-control" id="salt">
@@ -43,6 +43,39 @@
             <div class="modal-footer">
                 <button id="impact_cancel_btn" type="button" class="btn btn-secondary" data-dismiss="modal"></button>
                 <button type="button" class="btn btn-primary" data-dismiss="modal" id="start-impact"></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="detailModal" tabindex="-1" role="dialog" aria-labelledby="detailModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="detailModalLabel"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label id="detail_no_label" for="detail_no" class="col-form-label"></label>
+                        <label type="text" class="form-control" id="detail_no"></label>
+                    </div>
+                    <div class="form-group">
+                        <label id="detail_tag_label" for="detail_tag" class="col-form-label"></label>
+                        <label type="text" class="form-control" id="detail_tag"></label>
+                    </div>
+                    <div class="form-group">
+                        <label id="detail_time_label" for="detail_time" class="col-form-label"></label>
+                        <label type="text" class="form-control" id="detail_time"></label>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button id="detail_reject_btn" type="button" class="btn btn-secondary" data-dismiss="modal"></button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" id="detail_accept_btn"></button>
             </div>
         </div>
     </div>
@@ -214,13 +247,15 @@
 
 <div class="container">
     <div class="card mb-5 shadow-sm text-center">
-        <div class="card-header row">
-            <p class="col-md-3">
-            <h4 id="table_title" class="col-md-6 font-weight-normal"></h4>
-            <div class="col-md-1">
-                <a id="go_result" class="btn btn-outline-secondary" href="http://20.26.25.211:8082/job" target="_blank"></a>
+        <div class="card-header">
+            <div class="row">
+                <p class="col-md-3">
+                <h4 id="table_title" class="col-md-6 font-weight-normal"></h4>
+                <div class="col-md-1">
+                    <a id="go_result" class="btn btn-outline-secondary" href="http://20.26.25.211:8082/job" target="_blank"></a>
+                </div>
+                <div class="col-md-2"><button id="gen_data_btn" class="btn btn-outline-secondary" onclick="switch_gen_data()"></button></div>
             </div>
-            <div class="col-md-2"><button id="gen_data_btn"  class="btn btn-outline-secondary" onclick="switch_gen_data()"></button></div>
         </div>
         <div class="card-body">
             <table id="listLocal" class="table table-hover table-bordered">
@@ -231,7 +266,7 @@
                         <th id="crt_time"></th>
                         <th id="status"></th>
                         <th id="declare_tx"></th>
-                        <th id="impact_tx"></th>
+                        <!--<th id="impact_tx"></th>-->
                         <th id="delete_tx"></th>
                     </tr>
                 </thead>

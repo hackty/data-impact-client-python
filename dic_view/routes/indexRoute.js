@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const YAML = require('yamljs');
 const fs = require("fs");
+const http = require('http');
 const spawn=require('child_process').spawn;
 
 // Array Remove - By John Resig (MIT Licensed)
@@ -197,4 +198,54 @@ router.get('/lan/edit', function (req, res) {
     fs.writeFileSync('lan.yaml', YAML.stringify(lans));
     return res.end();
 });
+
+router.get('/get_detail', function (req, res) {
+    let file = req.query.file;
+    let content = fs.readFileSync('list.txt').toString();
+    let list = content.split('\n');
+    list.pop();
+    for (let i = 0; i < list.length; i++) {
+        let tmp = list[i].trim().split('|');
+        if (file === tmp[0])
+            return res.send(JSON.stringify({no: tmp[0], tag: tmp[2], setting: tmp[1]})).end();
+    }
+    return res.end();
+});
+
+// let opt = {
+//     hostname: '127.0.0.1',
+//     port: 3000,
+//     path: '/get_lan',
+//     method: 'GET'
+// };
+
+router.get('/fetch', function (q, s) {
+    try {
+        let active = YAML.parse(fs.readFileSync('./settings/settings.yaml').toString())['settingsActive'];
+        let setting = YAML.parse(fs.readFileSync('./settings/settings-' + active + '.yaml').toString());
+        let username = setting['tagOwner'];
+        let password = setting['tagPassword'];
+        let opt = {
+            hostname: '20.26.25.211',
+            port: 8082,
+            path: '/request/fetch?username='+username+'&password='+password,
+            method: 'GET'
+        };
+        let req = http.request(opt, function (res) {
+            res.setEncoding('utf8');
+            let html = '';
+            res.on('data', function (chunk) {
+                html += chunk;
+            });
+            res.on('end', function () {
+                s.send(html).end();
+            })
+        });
+        req.end();
+    }catch (e) {
+        s.end();
+    }
+
+});
+
 module.exports = router;

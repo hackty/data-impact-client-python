@@ -6,16 +6,24 @@ $(function () {
 $('body').on('change', '#select-setting', function () {
     const s = $('#select-setting').val();
     if (s.length >= 1) editSetting(s);
+    edit_setting(s);
+});
+
+function edit_setting(s){
     dtLocal.settings()[0].ajax.data = {"setting": s};
     show_message('switch_config', type.info, s);
     dtLocal.ajax.reload();
-});
+}
 
 $('body').on('change', '#switch-lan', function () {
     const s = $('#switch-lan').val();
     switch_lan(s);
     edit_lan(s);
     dtLocal.ajax.reload(null, false);
+});
+
+$('body').on('click', '#detail_accept_btn', function () {
+    $('#impactModal').modal('show');
 });
 
 $('body').on('click', '#start-generate', function () {
@@ -201,12 +209,12 @@ function show_data_table() {
                 "data":           null,
                 "defaultContent": ""
             },
-            {
-                "class":          "data-impact",
-                "orderable":      false,
-                "data":           null,
-                "defaultContent": ""
-            },
+            // {
+            //     "class":          "data-impact",
+            //     "orderable":      false,
+            //     "data":           null,
+            //     "defaultContent": ""
+            // },
             {
                 "class":          "data-delete",
                 "orderable":      false,
@@ -226,16 +234,16 @@ function show_data_table() {
             show_message('reporting', type.loading)
         }
     });
-    $('#listLocal tbody').on( 'click', 'tr td.data-impact', function () {
-        var tr = $(this).closest('tr');
-        var row = dtLocal.row(tr);
-        if(row.data().status !== 'info_declare'){
-            show_message('err_no_declare', type.warning, row.data().no)
-        }else {
-            select_file = row.data().no;
-            $('#impactModal').modal('show');
-        }
-    });
+    // $('#listLocal tbody').on( 'click', 'tr td.data-impact', function () {
+    //     var tr = $(this).closest('tr');
+    //     var row = dtLocal.row(tr);
+    //     if(row.data().status !== 'info_declare'){
+    //         show_message('err_no_declare', type.warning, row.data().no)
+    //     }else {
+    //         select_file = row.data().no;
+    //         $('#impactModal').modal('show');
+    //     }
+    // });
     $('#listLocal tbody').on( 'click', 'tr td.data-delete', function () {
         var tr = $(this).closest('tr');
         var row = dtLocal.row(tr);
@@ -342,11 +350,11 @@ function generateData(f) {
  */
 function impactData() {
     let salt = $('#salt').val();
-    let encrypt_col = $('#encrypted-column').val();
-    let unencrypt_col = $('#unencrypted-column').val();
-    let job = $('#job-id').val();
+    let encrypt_col = impact.encrypted_column;
+    let unencrypt_col = impact.unencrypted_column;
+    let job = impact.job_id;
     let tmp = select_file;
-    if (salt === '' || encrypt_col === '' || unencrypt_col === '' || job === '') return show_message('warning_information', type.warning);
+    if (salt === '' || encrypt_col === '' || job === '') return show_message('warning_information', type.warning);
     show_message('linking', type.loading, select_file);
     $.ajax({
         type: 'get',
@@ -354,11 +362,12 @@ function impactData() {
         data: {salt: salt, encrypt_col: encrypt_col, unencrypt_col: unencrypt_col, job: job, file: tmp},
         timeout: 20000,
         success: function (data) {
-            var d = JSON.parse(data);
-            var message = d['message'].split('\n')[0].split(':');
+            let d = JSON.parse(data);
+            let message = d['message'].split('\n')[0].split(':');
             if (message[0] === getTrueValue('info_impact')) show_message(message, type.info);
             else show_message(message, type.error);
-            dtLocal.ajax.reload(null, false)
+            dtLocal.ajax.reload(null, false);
+            fade_message(fetch_now);
         },
         error: function () {
             show_message('err_impact', type.error, tmp);
@@ -418,32 +427,43 @@ function createSetting(f) {
 
 let count = 0;
 let message = [];
-
+let fetch_now;
 /**
  * 显示消息
  * @param var1
- * @param type
+ * @param typ
  * @param var2
+ * @param stay
  */
-function show_message(var1, type, var2){
+function show_message(var1, typ, var2, stay=5){
     let tmp = count;
     let content;
     if (var2 === undefined) content = getTrueValue(var1);
     else content = getTrueValue(var1) + ': ' + getTrueValue(var2);
-    message.push({count: count, type: type});
-    var tipsDiv = '<div class="tipsClass'+count+'">' + getTrueValue(content) + '</div>';
+    if (typ === type.with_btn) {
+        fetch_now = count;
+        content += '<button type="button" class="close" onclick="fade_message('+fetch_now+');">' +
+                '<span aria-hidden="true" style="color: #fff;opacity: 1;">&times;</span></button>';
+    }
+    message.push({count: count, type: typ});
+    let tipsDiv = '<div class="tipsClass'+count+'">' + content + '</div>';
     $('body').append(tipsDiv);
     reload();
     setTimeout(function(){
-        $('.tipsClass'+tmp).fadeOut();
-        for (let i = 0; i < message.length; i++)
-            if(message[i].count === tmp) {
-                message.splice(i, 1);
-                break
-            }
-        reload()
-    },(5 * 1000));
+        fade_message(tmp)
+    },(stay * 1000));
     count++
+}
+
+function fade_message(msg){
+    $('.tipsClass'+msg).fadeOut();
+    for (let i = 0; i < message.length; i++)
+        if(message[i].count === msg) {
+            message.splice(i, 1);
+            break
+        }
+    reload();
+    polling()
 }
 
 let type = {
@@ -451,6 +471,7 @@ let type = {
     loading : '#4F94CD',
     warning : '#EEEE00',
     error : '#EE3B3B',
+    with_btn: '#000'
 };
 
 /**
@@ -458,10 +479,10 @@ let type = {
  */
 function reload(){
     //窗口的宽度
-    var windowWidth  = $(window).width();
+    let windowWidth  = $(window).width();
     for (let i = 0; i < message.length; i++) {
         let tmp = message[i];
-        var d = '.tipsClass'+tmp.count;
+        let d = '.tipsClass'+tmp.count;
         $(d).css({
             // 'z-index'   : 100,
             'top'       : (i * 40 + 10) + 'px',
@@ -475,7 +496,7 @@ function reload(){
             'width'     : '350px',
             'height'    : 'auto',
             'color'     : '#fff',
-            'opacity'   : '0.8'
+            'opacity'   : '0.9'
         }).show();
     }
 }
@@ -512,20 +533,22 @@ function getValueMap() {
             valueMap = JSON.parse(data);
             show_settings();
             show_lan();
-            switch_lan()
+            switch_lan();
+            polling();
         }
     })
 }
 
 let lan;
-let id_list = ['tab_title', 'title', 'gen_data_btn', 'gen_cfg_btn', 'select_cfg_tx', 'table_title', 'no', 'tag',
-    'crt_time', 'status', 'declare_tx', 'impact_tx','impactModalLabel', 'delete_tx', 'en_col_label', 'uen_col_label',
+let id_list = ['impact_tx','tab_title', 'title', 'gen_data_btn', 'gen_cfg_btn', 'select_cfg_tx', 'table_title', 'no', 'tag',
+    'crt_time', 'status', 'declare_tx', 'impactModalLabel', 'delete_tx', 'en_col_label', 'uen_col_label',
     'salt_label', 'impact_cancel_btn', 'start-impact', 'job_label', 'generateModalLabel', 'tag_name_label', 'sql_label',
     'generate_cancel_btn', 'start-generate', 'settingModalLabel', 'tag_owner_label', 'tag_pwd_label', 'host_label',
     'db_user_label', 'db_pwd_label', 'db_label', 'file_label', 'cfg_cancel_btn', 'start-setting', 'gen_cfg_by_db',
     'gen_cfg_by_file', 'configFileModalLabel', 'tag_owner_file_label', 'tag_pwd_file_label', 'file_file_label',
     'cfg_file_cancel_btn', 'start_file_config', 'generateFileModalLabel', 'tag_name_file_label', 'column_name_label',
-    'separator_label', 'source_file_label', 'generate_file_cancel_btn', 'start_file_generate', 'go_result'];
+    'separator_label', 'source_file_label', 'generate_file_cancel_btn', 'start_file_generate', 'go_result', 'detailModalLabel',
+    'detail_no_label', 'detail_tag_label', 'detail_time_label', 'detail_reject_btn', 'detail_accept_btn'];
 
 /**
  * 切换语言
@@ -534,6 +557,66 @@ let id_list = ['tab_title', 'title', 'gen_data_btn', 'gen_cfg_btn', 'select_cfg_
 function switch_lan(l) {
     lan = l;
     for (let i = 0; i < id_list.length; i++) {
-        document.getElementById(id_list[i]).innerHTML = getTrueValue(id_list[i], l)
+        try {
+        document.getElementById(id_list[i]).innerHTML = getTrueValue(id_list[i])
+        }catch (e) {}
     }
+}
+
+let impact = {encrypted_column: '', unencrypted_column: '', job_id: ''};
+function polling() {
+    setTimeout(function () {
+        $.ajax({
+            type: 'get',
+            url: '/fetch',
+            data: {},
+            timeout: 20000,
+            success: function (data) {
+                let dt = JSON.parse(data);
+                if (dt['success']) {
+                    let content = JSON.parse(dt['data']['content']);
+                    impact.encrypted_column = content['encryptedColumn'];
+                    impact.unencrypted_column = content['unencryptedColumn'];
+                    impact.job_id = content['job'];
+                    let t = dt['data']['sender'] +
+                        '<a class="btn btn-link" onclick="get_detail('+content['file']+')">'+getTrueValue('detail')+'</a>';
+                    show_message('received_request',type.with_btn,t, 1800)
+                }else {
+                    polling()
+                }
+            }
+        })
+    }, (10 * 1000));
+}
+
+function get_detail(file) {
+    $.ajax({
+        type: 'get',
+        url: '/get_detail',
+        data: {file: file},
+        timeout: 20000,
+        success: function (data) {
+            if (data === "") {
+                show_message('err_impact_local', type.error, file);
+                fade_message(fetch_now)
+            }else {
+                let d = JSON.parse(data);
+                if (d['setting'] !== $('#select-setting').val()) {
+                    editSetting(d.setting);
+                    $("#select-setting").val(d.setting);
+                    edit_setting(d.setting);
+                    d['setting'] = true;
+                } else d['setting'] = false;
+                show_detail(d);
+            }
+        }
+    })
+}
+
+function show_detail(data) {
+    select_file = data['no'];
+    $('#detail_no').html(data['no']);
+    $('#detail_tag').html(data['tag']);
+    $('#detail_time').html(formatDateTime(Number(data['no'])));
+    $('#detailModal').modal('show');
 }

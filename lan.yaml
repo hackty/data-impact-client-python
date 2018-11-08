@@ -51,11 +51,11 @@ zh:
     declare_tx: 申报
     impact_tx: 关联
     delete_tx: 删除
-    impactModalLabel: 请输入服务端给您的数据
+    impactModalLabel: 请输入参数并进行下一步
     job_label: 任务ID
     en_col_label: 加密列名
     uen_col_label: 非加密列名
-    salt_label: 混淆参数
+    salt_label: 混淆指纹(服务端随机生成或双方约定一致即可)
     impact_cancel_btn: 取消
     start-impact: 提交
     generateModalLabel: 请输入数据生成条件
@@ -90,6 +90,15 @@ zh:
     start_file_generate: 提交
     warning_information: 请填写完整信息
     go_result: 浏览结果
+    detail: 详情
+    received_request: 收到一个的关联请求
+    detailModalLabel: 关联请求详情
+    detail_no_label: 数据编号
+    detail_tag_label: 数据说明
+    detail_time_label: 生成时间
+    detail_accept_btn: 接受
+    detail_reject_btn: 拒绝
+    err_impact_local: 未在本地找到该数据集
 en:
     time_consum: 'time consuming'
     deleting: deleting
@@ -181,3 +190,12 @@ en:
     start_file_generate: Submit
     warning_information: 'Please complete the information'
     go_result: 'browse results'
+    detail: detail
+    received_request: 'Received an association request'
+    detailModalLabel: 'Link request details'
+    detail_no_label: 'Data number'
+    detail_tag_label: 'Data shows'
+    detail_time_label: 'Generation time'
+    detail_accept_btn: accept
+    detail_reject_btn: reject
+    err_impact_local: 'The dataset was not found locally'
