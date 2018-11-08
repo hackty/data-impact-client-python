@@ -367,7 +367,7 @@ function impactData() {
             if (message[0] === getTrueValue('info_impact')) show_message(message, type.info);
             else show_message(message, type.error);
             dtLocal.ajax.reload(null, false);
-            fade_message(fetch_now);
+            fade_message(fetch_now, true);
         },
         error: function () {
             show_message('err_impact', type.error, tmp);
@@ -442,7 +442,7 @@ function show_message(var1, typ, var2, stay=5){
     else content = getTrueValue(var1) + ': ' + getTrueValue(var2);
     if (typ === type.with_btn) {
         fetch_now = count;
-        content += '<button type="button" class="close" onclick="fade_message('+fetch_now+');">' +
+        content += '<button type="button" class="close" onclick="fade_message('+fetch_now+','+true+');">' +
                 '<span aria-hidden="true" style="color: #fff;opacity: 1;">&times;</span></button>';
     }
     message.push({count: count, type: typ});
@@ -450,12 +450,12 @@ function show_message(var1, typ, var2, stay=5){
     $('body').append(tipsDiv);
     reload();
     setTimeout(function(){
-        fade_message(tmp)
+        fade_message(tmp, typ === type.with_btn)
     },(stay * 1000));
     count++
 }
 
-function fade_message(msg){
+function fade_message(msg, ispoll){
     $('.tipsClass'+msg).fadeOut();
     for (let i = 0; i < message.length; i++)
         if(message[i].count === msg) {
@@ -463,7 +463,7 @@ function fade_message(msg){
             break
         }
     reload();
-    polling()
+    if (ispoll) polling()
 }
 
 let type = {
@@ -598,7 +598,7 @@ function get_detail(file) {
         success: function (data) {
             if (data === "") {
                 show_message('err_impact_local', type.error, file);
-                fade_message(fetch_now)
+                fade_message(fetch_now, true)
             }else {
                 let d = JSON.parse(data);
                 if (d['setting'] !== $('#select-setting').val()) {

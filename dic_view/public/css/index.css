@@ -25,8 +25,3 @@ td.data-delete {
     background: url('../img/delete.png') no-repeat center center;
     cursor: pointer;
 }
-
-td.data-loading {
-    background: url('../img/loading.gif') no-repeat center center;
-    cursor: pointer;
-}
