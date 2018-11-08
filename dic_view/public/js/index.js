@@ -360,7 +360,7 @@ function impactData() {
         type: 'get',
         url: '/impact',
         data: {salt: salt, encrypt_col: encrypt_col, unencrypt_col: unencrypt_col, job: job, file: tmp},
-        timeout: 20000,
+        timeout: 0,
         success: function (data) {
             let d = JSON.parse(data);
             let message = d['message'].split('\n')[0].split(':');
