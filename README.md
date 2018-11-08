@@ -21,8 +21,9 @@ pip install argparse
 2.修改settings/settings.yaml的内容，以启用您的配置文件
 ```
 
-
 ## 命令行方式启动
+
+以下所有命令的默认路径为项目根目录
 
 ### 生成数据包与描述文件（generate）：从原始文本文件/数据库表中生成所需数据包与描述文件
 
@@ -60,6 +61,21 @@ python dic.py --usage clear --file file1[,file2[,file3...]]
 
 ## 界面方式启动
 
+### 方式一：继续安装NodeJs
+
+```
+cd dic_view
+npm update
+cd ..
+node ./dic_view/bin/www
+```
+
+保持命令行界面开启
+
+### 方式二：从Docker打开
+
+
+ - 无需安装Python和NodeJs
  - 本机安装好Docker
  - 导入镜像 
  ```
@@ -67,7 +83,10 @@ python dic.py --usage clear --file file1[,file2[,file3...]]
  ```
  - 第一次运行
  ```
- $ docker run -p [本地端口]:3000 -v [项目所在位置]:/home/dic --name dic 1d2d264bbc4a
+ $ docker run -p [本地端口]:3000 -v [项目所在位置]:/home/dic --name dic 7ad08445af87
  ```
  首次启动需要下载支持文件，需等待几分钟
+
+运行成功后可退出命令行窗口
+
  - 访问页面 localhost:[本地端口]
