@@ -4,6 +4,7 @@
 ```
 操作系统 : linux/windows
 平台语言 : Python 3.6+
+          NodeJs v8.+(可选)
 ```
 
 ## 依赖安装
