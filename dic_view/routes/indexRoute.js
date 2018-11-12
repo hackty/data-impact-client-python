@@ -243,7 +243,7 @@ router.get('/fetch', function (q, s) {
         });
         req.end();
     }catch (e) {
-        s.end();
+        s.send('').end();
     }
 
 });

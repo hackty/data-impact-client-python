@@ -586,7 +586,7 @@ function polling() {
                 }
             }
         })
-    }, (10 * 1000));
+    }, (4 * 1000));
 }
 
 function get_detail(file) {
