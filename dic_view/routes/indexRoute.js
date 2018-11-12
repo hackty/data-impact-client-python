@@ -24,7 +24,12 @@ router.get('/list', function (req, res) {
     let length = Number(req.query.length);
     let start = Number(req.query.start);
     let keyword = req.query.search.value;
-    let content = fs.readFileSync('list.txt').toString();
+    let content;
+    try{
+        content = fs.readFileSync('list.txt').toString();
+    }catch (e) {
+        return res.send({draw: draw, data: [], recordsTotal:0, recordsFiltered: 0}).end();
+    }
     let list = content.split('\n');
     let keywords = keyword.split(' ');
     let index = keywords.indexOf('');
