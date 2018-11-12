@@ -5,6 +5,8 @@ CREATE TABLE `user_list` (
 	`phone` VARCHAR (11) NOT NULL,
 	`sex` VARCHAR (8) NOT NULL,
 	`age` INTEGER NOT NULL,
+	`job` VARCHAR (100) NOT NULL,
+	`loc` VARCHAR (100) NOT NULL,
 	PRIMARY KEY (`id`)
 );
 
@@ -70,12 +72,151 @@ BEGIN
 RETURN return_str;
 END;
 
+-- func : generateLoc
+CREATE DEFINER=`dis`@`localhost` FUNCTION `generateLoc`( ) RETURNS varchar(8) CHARSET utf8
+BEGIN
+	DECLARE	return_str VARCHAR ( 8 ) DEFAULT '其他地区';
+	DECLARE r DOUBLE;
+	SET r = RAND();
+	IF
+		r>0.00 AND r<=0.05 THEN
+			SET return_str = '舟山市';
+	END IF;
+	IF
+		r>0.05 AND r<=0.10 THEN
+			SET return_str = '台州市';
+	END IF;
+		IF
+		r>0.10 AND r<=0.15 THEN
+			SET return_str = '丽水市';
+	END IF;
+		IF
+		r>0.15 AND r<=0.20 THEN
+			SET return_str = '绍兴市';
+	END IF;
+		IF
+		r>0.20 AND r<=0.25 THEN
+			SET return_str = '湖州市';
+	END IF;
+		IF
+		r>0.25 AND r<=0.30 THEN
+			SET return_str = '嘉兴市';
+	END IF;
+		IF
+		r>0.30 AND r<=0.35 THEN
+			SET return_str = '金华市';
+	END IF;
+		IF
+		r>0.35 AND r<=0.40 THEN
+			SET return_str = '衢州市';
+	END IF;
+		IF
+		r>0.40 AND r<=0.50 THEN
+			SET return_str = '宁波市';
+	END IF;
+		IF
+		r>0.50 AND r<=0.70 THEN
+			SET return_str = '温州市';
+	END IF;
+		IF
+		r>0.70 AND r<=1.00 THEN
+			SET return_str = '杭州市';
+	END IF;
+RETURN return_str;
+END;
+
+-- func : generateJob
+CREATE DEFINER=`dis`@`localhost` FUNCTION `generateJob`( ) RETURNS varchar(8) CHARSET utf8
+BEGIN
+	DECLARE	return_str VARCHAR ( 8 ) DEFAULT '未知类别';
+	DECLARE r DOUBLE;
+	SET r = RAND();
+	IF
+		r>0.00 AND r<=0.05 THEN
+			SET return_str = 'IT/互联网';
+	END IF;
+	IF
+		r>0.05 AND r<=0.10 THEN
+			SET return_str = '金融业';
+	END IF;
+		IF
+		r>0.10 AND r<=0.15 THEN
+			SET return_str = '房地产业/建筑业';
+	END IF;
+		IF
+		r>0.15 AND r<=0.20 THEN
+			SET return_str = '商务服务业';
+	END IF;
+		IF
+		r>0.20 AND r<=0.25 THEN
+			SET return_str = '生活服务业';
+	END IF;
+		IF
+		r>0.25 AND r<=0.30 THEN
+			SET return_str = '文化/传媒/广告';
+	END IF;
+		IF
+		r>0.30 AND r<=0.35 THEN
+			SET return_str = '快速消费品';
+	END IF;
+		IF
+		r>0.35 AND r<=0.40 THEN
+			SET return_str = '耐用消费品';
+	END IF;
+		IF
+		r>0.40 AND r<=0.45 THEN
+			SET return_str = '制造业';
+	END IF;
+		IF
+		r>0.45 AND r<=0.50 THEN
+			SET return_str = '汽车制造/维修/零配件';
+	END IF;
+		IF
+		r>0.50 AND r<=0.55 THEN
+			SET return_str = '通信/电子/半导体';
+	END IF;
+		IF
+		r>0.55 AND r<=0.60 THEN
+			SET return_str = '贸易/批发/零售';
+	END IF;
+		IF
+		r>0.60 AND r<=0.65 THEN
+			SET return_str = '医疗/医药';
+	END IF;
+		IF
+		r>0.65 AND r<=0.70 THEN
+			SET return_str = '教育/培训/科研';
+	END IF;
+		IF
+		r>0.70 AND r<=0.75 THEN
+			SET return_str = '能源/矿产/电力';
+	END IF;
+		IF
+		r>0.75 AND r<=0.80 THEN
+			SET return_str = '交通/物流/仓储';
+	END IF;
+			IF
+		r>0.80 AND r<=0.85 THEN
+			SET return_str = '农林牧渔';
+	END IF;
+			IF
+		r>0.85 AND r<=0.90 THEN
+			SET return_str = '政府/机构/组织';
+	END IF;
+	IF
+			r>0.90 AND r<=0.95 THEN
+			SET return_str = '学生';
+	END IF;
+
+RETURN return_str;
+END;
+
 -- procedure : add_user
 CREATE  PROCEDURE `add_user`(IN n int)
 BEGIN
   DECLARE i INT DEFAULT 1;
     WHILE (i <= n ) DO
-      INSERT INTO user_list (username, phone, sex, age) VALUES (generateUserName(), generatePhone(), generateSex(), generateAge());
+      INSERT INTO user_list (username, phone, sex, age, job, loc) VALUES (generateUserName(), generatePhone(), generateSex(), generateAge(), generateJob(), generateLoc());
 			SET i=i+1;
     END WHILE;
 END;
@@ -84,11 +225,7 @@ END;
 CALL add_user(10000);
 
 -- rand insert
-CREATE TABLE user_list_1 AS SELECT * FROM user_list WHERE id >= ((SELECT MAX(id) FROM user_list)-(SELECT MIN(id) FROM user_list)) * RAND() + (SELECT MIN(id) FROM user_list) LIMIT 3000;
-CREATE TABLE user_list_2 AS SELECT * FROM user_list WHERE id >= ((SELECT MAX(id) FROM user_list)-(SELECT MIN(id) FROM user_list)) * RAND() + (SELECT MIN(id) FROM user_list) LIMIT 2500;
-CREATE TABLE user_list_3 AS SELECT * FROM user_list WHERE id >= ((SELECT MAX(id) FROM user_list)-(SELECT MIN(id) FROM user_list)) * RAND() + (SELECT MIN(id) FROM user_list) LIMIT 4200;
-CREATE TABLE user_list_4 AS SELECT * FROM user_list WHERE id >= ((SELECT MAX(id) FROM user_list)-(SELECT MIN(id) FROM user_list)) * RAND() + (SELECT MIN(id) FROM user_list) LIMIT 3500;
-
-
+CREATE TABLE user_list_1 AS SELECT username, phone, sex, age FROM user_list WHERE id >= ((SELECT MAX(id) FROM user_list)-(SELECT MIN(id) FROM user_list)) * RAND() + (SELECT MIN(id) FROM user_list) LIMIT 8500;
+CREATE TABLE user_list_2 AS SELECT phone, job, loc FROM user_list WHERE id >= ((SELECT MAX(id) FROM user_list)-(SELECT MIN(id) FROM user_list)) * RAND() + (SELECT MIN(id) FROM user_list) LIMIT 5500;
 
 
