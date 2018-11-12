@@ -64,14 +64,21 @@ python dic.py --usage clear --file file1[,file2[,file3...]]
 
 ### 方式一：在安装好[NodeJs](https://nodejs.org "NodeJs")的环境下启动
 
+ - 首次运行
 ```
-cd dic_view
-npm update
-cd ..
-node ./dic_view/bin/www
+ # cd dic_view
+ # npm update
+ # cd ..
+ # node ./dic_view/bin/www
 ```
 
 保持命令行界面开启
+
+ - 再次运行
+ 
+ ```
+ # node ./dic_view/bin/www
+ ```
 
 ### 方式二：从Docker启动
 
@@ -80,14 +87,26 @@ node ./dic_view/bin/www
  - 本机安装好Docker
  - 导入镜像 
  ```
- $ docker pull evanyjq/dic
+ # docker pull evanyjq/dic
  ```
  - 第一次运行
  ```
- $ docker run -p [本地端口]:3000 -v [项目所在位置]:/home/dic --name dic 7ad08445af87
+ # docker run -p [本地端口]:3000 -v [项目所在位置]:/home/dic --name dic 7ad08445af87
  ```
  首次启动需要下载支持文件，需等待几分钟
 
-运行成功后可退出命令行窗口
+ 运行成功后可退出命令行窗口
 
  - 访问页面 localhost:[本地端口]
+ 
+ - 停止运行
+ 
+ ```
+ # docker stop dic
+ ```
+ 
+ - 再次运行
+ 
+ ```
+ # docker start dic
+ ```

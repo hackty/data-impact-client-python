@@ -81,7 +81,6 @@ function runShell(shell, res){
         let d;
         shell.stdout.on('data',(data) => {
             d = data.toString();
-            console.log(d);
         });
         shell.stdout.on('end', () => {
             return res.send(JSON.stringify({success: true, message: d})).end();
