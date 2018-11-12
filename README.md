@@ -62,7 +62,7 @@ python dic.py --usage clear --file file1[,file2[,file3...]]
 
 ## 界面方式启动
 
-### 方式一：继续安装NodeJs
+### 方式一：在安装好[NodeJs](https://nodejs.org "NodeJs")的环境下启动
 
 ```
 cd dic_view
@@ -73,10 +73,10 @@ node ./dic_view/bin/www
 
 保持命令行界面开启
 
-### 方式二：从Docker打开
+### 方式二：从Docker启动
 
 
- - 无需安装Python和NodeJs
+ - 无需安装Python和NodeJs环境
  - 本机安装好Docker
  - 导入镜像 
  ```
