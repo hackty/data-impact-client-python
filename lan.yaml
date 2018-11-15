@@ -99,6 +99,8 @@ zh:
     detail_accept_btn: 接受
     detail_reject_btn: 拒绝
     err_impact_local: 未在本地找到该数据集
+    encrypted_column_label: 加密列
+    unencrypted_column_label: 不加密列
 en:
     time_consum: 'time consuming'
     deleting: deleting
@@ -199,3 +201,5 @@ en:
     detail_accept_btn: accept
     detail_reject_btn: reject
     err_impact_local: 'The dataset was not found locally'
+    encrypted_column_label: 'Encrypted column'
+    unencrypted_column_label: 'Unencrypt columns'

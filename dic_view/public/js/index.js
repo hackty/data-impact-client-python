@@ -566,7 +566,8 @@ let id_list = ['impact_tx','tab_title', 'title', 'gen_data_btn', 'gen_cfg_btn', 
     'gen_cfg_by_file', 'configFileModalLabel', 'tag_owner_file_label', 'tag_pwd_file_label', 'file_file_label',
     'cfg_file_cancel_btn', 'start_file_config', 'generateFileModalLabel', 'tag_name_file_label', 'column_name_label',
     'separator_label', 'source_file_label', 'generate_file_cancel_btn', 'start_file_generate', 'go_result', 'detailModalLabel',
-    'detail_no_label', 'detail_tag_label', 'detail_time_label', 'detail_reject_btn', 'detail_accept_btn'];
+    'detail_no_label', 'detail_tag_label', 'detail_time_label', 'detail_reject_btn', 'detail_accept_btn', 'encrypted_column_label',
+    'unencrypted_column_label'];
 
 /**
  * 切换语言
@@ -636,5 +637,7 @@ function show_detail(data) {
     $('#detail_no').html(data['no']);
     $('#detail_tag').html(data['tag']);
     $('#detail_time').html(formatDateTime(Number(data['no'])));
+    $('#encrypted_column').html(impact.encrypted_column);
+    $('#unencrypted_column').html(impact.unencrypted_column);
     $('#detailModal').modal('show');
 }
