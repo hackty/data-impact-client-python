@@ -216,22 +216,17 @@ router.get('/get_detail', function (req, res) {
     return res.end();
 });
 
-// let opt = {
-//     hostname: '127.0.0.1',
-//     port: 3000,
-//     path: '/get_lan',
-//     method: 'GET'
-// };
-
 router.get('/fetch', function (q, s) {
     try {
         let active = YAML.parse(fs.readFileSync('./settings/settings.yaml').toString())['settingsActive'];
+        let base = YAML.parse(fs.readFileSync('./settings/settings-base.yaml').toString());
         let setting = YAML.parse(fs.readFileSync('./settings/settings-' + active + '.yaml').toString());
         let username = setting['tagOwner'];
         let password = setting['tagPassword'];
+        let server = base['serverAddress'].split(':');
         let opt = {
-            hostname: '20.26.25.211',
-            port: 8082,
+            hostname: server[0],
+            port: server[1],
             path: '/request/fetch?username='+username+'&password='+password,
             method: 'GET'
         };
@@ -242,14 +237,23 @@ router.get('/fetch', function (q, s) {
                 html += chunk;
             });
             res.on('end', function () {
-                s.send(html).end();
+                return s.send(html).end();
             })
         });
         req.end();
     }catch (e) {
-        s.send('').end();
+        return s.send('').end();
     }
+});
 
+router.get('/host', function (req, res) {
+    try{
+         let base = YAML.parse(fs.readFileSync('./settings/settings-base.yaml').toString());
+         let server = base['serverAddress'];
+         return res.send(server).end();
+    }catch (e) {
+        res.send('').end();
+    }
 });
 
 module.exports = router;

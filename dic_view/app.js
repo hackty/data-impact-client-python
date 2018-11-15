@@ -21,7 +21,7 @@ app.use(session({
     saveUninitialized:true
 }));
 
-app.use(logger('dev'));
+app.use(logger('tiny'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser('DIC'));

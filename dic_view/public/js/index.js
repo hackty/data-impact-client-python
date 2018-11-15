@@ -1,6 +1,7 @@
 
 $(function () {
     getValueMap();
+    getHost();
 });
 
 $('body').on('change', '#select-setting', function () {
@@ -26,6 +27,10 @@ $('body').on('click', '#detail_accept_btn', function () {
     $('#impactModal').modal('show');
 });
 
+$('body').on('click', '#detail_reject_btn', function () {
+    fade_message(fetch_now, true)
+});
+
 $('body').on('click', '#start-generate', function () {
     generateData('mysql')
 });
@@ -45,6 +50,19 @@ $('body').on('click', '#start-setting', function () {
 $('body').on('click', '#start_file_config', function () {
     createSetting('file')
 });
+
+function getHost() {
+    $.ajax({
+        type: 'get',
+        url: '/host',
+        data: {},
+        timeout: 20000,
+        success: function (data) {
+            console.log(data);
+            $('#go_result').attr("href", "http://" + data + "/job");
+        }
+    })
+}
 
 function switch_gen_data(){
     if (from === 'mysql') $('#generateModal').modal('show');

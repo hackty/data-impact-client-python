@@ -30,11 +30,9 @@ def handle_db(args, name, now):
     with open(name, 'a', encoding='utf-8') as f:
         while rows:
             for row in rows:
-                v = '|||'.join('%s' % i for i in list(row))
+                v = '|||'.join(('%s' % i).replace('|||', '---') for i in list(row))
                 f.write(v.replace('\n', '') + '\n')
                 count = count + 1
-                # if count % 1000000 == 0:
-                #     utils.info('generate ' + str(count / 1000000) + ' million data: ' + name)
             if count % int(args.fetchSize) == 0:
                 rows = cursor.fetchmany(int(args.fetchSize))
             else:
@@ -71,7 +69,7 @@ def handle_file(args, name, now):
                 utils.edit_list(now, 'err_generate\n')
                 logger().error(['err_source_info', now+'/'+str(count)])
                 return {}
-            wf.write('|||'.join(rows).replace('\n', '') + '\n')
+            wf.write('|||'.join(('%s' % i).replace('|||', '---') for i in rows).replace('\n', '') + '\n')
 
     with open(name, 'r', encoding='utf-8') as f:
         content = f.read()
@@ -91,7 +89,7 @@ def run(args):
     # 准备阶段
     now = str(int(round(time.time() * 1000)))
     args.tagName = utils.decodeURL(args.tagName)
-    utils.write_to_list(now + '|' + args.settingsActive + '|' + args.tagName + '|' + 'generating' + '\n')
+    utils.write_to_list(now + '|' + args.settingsActive.replace('|', '-') + '|' + args.tagName.replace('|', '-') + '|' + 'generating' + '\n')
     path = args.path + "/" + now
     utils.mkdir(path)
     name = args.tagOwner + "." + now
